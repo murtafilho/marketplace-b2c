@@ -1,0 +1,234 @@
+# Marketplace B2C - Laravel 12 Project Rules
+
+## Critical Information
+- Laravel Version: 12.x (Latest - Released 2025)
+- PHP Version: 8.3+ (minimum 8.2)
+- Database: MySQL 8+
+- Payment Gateway: Mercado Pago (Brazil)
+- Language: Portuguese (pt-BR) for UI, English for code
+
+## MANDATORY: File Headers
+EVERY PHP file MUST include this header:
+```php
+<?php
+/**
+ * Arquivo: path/to/file.php
+ * Descrição: Brief description in Portuguese
+ * Laravel Version: 11.x
+ * Criado em: DD/MM/YYYY
+ */
+```
+
+## Laravel 12 Specific Rules
+
+### Middleware Configuration
+- NEVER use `app/Http/Kernel.php` (removed since Laravel 11)
+- ALWAYS configure middleware in `bootstrap/app.php`
+- Use the Laravel 12 improved syntax for middleware registration
+
+### Correct middleware setup:
+```php
+// bootstrap/app.php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->alias([
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'seller' => \App\Http\Middleware\SellerMiddleware::class,
+    ]);
+})
+```
+
+## Project Structure
+
+### Controllers Organization
+Always organize controllers by area:
+- `app/Http/Controllers/Admin/` - Admin panel
+- `app/Http/Controllers/Seller/` - Seller dashboard
+- `app/Http/Controllers/Shop/` - Public storefront
+
+### Database Conventions
+- Table names: plural, snake_case (users, products, order_items)
+- Column names: snake_case (created_at, product_name)
+- Use soft deletes on: users, products, orders
+- Always include timestamps()
+- IDs: use BigInteger auto-increment
+
+### Models Structure
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Product extends Model
+{
+    use HasFactory, SoftDeletes;
+    
+    protected $fillable = [...];
+    protected $casts = [...];
+    
+    // Relationships
+    public function seller() { }
+    public function category() { }
+}
+```
+
+## Payment Integration (Mercado Pago)
+
+### Split Payment Rules
+1. Seller MUST have Mercado Pago account connected via OAuth
+2. Commission is deducted automatically on payment approval
+3. Default commission: 10% (configurable per seller)
+4. PIX is the priority payment method
+
+### Payment Flow
+1. Single checkout for multiple sellers
+2. Automatic split on payment approval
+3. Sellers receive instantly in their MP account
+4. Marketplace receives commission automatically
+
+## Code Standards
+
+### Validation
+Always use Form Requests for validation:
+```php
+// app/Http/Requests/Seller/StoreProductRequest.php
+public function rules(): array
+{
+    return [
+        'name' => ['required', 'string', 'max:255'],
+        'price' => ['required', 'numeric', 'min:0.01'],
+    ];
+}
+```
+
+### Services
+Only create service classes when necessary. For MVP, keep logic in controllers unless it's complex (like payment processing).
+
+### Naming Conventions
+- Controllers: PascalCase with "Controller" suffix
+- Models: PascalCase singular
+- Migrations: snake_case with description
+- Routes: kebab-case
+- Blade views: kebab-case
+
+## Frontend Rules
+
+### Tailwind CSS
+- Use ONLY Tailwind utility classes
+- Avoid custom CSS unless absolutely necessary
+- Mobile-first approach
+- Standard breakpoints: sm, md, lg, xl, 2xl
+
+### Alpine.js
+Use for interactive components:
+```html
+<div x-data="{ open: false }">
+    <button @click="open = !open">Toggle</button>
+    <div x-show="open">Content</div>
+</div>
+```
+
+### Blade Templates
+- Extend proper layout: @extends('layouts.app')
+- Use components for reusable parts
+- Always escape output: {{ $variable }}
+- Raw HTML only when necessary: {!! $html !!}
+
+## Security Requirements
+
+1. Always validate input
+2. Use Laravel's CSRF protection
+3. Escape all output
+4. Use Eloquent to prevent SQL injection
+5. Validate file uploads (max 2MB for images)
+6. Rate limit API endpoints
+
+## Testing
+
+For MVP, focus on critical features only:
+- Payment processing
+- Order creation
+- User authentication
+- Product CRUD
+
+## Git Commit Messages
+
+Format: `type: description`
+
+Types:
+- feat: new feature
+- fix: bug fix
+- docs: documentation
+- style: formatting
+- refactor: code restructuring
+- test: adding tests
+- chore: maintenance
+
+Example: `feat: add PIX payment integration`
+
+## Environment Variables
+
+Required in .env:
+```
+# Database
+DB_DATABASE=marketplace
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Mercado Pago (use TEST keys for development)
+MP_PUBLIC_KEY=TEST-xxxxx
+MP_ACCESS_TOKEN=TEST-xxxxx
+MP_APP_ID=xxxxx
+MP_APP_FEE=10.0
+
+# Marketplace
+MARKETPLACE_COMMISSION=10.0
+SELLER_AUTO_APPROVE=false
+PRODUCT_AUTO_APPROVE=false
+```
+
+## Common Patterns
+
+### Check user role
+```php
+if (auth()->user()->role === 'seller') { }
+if (auth()->user()->role === 'admin') { }
+```
+
+### Calculate commission
+```php
+$commission = $amount * (($seller->commission_rate ?? 10) / 100);
+$sellerReceives = $amount - $commission;
+```
+
+### Handle file upload
+```php
+if ($request->hasFile('image')) {
+    $path = $request->file('image')->store('products', 'public');
+}
+```
+
+## Important Notes
+
+1. This is an MVP - keep it simple but scalable
+2. Prioritize PIX payments (most used in Brazil)
+3. All monetary values in BRL (R$)
+4. Use Portuguese for UI text, English for code
+5. Sellers must connect Mercado Pago before selling
+6. Manual approval for sellers and products initially
+
+## Do NOT:
+- Use app/Http/Kernel.php (removed since Laravel 11)
+- Create unnecessary abstractions
+- Use repository pattern for MVP
+- Implement features not in PROJECT-SPECS.md
+- Ignore Laravel 12 performance features
+
+## DO:
+- Follow Laravel conventions strictly
+- Include file headers in EVERY file
+- Test payment flow thoroughly
+- Keep code simple and readable
+- Comment complex business logic
+- Use Laravel's built-in features
