@@ -10,7 +10,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\OnboardingController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
+use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial do marketplace
@@ -28,9 +30,7 @@ Route::middleware('auth')->group(function () {
 
 // Seller Routes
 Route::prefix('seller')->name('seller.')->middleware(['auth', 'seller'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('seller.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
     
     // Onboarding
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
@@ -45,9 +45,7 @@ Route::prefix('seller')->name('seller.')->middleware(['auth', 'seller'])->group(
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return redirect()->route('admin.sellers.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/sellers', [AdminSellerController::class, 'index'])->name('sellers.index');
     Route::get('/sellers/{seller}', [AdminSellerController::class, 'show'])->name('sellers.show');
     Route::post('/sellers/{seller}/approve', [AdminSellerController::class, 'approve'])->name('sellers.approve');

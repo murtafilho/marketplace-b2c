@@ -18,8 +18,7 @@ class ProductImage extends Model
 
     protected $fillable = [
         'product_id',
-        'filename',
-        'path',
+        'image_path',
         'alt_text',
         'sort_order',
         'is_primary'
@@ -39,7 +38,7 @@ class ProductImage extends Model
     // Accessors
     public function getUrlAttribute(): string
     {
-        return asset('storage/' . $this->path);
+        return asset('storage/' . $this->image_path);
     }
 
     // Scopes

@@ -62,7 +62,6 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'role' => 'admin',
-            'is_admin' => true,
         ]);
     }
 }

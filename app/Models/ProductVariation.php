@@ -18,9 +18,9 @@ class ProductVariation extends Model
 
     protected $fillable = [
         'product_id',
-        'name',
-        'value',
-        'price_adjustment',
+        'variation_name',
+        'variation_value',
+        'price',
         'stock_quantity',
         'sku',
         'sort_order',
@@ -28,7 +28,7 @@ class ProductVariation extends Model
     ];
 
     protected $casts = [
-        'price_adjustment' => 'decimal:2',
+        'price' => 'decimal:2',
         'stock_quantity' => 'integer',
         'sort_order' => 'integer',
         'is_active' => 'boolean'
@@ -43,7 +43,7 @@ class ProductVariation extends Model
     // Accessors
     public function getFinalPriceAttribute(): float
     {
-        return $this->product->price + $this->price_adjustment;
+        return $this->price;
     }
 
     public function getFormattedFinalPriceAttribute(): string

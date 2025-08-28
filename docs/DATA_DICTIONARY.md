@@ -19,7 +19,6 @@ Este documento estabelece a nomenclatura padrão e inequívoca para todos os cam
 | role | enum | NO | 'customer' | Tipo: 'customer', 'seller', 'admin' |
 | phone | string(20) | YES | NULL | Telefone com DDD |
 | is_active | boolean | NO | true | Se o usuário está ativo |
-| is_admin | boolean | NO | false | Se é administrador |
 | remember_token | string(100) | YES | NULL | Token de sessão |
 | created_at | timestamp | NO | CURRENT_TIMESTAMP | Data de criação |
 | updated_at | timestamp | NO | CURRENT_TIMESTAMP | Data de atualização |
@@ -60,7 +59,7 @@ Este documento estabelece a nomenclatura padrão e inequívoca para todos os cam
 | name | string(100) | NO | - | Nome da categoria |
 | slug | string(100) | NO | - | URL amigável única |
 | description | text | YES | NULL | Descrição da categoria |
-| icon | string(50) | YES | NULL | Ícone da categoria |
+| image_path | string(255) | YES | NULL | Caminho da imagem da categoria |
 | parent_id | bigInteger | YES | NULL | FK para categoria pai |
 | is_active | boolean | NO | true | Se está ativa |
 | sort_order | integer | NO | 0 | Ordem de exibição |
@@ -120,7 +119,8 @@ Este documento estabelece a nomenclatura padrão e inequívoca para todos os cam
 |-------|------|----------|---------|-----------|
 | id | bigInteger | NO | AUTO_INCREMENT | ID único da variação |
 | product_id | bigInteger | NO | - | FK para products.id |
-| name | string(100) | NO | - | Nome da variação (ex: "Tamanho P") |
+| variation_name | string(100) | NO | - | Nome da variação (ex: "Tamanho") |
+| variation_value | string(100) | NO | - | Valor da variação (ex: "P", "Azul") |
 | sku | string(100) | YES | NULL | SKU da variação |
 | price | decimal(10,2) | YES | NULL | Preço da variação |
 | stock_quantity | integer | NO | 0 | Estoque da variação |

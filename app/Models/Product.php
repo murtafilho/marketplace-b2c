@@ -47,7 +47,14 @@ class Product extends Model
         'sales_count',
         'rating_average',
         'rating_count',
-        'published_at'
+        'published_at',
+        'brand',
+        'model',
+        'warranty_months',
+        'tags',
+        'attributes',
+        'dimensions',
+        'shipping_class'
     ];
 
     protected $casts = [
@@ -65,7 +72,11 @@ class Product extends Model
         'sales_count' => 'integer',
         'rating_average' => 'decimal:2',
         'rating_count' => 'integer',
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
+        'warranty_months' => 'integer',
+        'tags' => 'array',
+        'attributes' => 'array',
+        'dimensions' => 'array'
     ];
 
     protected $dates = [
