@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer create-project:*)",
+      "Read(C:\\laragon\\www/**)",
+      "Read(C:\\laragon\\www/**)",
+      "Bash(composer:*)",
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__edit_file",
+      "Bash(mv:*)",
+      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=AdminSellerManagementTest::test_admin_can_view_sellers_list)",
+      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

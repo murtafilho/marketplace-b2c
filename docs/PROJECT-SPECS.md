@@ -28,7 +28,7 @@ projeto-marketplace/
 - **Laravel**: 12.x (Versão mais recente - Lançada em 2025)
 
 ### Frameworks e Bibliotecas
-- **Backend**: Laravel 11.x
+- **Backend**: Laravel 12.x
 - **Frontend**: Alpine.js + Tailwind CSS
 - **Build**: Vite
 - **Pagamento**: Mercado Pago SDK
@@ -39,49 +39,49 @@ projeto-marketplace/
 ## 📋 Funcionalidades do MVP
 
 ### 1. Gestão de Usuários
-- ✅ Cadastro diferenciado (comprador/vendedor/admin)
-- ✅ Autenticação via Laravel Breeze
-- ✅ Verificação de email
-- ✅ Recuperação de senha
-- ✅ Roles: admin, seller, customer
+- ✅ **IMPLEMENTADO** - Cadastro diferenciado (comprador/vendedor/admin)
+- ✅ **IMPLEMENTADO** - Autenticação via Laravel Breeze
+- ✅ **IMPLEMENTADO** - Verificação de email
+- ✅ **IMPLEMENTADO** - Recuperação de senha
+- ✅ **IMPLEMENTADO** - Roles: admin, seller, customer
 
 ### 2. Onboarding de Vendedores
-- ✅ Cadastro com CPF/CNPJ
-- ✅ Upload de comprovante de endereço
-- ✅ Aprovação manual pelo admin
-- ✅ Conexão obrigatória com Mercado Pago (OAuth)
-- ✅ Limite inicial: 100 produtos
-- ✅ Plano free inicialmente
+- ✅ **IMPLEMENTADO** - Cadastro com CPF/CNPJ
+- ✅ **IMPLEMENTADO** - Upload de comprovante de endereço
+- ✅ **IMPLEMENTADO** - Aprovação manual pelo admin
+- ❌ **NÃO IMPLEMENTADO** - Conexão obrigatória com Mercado Pago (OAuth)
+- ✅ **IMPLEMENTADO** - Limite inicial: 100 produtos
+- ✅ **IMPLEMENTADO** - Plano free inicialmente
 
 ### 3. Catálogo e Produtos
-- ✅ CRUD completo de produtos
-- ✅ Múltiplas imagens (até 5)
-- ✅ Categorias e subcategorias
-- ✅ Variações (tamanho, cor)
-- ✅ Controle de estoque
-- ✅ Busca e filtros
+- ❌ **NÃO IMPLEMENTADO** - CRUD completo de produtos
+- ❌ **NÃO IMPLEMENTADO** - Múltiplas imagens (até 5)
+- ✅ **SCHEMA PRONTO** - Categorias e subcategorias
+- ❌ **NÃO IMPLEMENTADO** - Variações (tamanho, cor)
+- ❌ **NÃO IMPLEMENTADO** - Controle de estoque
+- ❌ **NÃO IMPLEMENTADO** - Busca e filtros
 
 ### 4. Carrinho e Checkout
-- ✅ Carrinho unificado (múltiplos vendedores)
-- ✅ Pagamento único com split automático
-- ✅ Métodos: PIX (prioritário), Cartão, Boleto
-- ✅ Cálculo de frete por vendedor
-- ✅ Opções de entrega configuráveis
+- ❌ **NÃO IMPLEMENTADO** - Carrinho unificado (múltiplos vendedores)
+- ❌ **NÃO IMPLEMENTADO** - Pagamento único com split automático
+- ❌ **NÃO IMPLEMENTADO** - Métodos: PIX (prioritário), Cartão, Boleto
+- ❌ **NÃO IMPLEMENTADO** - Cálculo de frete por vendedor
+- ❌ **NÃO IMPLEMENTADO** - Opções de entrega configuráveis
 
 ### 5. Sistema de Pagamento
-- ✅ Integração Mercado Pago
-- ✅ Split automático na aprovação
-- ✅ Comissão configurável (padrão 10%)
-- ✅ Override de comissão por vendedor
-- ✅ Webhook para confirmação instantânea
+- ❌ **NÃO IMPLEMENTADO** - Integração Mercado Pago
+- ❌ **NÃO IMPLEMENTADO** - Split automático na aprovação
+- ✅ **SCHEMA PRONTO** - Comissão configurável (padrão 10%)
+- ✅ **SCHEMA PRONTO** - Override de comissão por vendedor
+- ❌ **NÃO IMPLEMENTADO** - Webhook para confirmação instantânea
 
 ### 6. Painel Administrativo
-- ✅ Dashboard com métricas
-- ✅ Aprovação de vendedores
-- ✅ Gestão de comissões
-- ✅ Moderação de produtos
-- ✅ Relatórios financeiros
-- ✅ Configurações do marketplace
+- ❌ **NÃO IMPLEMENTADO** - Dashboard com métricas
+- ✅ **IMPLEMENTADO** - Aprovação de vendedores
+- ✅ **IMPLEMENTADO** - Gestão de comissões
+- ❌ **NÃO IMPLEMENTADO** - Moderação de produtos
+- ❌ **NÃO IMPLEMENTADO** - Relatórios financeiros
+- ❌ **NÃO IMPLEMENTADO** - Configurações do marketplace
 
 ## 🏗️ Arquitetura
 
