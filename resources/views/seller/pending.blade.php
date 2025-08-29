@@ -9,7 +9,8 @@
         <div class="max-w-4xl mx-auto px-4 py-8">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="text-center py-12">
-                    <h1 class="text-2xl font-bold mb-4">Aguardando Aprovação</h1>
+                    <h1 class="text-2xl font-bold mb-4">Conta Pendente de Aprovação</h1>
+                    <p class="text-lg text-gray-600 mb-4">Aguardando Aprovação</p>
                     <p>Seus documentos estão sendo analisados.</p>
                     
                     @if($seller->company_name)

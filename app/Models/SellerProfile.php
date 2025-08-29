@@ -28,6 +28,7 @@ class SellerProfile extends Model
         'state',
         'postal_code',
         'bank_name',
+        'bank_agency',
         'bank_account',
         'status',
         'rejection_reason',
@@ -37,6 +38,9 @@ class SellerProfile extends Model
         'mp_user_id',
         'mp_connected',
         'approved_at',
+        'approved_by',
+        'rejected_at',
+        'rejected_by',
         'submitted_at',
     ];
 
@@ -46,6 +50,7 @@ class SellerProfile extends Model
             'commission_rate' => 'decimal:2',
             'mp_connected' => 'boolean',
             'approved_at' => 'datetime',
+            'rejected_at' => 'datetime',
             'submitted_at' => 'datetime',
         ];
     }
@@ -64,6 +69,21 @@ class SellerProfile extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'seller_id');
+    }
+
+    public function subOrders()
+    {
+        return $this->hasMany(SubOrder::class, 'seller_id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function rejectedBy()
+    {
+        return $this->belongsTo(User::class, 'rejected_by');
     }
 
     // Scopes

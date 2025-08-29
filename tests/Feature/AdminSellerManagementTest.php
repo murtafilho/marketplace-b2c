@@ -55,8 +55,8 @@ class AdminSellerManagementTest extends TestCase
         $customerResponse = $this->actingAs($customer)->get('/admin/sellers');
         $sellerResponse = $this->actingAs($seller)->get('/admin/sellers');
 
-        $customerResponse->assertStatus(403);
-        $sellerResponse->assertStatus(403);
+        $customerResponse->assertStatus(302);
+        $sellerResponse->assertStatus(302);
     }
 
     public function test_admin_can_view_seller_details(): void

@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         echo "🚀 INICIANDO CARGA COMPLETA DO MARKETPLACE B2C\n";
         echo str_repeat("=", 60) . "\n\n";
 
-        // Preservar usuários essenciais antes de limpar
-        echo "🔒 Preservando usuários essenciais...\n";
-        $this->call(PreserveUsersSeeder::class);
+        // SEMPRE garantir que usuários protegidos existam
+        echo "🔒 Garantindo usuários protegidos...\n";
+        $this->call(ProtectedUsersSeeder::class);
 
         // Limpar dados existentes (cuidado em produção!)
         if (app()->environment('local')) {
@@ -75,9 +75,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         echo "\n";
 
-        // 3. PRODUTOS (Aproximadamente 800-1200 produtos)
-        echo "📦 FASE 3: Criando produtos em massa...\n";
-        $this->call(ProductSeeder::class);
+        // 3. DADOS EM MASSA (50+ vendedores, 500+ produtos, 1000+ clientes)
+        echo "📦 FASE 3: Criando dados em massa...\n";
+        $this->call(MassDataSeeder::class);
         echo "\n";
 
         $endTime = microtime(true);

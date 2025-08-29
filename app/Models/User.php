@@ -31,6 +31,7 @@ class User extends Authenticatable
         'role',
         'phone',
         'is_active',
+        'email_verified_at',
     ];
 
     /**
@@ -71,6 +72,21 @@ class User extends Authenticatable
     public function cart()
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function subOrders()
+    {
+        return $this->hasMany(SubOrder::class, 'seller_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'seller_id');
     }
 
     // Scopes

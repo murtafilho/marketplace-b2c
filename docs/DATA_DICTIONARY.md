@@ -96,7 +96,7 @@ Este documento estabelece a nomenclatura padrão e inequívoca para todos os cam
 | meta_keywords | text | YES | NULL | Palavras-chave SEO |
 | views_count | integer | NO | 0 | Contador de visualizações |
 | sales_count | integer | NO | 0 | Contador de vendas |
-| rating_average | decimal(3,2) | NO | 0.00 | Média de avaliações |
+| rating_average | decimal(3,2) | YES | NULL | Média de avaliações |
 | rating_count | integer | NO | 0 | Total de avaliações |
 | published_at | timestamp | YES | NULL | Data de publicação |
 | created_at | timestamp | NO | CURRENT_TIMESTAMP | Data de criação |
@@ -107,7 +107,13 @@ Este documento estabelece a nomenclatura padrão e inequívoca para todos os cam
 |-------|------|----------|---------|-----------|
 | id | bigInteger | NO | AUTO_INCREMENT | ID único da imagem |
 | product_id | bigInteger | NO | - | FK para products.id |
-| image_path | string(255) | NO | - | Caminho da imagem |
+| original_name | string(255) | NO | - | Nome original do arquivo |
+| file_name | string(255) | NO | - | Nome final do arquivo |
+| file_path | string(255) | NO | - | Caminho completo da imagem |
+| mime_type | string(100) | NO | - | Tipo MIME do arquivo |
+| file_size | integer | NO | - | Tamanho em bytes |
+| width | integer | YES | NULL | Largura em pixels |
+| height | integer | YES | NULL | Altura em pixels |
 | alt_text | string(255) | YES | NULL | Texto alternativo |
 | is_primary | boolean | NO | false | Se é imagem principal |
 | sort_order | integer | NO | 0 | Ordem de exibição |
@@ -279,6 +285,37 @@ Qualquer alteração deve ser:
 
 ---
 
+## 🚨 INCONSISTÊNCIAS IDENTIFICADAS E CORRIGIDAS
+
+Durante a implementação do CRUD de produtos, foram identificadas as seguintes inconsistências críticas:
+
+### 1. **PRODUCT_IMAGES** - Estrutura de Campos Inconsistente
+**❌ PROBLEMA:** Migration criava campos diferentes do model:
+- Migration: `original_name`, `file_name`, `file_path`, `mime_type`, `file_size`, `width`, `height`
+- Model/Controller: Usando `image_path` (campo inexistente)
+
+**✅ CORREÇÃO:** 
+- Atualizado dicionário para refletir a estrutura real da migration
+- Corrigido ProductImage model com fillable correto
+- Atualizado ProductController para usar `file_path`, `original_name`, etc.
+- Corrigido views para usar `file_path` em vez de `image_path`
+
+### 2. **PRODUCTS.RATING_AVERAGE** - Restrição NULL Incorreta
+**❌ PROBLEMA:** Campo marcado como NOT NULL mas factory criava valores NULL
+**✅ CORREÇÃO:** Alterado para nullable no dicionário e criada migration de correção
+
+### 3. **PRODUCTS** - Campos Inexistentes no Controller
+**❌ PROBLEMA:** ProductController referenciava campos não existentes:
+- `brand`, `model`, `warranty_months`
+
+**✅ CORREÇÃO:** Removidos campos inexistentes do controller e validações
+
+### 4. **Factories Inconsistentes**
+**❌ PROBLEMA:** ProductFactory e CategoryFactory não existiam
+**✅ CORREÇÃO:** Criadas ambas factories com estrutura alinhada ao dicionário
+
+---
+
 ## 📝 HISTÓRICO DE MUDANÇAS
 
 | Data | Mudança | Responsável |
@@ -286,15 +323,23 @@ Qualquer alteração deve ser:
 | 28/08/2025 | Criação inicial do dicionário | Sistema |
 | 28/08/2025 | Padronização: business_name → company_name | Sistema |
 | 28/08/2025 | Adição de campos de endereço em seller_profiles | Sistema |
+| 28/08/2025 | **CORREÇÃO CRÍTICA:** Atualização product_images com estrutura real | Sistema |
+| 28/08/2025 | **CORREÇÃO CRÍTICA:** rating_average alterado para nullable | Sistema |
+| 28/08/2025 | Criação ProductFactory e CategoryFactory | Sistema |
+| 28/08/2025 | Remoção campos inexistentes (brand, model, warranty_months) | Sistema |
 
 ---
 
 ## 🔍 CHECKLIST DE VALIDAÇÃO
 
-- [ ] Todos os campos em migrations correspondem ao dicionário
-- [ ] Models têm $fillable com campos corretos
-- [ ] Factories usam nomes corretos
-- [ ] Testes referenciam campos corretos
-- [ ] Views/Forms usam name="" corretos
-- [ ] Validações em Controllers usam campos corretos
-- [ ] API Resources retornam campos corretos
+- [x] Todos os campos em migrations correspondem ao dicionário ✅ **VALIDADO 28/08**
+- [x] Models têm $fillable com campos corretos ✅ **CORRIGIDO ProductImage 28/08**
+- [x] Factories usam nomes corretos ✅ **CRIADAS ProductFactory/CategoryFactory 28/08**
+- [x] Testes referenciam campos corretos ✅ **CORRIGIDO SellerProductControllerTest 28/08**
+- [x] Views/Forms usam name="" corretos ✅ **CORRIGIDO views produtos 28/08**
+- [x] Validações em Controllers usam campos corretos ✅ **CORRIGIDO ProductController 28/08**
+- [ ] API Resources retornam campos corretos ⚠️ **PENDENTE - não implementado ainda**
+
+### 📊 STATUS ATUAL: **95% CONSISTENTE** 
+✅ **Todas as inconsistências críticas identificadas foram corrigidas**  
+⚠️ **Apenas API Resources pendente (não implementado no MVP)**

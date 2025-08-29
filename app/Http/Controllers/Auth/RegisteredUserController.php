@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
         // Create seller profile if registering as seller
         if ($request->role === 'seller') {
             $user->sellerProfile()->create([
-                'business_name' => $request->name,
+                'company_name' => $request->name,
                 'status' => 'pending',
                 'commission_rate' => config('marketplace.default_commission', 10.0),
             ]);
@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
     {
         return match ($user->role) {
             'admin' => redirect()->route('admin.dashboard'),
-            'seller' => redirect()->route('seller.onboarding'),
+            'seller' => redirect()->route('seller.onboarding.index'),
             'customer' => redirect()->route('dashboard'),
             default => redirect()->route('dashboard'),
         };

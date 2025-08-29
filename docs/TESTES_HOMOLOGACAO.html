@@ -52,8 +52,14 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm text-blue-700">
-                            <strong>Como usar:</strong> Clique nos botões "Fazer Login" abaixo. As credenciais serão preenchidas automaticamente no formulário de login.
-                            Certifique-se de que o sistema está rodando em <code>marketplace-b2c.test</code>
+                            <strong>Como usar:</strong> Clique nos botões "Fazer Login" abaixo. O sistema fará login automático com as credenciais dos usuários protegidos.
+                            Certifique-se de que o sistema está rodando em <code>http://localhost:8000</code>
+                        </p>
+                        <p class="text-xs text-blue-600 mt-2">
+                            <strong>🔄 Sistema Atualizado:</strong> 
+                            ✅ <strong>Quick Login funcionando</strong> - Login automático via URL com credenciais seguras<br>
+                            ✅ <strong>Admin como Vendedor</strong> - Admins podem ter lojas mantendo privilégios<br>
+                            ✅ <strong>Usuários protegidos</strong> - Execute <code>php artisan marketplace:ensure-protected-users</code> se necessário
                         </p>
                     </div>
                 </div>
@@ -70,7 +76,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-600">Usuários</p>
-                            <p class="text-2xl font-bold text-gray-900">31+</p>
+                            <p class="text-2xl font-bold text-gray-900">4</p>
                         </div>
                     </div>
                 </div>
@@ -83,7 +89,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-600">Sellers</p>
-                            <p class="text-2xl font-bold text-gray-900">10+</p>
+                            <p class="text-2xl font-bold text-gray-900">1</p>
                         </div>
                     </div>
                 </div>
@@ -96,7 +102,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-600">Produtos</p>
-                            <p class="text-2xl font-bold text-gray-900">240+</p>
+                            <p class="text-2xl font-bold text-gray-900">0</p>
                         </div>
                     </div>
                 </div>
@@ -109,7 +115,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-600">Categorias</p>
-                            <p class="text-2xl font-bold text-gray-900">72</p>
+                            <p class="text-2xl font-bold text-gray-900">1</p>
                         </div>
                     </div>
                 </div>
@@ -120,13 +126,13 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">🏠 Navegação Rápida</h3>
                     <div class="space-y-2">
-                        <a href="https://marketplace-b2c.test/" target="_blank" class="block w-full text-left px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                        <a href="http://localhost:8000/" target="_blank" class="block w-full text-left px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
                             🏠 Home do Marketplace
                         </a>
-                        <a href="https://marketplace-b2c.test/login" target="_blank" class="block w-full text-left px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                        <a href="http://localhost:8000/login" target="_blank" class="block w-full text-left px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
                             🔐 Página de Login
                         </a>
-                        <a href="https://marketplace-b2c.test/register" target="_blank" class="block w-full text-left px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+                        <a href="http://localhost:8000/register" target="_blank" class="block w-full text-left px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
                             📝 Página de Registro
                         </a>
                     </div>
@@ -134,13 +140,13 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">📊 Dashboards</h3>
                     <div class="space-y-2">
-                        <a href="https://marketplace-b2c.test/admin/dashboard" target="_blank" class="block w-full text-left px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">
+                        <a href="http://localhost:8000/admin/dashboard" target="_blank" class="block w-full text-left px-4 py-2 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">
                             👨‍💼 Admin Dashboard
                         </a>
-                        <a href="https://marketplace-b2c.test/seller/dashboard" target="_blank" class="block w-full text-left px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
+                        <a href="http://localhost:8000/seller/dashboard" target="_blank" class="block w-full text-left px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors">
                             🏪 Seller Dashboard
                         </a>
-                        <a href="https://marketplace-b2c.test/profile" target="_blank" class="block w-full text-left px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
+                        <a href="http://localhost:8000/profile" target="_blank" class="block w-full text-left px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors">
                             👤 Perfil do Cliente
                         </a>
                     </div>
@@ -148,11 +154,11 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">📚 Documentação</h3>
                     <div class="space-y-2">
-                        <a href="./CARGA_DO_SISTEMA.md" target="_blank" class="block w-full text-left px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
-                            📋 Relatório de Carga
+                        <a href="./SELLER_PIPELINE_REPORT.md" target="_blank" class="block w-full text-left px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
+                            📋 Relatório Pipeline Seller
                         </a>
-                        <a href="./CREDENCIAIS.md" target="_blank" class="block w-full text-left px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
-                            🔑 Lista de Credenciais
+                        <a href="./CREDENCIAIS_ATUALIZADAS.md" target="_blank" class="block w-full text-left px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors">
+                            🔑 Credenciais Atualizadas
                         </a>
                     </div>
                 </div>
@@ -172,7 +178,7 @@
                                 <p class="text-sm text-red-700">admin@marketplace.com</p>
                                 <p class="text-xs text-red-600 mt-1">🔒 Usuário protegido - não será removido em futuras migrations</p>
                             </div>
-                            <a href="https://marketplace-b2c.test/login?email=admin@marketplace.com&password=admin123" target="_blank" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            <a href="http://localhost:8000/quick-login?email=admin@marketplace.com&password=admin123" target="_blank" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
                                 Fazer Login
                             </a>
                         </div>
@@ -184,7 +190,7 @@
             <div class="bg-white rounded-lg shadow mb-8">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-900">🏪 Vendedores</h2>
-                    <p class="text-sm text-gray-600 mt-1">8+ aprovados, 1 pendente, 1 rejeitado</p>
+                    <p class="text-sm text-gray-600 mt-1">1 aprovado (Tech Store Brasil - usuário protegido)</p>
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -198,77 +204,29 @@
                                 </div>
                                 <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">✅ Aprovado</span>
                             </div>
-                            <a href="https://marketplace-b2c.test/login?email=tech@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <a href="http://localhost:8000/quick-login?email=tech@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                                 Fazer Login
                             </a>
                         </div>
 
-                        <!-- Other Sellers -->
-                        <div class="bg-green-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-green-900">Fashion House</h3>
-                                    <p class="text-sm text-green-700">fashion@marketplace.com</p>
+                        <!-- Note: Other sellers can be created via registration or seeds -->
+                        <div class="bg-gray-50 rounded-lg p-4 border-2 border-dashed border-gray-200">
+                            <div class="text-center py-6">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.712-3.714M14 40v-4a9.971 9.971 0 01.712-3.714M28 16a4 4 0 11-8 0 4 4 0 018 0zM40 16a4 4 0 11-8 0 4 4 0 018 0zM16 16a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">Adicionar Vendedores</h3>
+                                <p class="mt-1 text-sm text-gray-500">Execute seeders ou registre novos vendedores via interface</p>
+                                <div class="mt-4 space-y-2">
+                                    <a href="http://localhost:8000/" target="_blank" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">
+                                        🏠 Ir para Home
+                                    </a>
+                                    <br>
+                                    <a href="http://localhost:8000/register?role=seller" target="_blank" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors">
+                                        ➕ Registrar Vendedor
+                                    </a>
                                 </div>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">✅ Aprovado</span>
                             </div>
-                            <a href="https://marketplace-b2c.test/login?email=fashion@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <div class="bg-green-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-green-900">Casa & Decoração</h3>
-                                    <p class="text-sm text-green-700">casa@marketplace.com</p>
-                                </div>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">✅ Aprovado</span>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=casa@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <div class="bg-green-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-green-900">Sports Center</h3>
-                                    <p class="text-sm text-green-700">sports@marketplace.com</p>
-                                </div>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">✅ Aprovado</span>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=sports@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <!-- Pending Seller -->
-                        <div class="bg-yellow-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-yellow-900">Vendedor Pendente</h3>
-                                    <p class="text-sm text-yellow-700">pendente@marketplace.com</p>
-                                </div>
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">⏳ Pendente</span>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=pendente@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <!-- Rejected Seller -->
-                        <div class="bg-red-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-red-900">Vendedor Rejeitado</h3>
-                                    <p class="text-sm text-red-700">rejeitado@marketplace.com</p>
-                                </div>
-                                <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">❌ Rejeitado</span>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=rejeitado@marketplace.com&password=seller123" target="_blank" class="block w-full text-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                                Fazer Login
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -278,7 +236,7 @@
             <div class="bg-white rounded-lg shadow mb-8">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-900">🛒 Clientes</h2>
-                    <p class="text-sm text-gray-600 mt-1">20+ clientes cadastrados (mostrando os principais)</p>
+                    <p class="text-sm text-gray-600 mt-1">1 cliente protegido + outros criados via testes</p>
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -292,45 +250,25 @@
                                 </div>
                                 <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">✅ Verificado</span>
                             </div>
-                            <a href="https://marketplace-b2c.test/login?email=cliente@marketplace.com&password=cliente123" target="_blank" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <a href="http://localhost:8000/quick-login?email=cliente@marketplace.com&password=cliente123" target="_blank" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 Fazer Login
                             </a>
                         </div>
 
-                        <div class="bg-blue-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-blue-900">Cliente 1</h3>
-                                    <p class="text-sm text-blue-700">cliente1@marketplace.com</p>
+                        <!-- Note: Other customers can be created via registration -->
+                        <div class="bg-gray-50 rounded-lg p-4 border-2 border-dashed border-gray-200 col-span-3">
+                            <div class="text-center py-6">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-3-2a9 9 0 1018 0 9 9 0 00-18 0zM34 22a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">Adicionar Clientes</h3>
+                                <p class="mt-1 text-sm text-gray-500">Registre novos clientes via interface pública</p>
+                                <div class="mt-4">
+                                    <a href="http://localhost:8000/register" target="_blank" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors">
+                                        ➕ Registrar Cliente
+                                    </a>
                                 </div>
                             </div>
-                            <a href="https://marketplace-b2c.test/login?email=cliente1@marketplace.com&password=cliente123" target="_blank" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <div class="bg-blue-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-blue-900">Cliente 2</h3>
-                                    <p class="text-sm text-blue-700">cliente2@marketplace.com</p>
-                                </div>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=cliente2@marketplace.com&password=cliente123" target="_blank" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                Fazer Login
-                            </a>
-                        </div>
-
-                        <div class="bg-blue-50 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-3">
-                                <div>
-                                    <h3 class="font-medium text-blue-900">Cliente 3</h3>
-                                    <p class="text-sm text-blue-700">cliente3@marketplace.com</p>
-                                </div>
-                            </div>
-                            <a href="https://marketplace-b2c.test/login?email=cliente3@marketplace.com&password=cliente123" target="_blank" class="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                                Fazer Login
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -407,7 +345,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-600">Sistema carregado com <strong>usuários protegidos</strong> e <strong>links funcionais</strong></p>
-                            <p class="text-xs text-gray-500 mt-1">Última atualização: 28/08/2025 - Links corrigidos para marketplace-b2c.test</p>
+                            <p class="text-xs text-gray-500 mt-1">Última atualização: 28/08/2025 - Quick Login implementado e funcionando</p>
                         </div>
                         <div class="flex space-x-4">
                             <div class="text-center">
@@ -428,14 +366,14 @@
     <script>
         // Add click tracking and auto-fill functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('a[href*="login?"]');
+            const links = document.querySelectorAll('a[href*="quick-login?"]');
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     const url = new URL(link.href);
                     const email = url.searchParams.get('email');
                     const password = url.searchParams.get('password');
                     
-                    console.log('🔐 Login automático:', {
+                    console.log('🔐 Quick Login automático:', {
                         email: email,
                         password: password ? '***' : 'não fornecida',
                         url: link.href
@@ -444,8 +382,8 @@
                     // Show notification
                     if (email && password) {
                         const notification = document.createElement('div');
-                        notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
-                        notification.textContent = `🔐 Abrindo login para: ${email}`;
+                        notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                        notification.textContent = `🚀 Login rápido para: ${email}`;
                         document.body.appendChild(notification);
                         
                         setTimeout(() => {
@@ -458,7 +396,7 @@
 
         // Check system status
         function checkSystemStatus() {
-            fetch('https://marketplace-b2c.test/')
+            fetch('http://localhost:8000/')
                 .then(response => {
                     const statusIndicator = document.querySelector('.bg-green-500');
                     const statusText = document.querySelector('.text-green-600');

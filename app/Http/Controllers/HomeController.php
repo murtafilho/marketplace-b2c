@@ -70,4 +70,84 @@ class HomeController extends Controller
 
         return view('home', compact('featuredProducts', 'mainCategories', 'popularProducts', 'stats'));
     }
+
+    /**
+     * Busca produtos baseado na query do usuário
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('q', '');
+        $categorySlug = $request->get('categoria');
+        
+        $products = Product::where('status', 'active')
+            ->with(['seller.user', 'category', 'images']);
+
+        // Filtrar por busca textual
+        if (!empty($query)) {
+            $products->where(function($q) use ($query) {
+                $q->where('name', 'like', '%' . $query . '%')
+                  ->orWhere('description', 'like', '%' . $query . '%')
+                  ->orWhere('short_description', 'like', '%' . $query . '%');
+            });
+        }
+
+        // Filtrar por categoria
+        if (!empty($categorySlug)) {
+            $category = Category::where('slug', $categorySlug)->first();
+            if ($category) {
+                $products->where('category_id', $category->id);
+            }
+        }
+
+        $products = $products->orderBy('created_at', 'desc')
+            ->paginate(12)
+            ->withQueryString();
+
+        $categories = Category::where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        return view('search', compact('products', 'query', 'categories', 'categorySlug'));
+    }
+
+    /**
+     * Exibe produtos de uma categoria específica
+     */
+    public function category($slug)
+    {
+        $category = Category::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $products = Product::where('status', 'active')
+            ->where('category_id', $category->id)
+            ->with(['seller.user', 'category', 'images'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
+
+        return view('category', compact('category', 'products'));
+    }
+
+    /**
+     * Exibe detalhes de um produto específico
+     */
+    public function product($id)
+    {
+        $product = Product::where('status', 'active')
+            ->with(['seller.user', 'category', 'images'])
+            ->findOrFail($id);
+
+        // Incrementar visualizações
+        $product->increment('views_count');
+
+        // Produtos relacionados (mesma categoria)
+        $relatedProducts = Product::where('status', 'active')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->with(['seller.user', 'images'])
+            ->limit(4)
+            ->get();
+
+        return view('product', compact('product', 'relatedProducts'));
+    }
 }

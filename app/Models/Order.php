@@ -55,6 +55,16 @@ class Order extends Model
         return $this->hasMany(SubOrder::class);
     }
 
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'order_id');
+    }
+
     public function isPending(): bool
     {
         return $this->status === 'pending';

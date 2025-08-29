@@ -9,12 +9,38 @@
             <p class="text-xl mb-6">Descubra milhares de produtos de vendedores verificados com pagamento seguro via Mercado Pago</p>
             <div class="flex space-x-4">
                 @guest
+                    <!-- Usuário não logado -->
                     <a href="{{ route('register') }}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
                         Começar a Comprar
                     </a>
-                    <a href="#" class="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:bg-opacity-10">
-                        Vender no Marketplace
+                    <a href="{{ route('seller.register') }}" class="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:bg-opacity-10">
+                        Criar Minha Loja
                     </a>
+                @else
+                    <!-- Usuário logado -->
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="bg-white text-red-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                            Administrar
+                        </a>
+                    @endif
+                    
+                    @if(!auth()->user()->sellerProfile)
+                        <!-- Qualquer usuário sem loja pode criar uma -->
+                        <a href="{{ route('seller.register') }}" class="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:bg-opacity-10">
+                            Criar Minha Loja
+                        </a>
+                    @else
+                        <!-- Usuário com loja -->
+                        <a href="{{ route('seller.dashboard') }}" class="bg-yellow-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-yellow-600">
+                            Administrar Loja
+                        </a>
+                    @endif
+                    
+                    @if(!auth()->user()->isAdmin() && !auth()->user()->sellerProfile)
+                        <a href="{{ route('search') }}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                            Explorar Produtos
+                        </a>
+                    @endif
                 @endguest
             </div>
         </div>
@@ -48,12 +74,12 @@
                 <h2 class="text-2xl font-bold text-gray-800">Categorias Principais</h2>
                 <p class="text-gray-600">Explore nossos produtos por categoria</p>
             </div>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Ver todas →</a>
+            <a href="{{ route('search') }}" class="text-blue-600 hover:text-blue-800 font-medium">Ver todas →</a>
         </div>
         
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
             @foreach($mainCategories as $category)
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer">
+            <a href="{{ route('category.show', $category->slug) }}" class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer block">
                 <div class="p-6">
                     @if($category->image_path)
                         <img src="{{ asset($category->image_path) }}" alt="{{ $category->name }}" class="w-20 h-20 mx-auto mb-4 object-cover rounded-lg">
@@ -80,7 +106,7 @@
                         <p class="text-sm text-blue-600">{{ $category->products_count }} produtos</p>
                     </div>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
     </section>
@@ -91,12 +117,12 @@
     <section class="my-16">
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Produtos em Destaque</h2>
-            <a href="#" class="text-blue-600 hover:text-blue-800">Ver todos →</a>
+            <a href="{{ route('search') }}" class="text-blue-600 hover:text-blue-800">Ver todos →</a>
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($featuredProducts as $product)
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+            <a href="{{ route('product.show', $product->id) }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden block">
                 <div class="aspect-square bg-gray-200 relative">
                     @if($product->images && $product->images->count() > 0)
                         <img src="{{ asset($product->images->first()->file_path) }}" 
@@ -125,14 +151,14 @@
                             </div>
                         </div>
                         
-                        <button class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <button class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors" onclick="event.preventDefault(); event.stopPropagation(); alert('Funcionalidade de carrinho em desenvolvimento');">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l1.5 6m4.5-6h.01M19 13h.01M7 19a2 2 0 11-4 0 2 2 0 014 0zM17 19a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
                         </button>
                     </div>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
     </section>
@@ -145,9 +171,27 @@
             </svg>
             <h3 class="text-xl font-semibold text-gray-700 mb-2">Nenhum produto em destaque</h3>
             <p class="text-gray-500 mb-6">Seja o primeiro vendedor a cadastrar produtos no marketplace!</p>
-            <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-                Começar a Vender
-            </a>
+            @auth
+                @if(!auth()->user()->sellerProfile)
+                    <!-- Usuário logado sem loja -->
+                    <a href="{{ route('seller.register') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                        Criar Minha Loja
+                    </a>
+                    <p class="text-gray-500 text-sm mt-2">Comece a vender hoje mesmo!</p>
+                @else
+                    <!-- Usuário com loja -->
+                    <a href="{{ route('seller.dashboard') }}" class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600">
+                        Administrar Loja
+                    </a>
+                    <p class="text-gray-500 text-sm mt-2">Gerencie seus produtos e vendas</p>
+                @endif
+            @else
+                <!-- Usuário não logado -->
+                <a href="{{ route('seller.register') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                    Criar Minha Loja
+                </a>
+                <p class="text-gray-500 text-sm mt-2">Cadastre-se gratuitamente!</p>
+            @endauth
         </div>
     </section>
     @endif
@@ -160,12 +204,12 @@
                 <h2 class="text-2xl font-bold text-gray-800">Produtos Populares</h2>
                 <p class="text-gray-600">Os mais visualizados e vendidos</p>
             </div>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Ver todos →</a>
+            <a href="{{ route('search') }}" class="text-blue-600 hover:text-blue-800 font-medium">Ver todos →</a>
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             @foreach($popularProducts as $product)
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
+            <a href="{{ route('product.show', $product->id) }}" class="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group block">
                 <div class="aspect-square bg-gray-200 relative overflow-hidden">
                     @if($product->images && $product->images->count() > 0)
                         <img src="{{ asset($product->images->first()->file_path) }}" 
@@ -206,7 +250,7 @@
                             </div>
                         </div>
                         
-                        <button class="bg-blue-600 text-white p-1.5 rounded-lg hover:bg-blue-700 transition-colors">
+                        <button class="bg-blue-600 text-white p-1.5 rounded-lg hover:bg-blue-700 transition-colors" onclick="event.preventDefault(); event.stopPropagation(); alert('Funcionalidade de carrinho em desenvolvimento');">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l1.5 6m4.5-6h.01M19 13h.01M7 19a2 2 0 11-4 0 2 2 0 014 0zM17 19a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
@@ -221,7 +265,7 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
     </section>

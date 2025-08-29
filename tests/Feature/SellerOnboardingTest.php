@@ -67,7 +67,7 @@ class SellerOnboardingTest extends TestCase
         $identityProof = UploadedFile::fake()->create('identity_proof.pdf', 1000, 'application/pdf');
 
         $response = $this->actingAs($seller)->post('/seller/onboarding', [
-            'business_name' => 'Empresa Teste',
+            'company_name' => 'Empresa Teste',
             'document_type' => 'cpf',
             'document_number' => '123.456.789-01',
             'phone' => '(11) 99999-9999',
@@ -86,7 +86,7 @@ class SellerOnboardingTest extends TestCase
 
         $profile->refresh();
         $this->assertEquals('pending_approval', $profile->status);
-        $this->assertEquals('Empresa Teste', $profile->business_name);
+        $this->assertEquals('Empresa Teste', $profile->company_name);
         $this->assertEquals('cpf', $profile->document_type);
         $this->assertEquals('123.456.789-01', $profile->document_number);
         $this->assertNotNull($profile->submitted_at);
@@ -105,7 +105,7 @@ class SellerOnboardingTest extends TestCase
         ]);
 
         $response = $this->actingAs($seller)->post('/seller/onboarding', [
-            'business_name' => '',
+            'company_name' => '',
             'document_type' => 'invalid',
             'document_number' => '',
             'phone' => '',
@@ -113,7 +113,7 @@ class SellerOnboardingTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors([
-            'business_name',
+            'company_name',
             'document_type',
             'document_number',
             'phone',

@@ -4,18 +4,21 @@
         <p class="mt-2 text-sm text-gray-600">{{ __('Escolha o tipo de conta que deseja criar') }}</p>
     </div>
 
-    <!-- Role Selection Tabs -->
-    <div x-data="{ activeTab: '{{ old('role', 'customer') }}' }" class="mb-6">
+    <div x-data="{ 
+        activeTab: '{{ old('role', request('role', 'customer')) }}',
+        role: '{{ old('role', request('role', 'customer')) }}'
+    }" class="mb-6">
+        <!-- Role Selection Tabs -->
         <div class="flex border-b border-gray-200">
             <button 
-                @click="activeTab = 'customer'"
+                @click="activeTab = 'customer'; role = 'customer'"
                 :class="{ 'border-indigo-500 text-indigo-600': activeTab === 'customer', 'border-transparent text-gray-500 hover:text-gray-700': activeTab !== 'customer' }"
                 class="py-2 px-4 border-b-2 font-medium text-sm focus:outline-none"
                 type="button">
                 {{ __('Comprador') }}
             </button>
             <button 
-                @click="activeTab = 'seller'"
+                @click="activeTab = 'seller'; role = 'seller'"
                 :class="{ 'border-indigo-500 text-indigo-600': activeTab === 'seller', 'border-transparent text-gray-500 hover:text-gray-700': activeTab !== 'seller' }"
                 class="py-2 px-4 border-b-2 font-medium text-sm focus:outline-none"
                 type="button">
@@ -31,13 +34,12 @@
                 {{ __('Conta para vender produtos no marketplace') }}
             </div>
         </div>
-    </div>
 
-    <form method="POST" action="{{ route('register') }}" x-data="{ role: '{{ old('role', 'customer') }}' }">
-        @csrf
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <!-- Hidden Role Input -->
-        <input type="hidden" name="role" :value="role" x-model="role">
+            <!-- Hidden Role Input -->
+            <input type="hidden" name="role" x-model="role">
 
         <!-- Name -->
         <div>
@@ -83,28 +85,8 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <!-- Role Selection (synced with tabs) -->
-        <div class="mt-4">
-            <div class="flex space-x-6">
-                <label class="flex items-center">
-                    <input type="radio" name="role" value="customer" 
-                           x-model="role" 
-                           @change="activeTab = 'customer'"
-                           class="text-indigo-600 focus:ring-indigo-500" 
-                           {{ old('role', 'customer') == 'customer' ? 'checked' : '' }}>
-                    <span class="ml-2 text-sm text-gray-700">{{ __('Comprador') }}</span>
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="role" value="seller" 
-                           x-model="role"
-                           @change="activeTab = 'seller'"
-                           class="text-indigo-600 focus:ring-indigo-500"
-                           {{ old('role') == 'seller' ? 'checked' : '' }}>
-                    <span class="ml-2 text-sm text-gray-700">{{ __('Vendedor') }}</span>
-                </label>
-            </div>
-            <x-input-error :messages="$errors->get('role')" class="mt-2" />
-        </div>
+        <!-- Role validation error -->
+        <x-input-error :messages="$errors->get('role')" class="mt-2" />
 
         <!-- Seller Information Notice -->
         <div x-show="role === 'seller'" x-transition class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
@@ -129,7 +111,8 @@
                 {{ __('Criar Conta') }}
             </x-primary-button>
         </div>
-    </form>
+        </form>
+    </div>
 
     <script>
         // Sync tabs with radio buttons

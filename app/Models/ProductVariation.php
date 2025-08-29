@@ -18,20 +18,24 @@ class ProductVariation extends Model
 
     protected $fillable = [
         'product_id',
-        'variation_name',
-        'variation_value',
-        'price',
+        'name',           // Corrigido: era variation_name
+        'value',          // Corrigido: era variation_value
+        'price_adjustment', // Corrigido: era price
         'stock_quantity',
-        'sku',
+        'sku_suffix',     // Corrigido: era sku
+        'weight_adjustment',
         'sort_order',
-        'is_active'
+        'is_active',
+        'meta_data'
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
+        'price_adjustment' => 'decimal:2',
+        'weight_adjustment' => 'decimal:3',
         'stock_quantity' => 'integer',
         'sort_order' => 'integer',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'meta_data' => 'array'
     ];
 
     // Relationships
@@ -40,15 +44,32 @@ class ProductVariation extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     // Accessors
     public function getFinalPriceAttribute(): float
     {
-        return $this->price;
+        // Preço final = preço do produto + ajuste da variação
+        return $this->product->price + $this->price_adjustment;
     }
 
     public function getFormattedFinalPriceAttribute(): string
     {
         return 'R$ ' . number_format($this->final_price, 2, ',', '.');
+    }
+    
+    public function getFullSkuAttribute(): string
+    {
+        // SKU completo = SKU do produto + sufixo da variação
+        return $this->product->sku . ($this->sku_suffix ? '-' . $this->sku_suffix : '');
     }
 
     // Scopes

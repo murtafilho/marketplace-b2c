@@ -49,7 +49,7 @@ class MultiRoleRegistrationTest extends TestCase
             'role' => 'seller',
         ]);
 
-        $response->assertRedirect(route('seller.onboarding'));
+        $response->assertRedirect(route('seller.onboarding.index'));
         
         $user = User::where('email', 'maria@example.com')->first();
         $this->assertNotNull($user);
@@ -59,7 +59,7 @@ class MultiRoleRegistrationTest extends TestCase
         $sellerProfile = $user->sellerProfile;
         $this->assertNotNull($sellerProfile);
         $this->assertEquals('pending', $sellerProfile->status);
-        $this->assertEquals('Maria Vendedora', $sellerProfile->business_name);
+        $this->assertEquals('Maria Vendedora', $sellerProfile->company_name);
         $this->assertEquals(10.0, $sellerProfile->commission_rate);
     }
 

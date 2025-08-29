@@ -34,6 +34,7 @@ class SellerProfileFactory extends Factory
             'state' => $this->faker->stateAbbr(),
             'postal_code' => $this->faker->postcode(),
             'bank_name' => $this->faker->company() . ' Bank',
+            'bank_agency' => $this->faker->numerify('####'),
             'bank_account' => $this->faker->numerify('####-######-#'),
             'status' => $this->faker->randomElement(['pending', 'pending_approval', 'approved', 'rejected', 'suspended']),
             'rejection_reason' => null,

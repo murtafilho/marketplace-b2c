@@ -11,6 +11,7 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
         'sub_order_id',
         'product_id',
         'product_variation_id',
@@ -18,6 +19,12 @@ class OrderItem extends Model
         'unit_price',
         'total_price',
         'product_snapshot',
+        'product_name',
+        'product_sku',
+        'variation_snapshot',
+        'commission_rate',
+        'commission_amount',
+        'seller_amount',
     ];
 
     protected $casts = [
@@ -40,6 +47,11 @@ class OrderItem extends Model
     public function productVariation(): BelongsTo
     {
         return $this->belongsTo(ProductVariation::class);
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 
     protected static function boot()

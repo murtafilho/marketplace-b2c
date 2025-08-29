@@ -24,23 +24,25 @@
 
                 <!-- Search Bar -->
                 <div class="hidden md:block flex-1 max-w-lg mx-8">
-                    <div class="relative">
+                    <form action="{{ route('search') }}" method="GET" class="relative">
                         <input type="text" 
+                               name="q"
+                               value="{{ request('q') }}"
                                placeholder="Buscar produtos..." 
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <button class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
+                        <button type="submit" class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
                         </button>
-                    </div>
+                    </form>
                 </div>
 
                 <!-- User Menu -->
                 <div class="flex items-center space-x-4">
                     @auth
                         <!-- Carrinho -->
-                        <a href="#" class="relative text-gray-600 hover:text-blue-600">
+                        <a href="{{ route('cart.index') }}" class="relative text-gray-600 hover:text-blue-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l1.5 6m4.5-6h.01M19 13h.01M7 19a2 2 0 11-4 0 2 2 0 014 0zM17 19a2 2 0 11-4 0 2 2 0 014 0z"/>
                             </svg>
@@ -61,11 +63,18 @@
                                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
                                 
                                 @if(auth()->user()->isAdmin())
-                                    <a href="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin</a>
+                                    <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">🔧 Administrar</a>
                                 @endif
                                 
-                                @if(auth()->user()->isSeller())
-                                    <a href="/seller" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Vendedor</a>
+                                @if(auth()->user()->isSeller() || auth()->user()->sellerProfile)
+                                    <a href="{{ route('seller.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">🏪 Minha Loja</a>
+                                @endif
+                                
+                                @if(auth()->user()->isAdmin() && !auth()->user()->sellerProfile)
+                                    <form action="{{ route('become-seller') }}" method="POST" class="block">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">➕ Criar Loja</button>
+                                    </form>
                                 @endif
 
                                 <form method="POST" action="{{ route('logout') }}">
@@ -92,7 +101,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex space-x-8 py-3 overflow-x-auto">
                     @foreach($categories as $category)
-                        <a href="/categoria/{{ $category->slug }}" 
+                        <a href="{{ route('category.show', $category->slug) }}" 
                            class="whitespace-nowrap text-sm text-gray-600 hover:text-blue-600">
                             {{ $category->name }}
                         </a>
@@ -130,7 +139,7 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Para Vendedores</h3>
                     <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white">Vender no Marketplace</a></li>
+                        <li><a href="{{ route('register', ['role' => 'seller']) }}" class="hover:text-white">Vender no Marketplace</a></li>
                         <li><a href="#" class="hover:text-white">Comissões</a></li>
                         <li><a href="#" class="hover:text-white">Suporte</a></li>
                     </ul>

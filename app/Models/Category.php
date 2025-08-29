@@ -18,6 +18,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
+        'icon',          // Adicionado campo icon
         'description',
         'image_path',
         'parent_id',
