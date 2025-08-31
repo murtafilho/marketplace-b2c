@@ -96,15 +96,7 @@
             
             {{-- Actions Right --}}
             <div class="flex items-center space-x-2 sm:space-x-4">
-                {{-- Search (sempre visível, mobile collapsible) --}}
-                <button @click="$store.ui.toggleSearch()"
-                        class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                        aria-label="Toggle search">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
+                {{-- Search button removed --}}
                 
                 @guest
                     {{-- Botões de Auth simplificados --}}
@@ -212,27 +204,5 @@
         </div>
     </div>
     
-    {{-- Mobile Search Bar --}}
-    <div x-show="$store.ui.searchOpen" 
-         x-transition:enter="transition ease-out duration-200"
-         x-transition:enter-start="opacity-0 -translate-y-2"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-150"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 -translate-y-2"
-         class="px-4 pb-3 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div class="relative">
-            <input type="search" 
-                   id="mobile-search-input"
-                   class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
-                          focus:ring-2 focus:ring-vale-verde focus:border-vale-verde 
-                          bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                          placeholder-gray-500 dark:placeholder-gray-400"
-                   placeholder="Buscar produtos, vendedores...">
-            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-        </div>
-    </div>
+    {{-- Search functionality removed --}}
 </header>
