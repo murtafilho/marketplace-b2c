@@ -12,12 +12,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
+use App\Services\SafeUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    protected $uploadService;
+
+    public function __construct(SafeUploadService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+    }
+
     /**
      * Display a listing of the seller's products.
      */
@@ -91,19 +100,29 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|min:10',
-            'short_description' => 'nullable|string|max:500',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0.01|max:999999.99',
-            'compare_at_price' => 'nullable|numeric|min:0.01|max:999999.99|gt:price',
+            
+            // Campos opcionais com defaults
+            'short_description' => 'nullable|string|max:500',
+            'compare_at_price' => 'nullable|numeric|min:0.01|max:999999.99',
             'cost' => 'nullable|numeric|min:0|max:999999.99',
             'sku' => 'nullable|string|max:100|unique:products,sku',
             'barcode' => 'nullable|string|max:100',
-            'stock_quantity' => 'required|integer|min:0',
+            'stock_quantity' => 'nullable|integer|min:0',
             'weight' => 'nullable|numeric|min:0|max:999.999',
             'length' => 'nullable|numeric|min:0|max:999.99',
             'width' => 'nullable|numeric|min:0|max:999.99',
             'height' => 'nullable|numeric|min:0|max:999.99',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'brand' => 'nullable|string|max:100',
+            'model' => 'nullable|string|max:100',
+            'warranty_months' => 'nullable|integer|min:0|max:120',
+            'status' => 'nullable|in:draft,active',
+            
+            // Imagens 
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            
+            // SEO
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'meta_keywords' => 'nullable|string|max:500',
@@ -121,24 +140,27 @@ class ProductController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name) . '-' . Str::random(6),
             'description' => $request->description,
-            'short_description' => $request->short_description,
+            'short_description' => $request->short_description ?: '',
             'price' => $request->price,
             'compare_at_price' => $request->compare_at_price,
             'cost' => $request->cost,
             'sku' => $request->sku ?: 'SKU-' . strtoupper(Str::random(8)),
-            'barcode' => $request->barcode,
-            'stock_quantity' => $request->stock_quantity,
-            'stock_status' => $request->stock_quantity > 0 ? 'in_stock' : 'out_of_stock',
+            'barcode' => $request->barcode ?: '',
+            'stock_quantity' => $request->stock_quantity ?: 1,
+            'stock_status' => ($request->stock_quantity ?: 1) > 0 ? 'in_stock' : 'out_of_stock',
             'weight' => $request->weight,
             'length' => $request->length,
             'width' => $request->width,
             'height' => $request->height,
-            'status' => 'draft',
+            'brand' => $request->brand ?: '',
+            'model' => $request->model ?: '',
+            'warranty_months' => $request->warranty_months,
+            'status' => $request->status ?: 'draft',
             'featured' => false,
             'digital' => false,
             'meta_title' => $request->meta_title ?: $request->name,
-            'meta_description' => $request->meta_description,
-            'meta_keywords' => $request->meta_keywords,
+            'meta_description' => $request->meta_description ?: '',
+            'meta_keywords' => $request->meta_keywords ?: '',
             'published_at' => null,
         ]);
 
@@ -296,7 +318,7 @@ class ProductController extends Controller
         }
         
         $newProduct = $product->replicate();
-        $newProduct->name = $product->name . ' (Cópia)';
+        $newProduct->name = $product->name . ' - Cópia';
         $newProduct->slug = Str::slug($newProduct->name) . '-' . Str::random(6);
         $newProduct->sku = 'SKU-' . strtoupper(Str::random(8));
         $newProduct->status = 'draft';
@@ -325,6 +347,69 @@ class ProductController extends Controller
     }
 
     /**
+     * Upload images to product
+     */
+    public function uploadImages(Request $request, Product $product)
+    {
+        $this->authorizeProduct($product);
+        
+        $request->validate([
+            'images' => 'required|array|min:1|max:10',
+            'images.*' => 'image|mimes:jpeg,jpg,png,webp|max:5120'
+        ]);
+        
+        try {
+            DB::beginTransaction();
+            
+            $sortOrder = $product->images()->max('sort_order') ?? 0;
+            $isPrimary = !$product->images()->exists();
+            
+            foreach ($request->file('images') as $image) {
+                try {
+                    $uploaded = $this->uploadService->uploadProductImage($image, $product->id);
+                    
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'original_name' => $uploaded['original_name'],
+                        'file_name' => $uploaded['file_name'],
+                        'file_path' => $uploaded['file_path'],
+                        'thumbnail_path' => $uploaded['thumbnail_path'] ?? $uploaded['file_path'],
+                        'mime_type' => $uploaded['metadata']['mime_type'] ?? $uploaded['mime_type'],
+                        'file_size' => $uploaded['metadata']['size'] ?? $uploaded['size'],
+                        'width' => $uploaded['metadata']['width'] ?? 0,
+                        'height' => $uploaded['metadata']['height'] ?? 0,
+                        'alt_text' => $product->name,
+                        'sort_order' => ++$sortOrder,
+                        'is_primary' => $isPrimary,
+                    ]);
+                    
+                    $isPrimary = false;
+                    
+                } catch (\Exception $e) {
+                    \Log::error('Erro no upload de imagem do produto: ' . $e->getMessage());
+                    throw new \Exception('Erro no upload da imagem: ' . $e->getMessage());
+                }
+            }
+            
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Imagens enviadas com sucesso!',
+                'images' => $product->images()->latest()->get()
+            ]);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao enviar imagens: ' . $e->getMessage()
+            ], 422);
+        }
+    }
+
+    /**
      * Delete product image
      */
     public function deleteImage(ProductImage $image)
@@ -342,6 +427,72 @@ class ProductController extends Controller
     }
 
     /**
+     * Update product inventory
+     */
+    public function updateInventory(Request $request, Product $product)
+    {
+        $this->authorizeProduct($product);
+        
+        $request->validate([
+            'stock_quantity' => 'required|integer|min:0',
+            'stock_status' => 'required|in:in_stock,out_of_stock,limited'
+        ]);
+        
+        $product->update([
+            'stock_quantity' => $request->stock_quantity,
+            'stock_status' => $request->stock_status
+        ]);
+        
+        return back()->with('success', 'Estoque atualizado com sucesso!');
+    }
+
+    /**
+     * Bulk update products
+     */
+    public function bulkUpdate(Request $request)
+    {
+        $request->validate([
+            'product_ids' => 'required|array|min:1',
+            'product_ids.*' => 'exists:products,id',
+            'action' => 'required|in:activate,deactivate,delete'
+        ]);
+        
+        $seller = auth()->user()->sellerProfile;
+        $products = Product::whereIn('id', $request->product_ids)
+                          ->where('seller_id', $seller->id)
+                          ->get();
+        
+        if ($products->count() !== count($request->product_ids)) {
+            return back()->with('error', 'Alguns produtos não foram encontrados.');
+        }
+        
+        switch ($request->action) {
+            case 'activate':
+                $products->each(function ($product) {
+                    $product->update(['status' => 'active']);
+                });
+                $message = 'Produtos ativados com sucesso!';
+                break;
+                
+            case 'deactivate':
+                $products->each(function ($product) {
+                    $product->update(['status' => 'inactive']);
+                });
+                $message = 'Produtos desativados com sucesso!';
+                break;
+                
+            case 'delete':
+                $products->each(function ($product) {
+                    $product->delete();
+                });
+                $message = 'Produtos excluídos com sucesso!';
+                break;
+        }
+        
+        return back()->with('success', $message);
+    }
+
+    /**
      * Handle image uploads
      */
     private function handleImageUploads(Product $product, array $images)
@@ -350,21 +501,30 @@ class ProductController extends Controller
         $isPrimary = !$product->images()->exists();
         
         foreach ($images as $image) {
-            $path = $image->store('products/' . $product->id, 'public');
-            
-            ProductImage::create([
-                'product_id' => $product->id,
-                'original_name' => $image->getClientOriginalName(),
-                'file_name' => basename($path),
-                'file_path' => $path,
-                'mime_type' => $image->getClientMimeType(),
-                'file_size' => $image->getSize(),
-                'alt_text' => $product->name,
-                'sort_order' => ++$sortOrder,
-                'is_primary' => $isPrimary,
-            ]);
-            
-            $isPrimary = false;
+            try {
+                $uploaded = $this->uploadService->uploadProductImage($image, $product->id);
+                
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'original_name' => $uploaded['original_name'],
+                    'file_name' => $uploaded['file_name'],
+                    'file_path' => $uploaded['file_path'],
+                    'thumbnail_path' => $uploaded['thumbnail_path'] ?? $uploaded['file_path'],
+                    'mime_type' => $uploaded['metadata']['mime_type'] ?? $uploaded['mime_type'],
+                    'file_size' => $uploaded['metadata']['size'] ?? $uploaded['size'],
+                    'width' => $uploaded['metadata']['width'] ?? 0,
+                    'height' => $uploaded['metadata']['height'] ?? 0,
+                    'alt_text' => $product->name,
+                    'sort_order' => ++$sortOrder,
+                    'is_primary' => $isPrimary,
+                ]);
+                
+                $isPrimary = false;
+                
+            } catch (\Exception $e) {
+                \Log::error('Erro no upload de imagem do produto: ' . $e->getMessage());
+                throw new \Exception('Erro no upload da imagem: ' . $e->getMessage());
+            }
         }
     }
 

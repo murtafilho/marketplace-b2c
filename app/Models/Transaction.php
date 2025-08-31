@@ -11,17 +11,19 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'order_id',
         'sub_order_id',
         'seller_id',
+        'mp_payment_id',
+        'type',
         'amount',
         'commission_rate',
         'commission_amount',
         'seller_amount',
         'status',
         'processed_at',
-        'payment_method',
-        'transaction_id',
-        'gateway_response',
+        'mp_collector_id',
+        'mp_response',
         'notes',
     ];
 
@@ -31,8 +33,13 @@ class Transaction extends Model
         'commission_amount' => 'decimal:2',
         'seller_amount' => 'decimal:2',
         'processed_at' => 'datetime',
-        'gateway_response' => 'array',
+        'mp_response' => 'array',
     ];
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 
     public function subOrder(): BelongsTo
     {

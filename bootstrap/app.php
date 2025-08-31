@@ -16,14 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'seller' => \App\Http\Middleware\SellerMiddleware::class,
             'verified.seller' => \App\Http\Middleware\VerifiedSellerMiddleware::class,
-            'security.headers' => \App\Http\Middleware\SecurityHeadersMiddleware::class,
-            'rate.limit' => \App\Http\Middleware\RateLimitMiddleware::class,
+            'security.headers' => \App\Http\Middleware\SecurityHeaders::class,
             'inject.layout' => \App\Http\Middleware\InjectLayoutData::class,
-
         ]);
 
         // Aplicar middleware de segurança globalmente
-        $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
         
         // Middleware de layout data removido - usando ViewServiceProvider
         

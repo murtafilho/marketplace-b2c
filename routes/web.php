@@ -11,14 +11,19 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\OnboardingController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
+use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
 use App\Http\Controllers\Admin\SellerManagementController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Auth\QuickLoginController;
 use App\Http\Controllers\Auth\SellerRegistrationController;
+use App\Http\Controllers\Webhooks\MercadoPagoWebhookController;
+use App\Http\Controllers\TestUploadController;
+use App\Http\Controllers\TestImageUploadController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial do marketplace
@@ -47,7 +52,14 @@ Route::prefix('checkout')->name('checkout.')->middleware('auth')->group(function
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/process', [CheckoutController::class, 'process'])->name('process');
     Route::get('/success/{order}', [CheckoutController::class, 'success'])->name('success');
+    Route::get('/pending', [CheckoutController::class, 'pending'])->name('pending');
     Route::get('/cancel', [CheckoutController::class, 'cancel'])->name('cancel');
+});
+
+// Webhooks do MercadoPago (sem middleware para permitir acesso externo)
+Route::prefix('webhooks/mercadopago')->name('webhooks.mercadopago.')->group(function () {
+    Route::post('/payment', [MercadoPagoWebhookController::class, 'payment'])->name('payment');
+    Route::post('/merchant_order', [MercadoPagoWebhookController::class, 'merchantOrder'])->name('merchant_order');
 });
 
 // Rotas de E-commerce - Products
@@ -103,7 +115,18 @@ Route::prefix('seller')->name('seller.')->middleware(['auth', 'seller'])->group(
     Route::resource('products', SellerProductController::class);
     Route::patch('/products/{product}/toggle-status', [SellerProductController::class, 'toggleStatus'])->name('products.toggle-status');
     Route::post('/products/{product}/duplicate', [SellerProductController::class, 'duplicate'])->name('products.duplicate');
+    Route::post('/products/{product}/images', [SellerProductController::class, 'uploadImages'])->name('products.upload-images');
     Route::delete('/products/images/{image}', [SellerProductController::class, 'deleteImage'])->name('products.delete-image');
+    Route::patch('/products/{product}/inventory', [SellerProductController::class, 'updateInventory'])->name('products.update-inventory');
+    Route::patch('/products/bulk-update', [SellerProductController::class, 'bulkUpdate'])->name('products.bulk-update');
+    
+    // Profile
+    Route::get('/profile', [SellerProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [SellerProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/banking', [SellerProfileController::class, 'updateBankAccount'])->name('profile.banking');
+    Route::put('/profile/notifications', [SellerProfileController::class, 'updateNotifications'])->name('profile.notifications');
+    Route::put('/profile/seo', [SellerProfileController::class, 'updateSeo'])->name('profile.seo');
+    Route::delete('/profile/deactivate', [SellerProfileController::class, 'deactivate'])->name('profile.deactivate');
 });
 
 // Admin Routes
@@ -120,7 +143,26 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('categories', CategoryController::class);
     Route::patch('/categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
     
-    // Rotas de gestão de layout e mídia removidas
+    // Relatórios
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [ReportsController::class, 'index'])->name('index');
+        Route::get('/financial', [ReportsController::class, 'financial'])->name('financial');
+        Route::get('/sellers', [ReportsController::class, 'sellers'])->name('sellers');
+        Route::get('/products', [ReportsController::class, 'products'])->name('products');
+        Route::get('/export', [ReportsController::class, 'export'])->name('export');
+    });
 });
+
+
+// Rotas de teste para upload de imagens (apenas em desenvolvimento)
+if (config('app.env') !== 'production') {
+    Route::prefix('test')->name('test.')->group(function () {
+        Route::get('/image-upload', [TestImageUploadController::class, 'index'])->name('image-upload');
+        Route::get('/api/products/{product}', [TestImageUploadController::class, 'getProduct'])->name('api.product');
+        Route::get('/create-products', function() {
+            require_once base_path('create_test_products.php');
+        });
+    });
+}
 
 require __DIR__.'/auth.php';

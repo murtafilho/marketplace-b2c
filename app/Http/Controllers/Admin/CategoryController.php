@@ -10,18 +10,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Services\CategoryImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    protected CategoryImageService $imageService;
-
-    public function __construct(CategoryImageService $imageService)
-    {
-        $this->imageService = $imageService;
-    }
     /**
      * Exibe a lista de categorias
      */
@@ -63,14 +56,8 @@ class CategoryController extends Controller
         $validated['is_active'] = $validated['is_active'] ?? true;
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
-        // Upload da imagem se fornecida
-        if ($request->hasFile('image')) {
-            try {
-                $validated['image_path'] = $this->imageService->uploadImage($request->file('image'));
-            } catch (\InvalidArgumentException $e) {
-                return back()->withErrors(['image' => $e->getMessage()])->withInput();
-            }
-        }
+        // Sistema de upload removido - imagem será null por enquanto
+        // TODO: Implementar novo sistema de upload se necessário
 
         Category::create($validated);
 
@@ -111,18 +98,8 @@ class CategoryController extends Controller
         $validated['slug'] = Str::slug($validated['name']);
         $validated['is_active'] = $validated['is_active'] ?? true;
 
-        // Upload da nova imagem se fornecida
-        if ($request->hasFile('image')) {
-            try {
-                // Remove a imagem antiga se existir
-                $this->imageService->deleteImage($category->image_path);
-                
-                // Upload da nova imagem
-                $validated['image_path'] = $this->imageService->uploadImage($request->file('image'));
-            } catch (\InvalidArgumentException $e) {
-                return back()->withErrors(['image' => $e->getMessage()])->withInput();
-            }
-        }
+        // Sistema de upload removido - imagem não será alterada por enquanto
+        // TODO: Implementar novo sistema de upload se necessário
 
         $category->update($validated);
 
@@ -146,8 +123,8 @@ class CategoryController extends Controller
             return back()->with('error', 'Não é possível excluir uma categoria que possui subcategorias.');
         }
 
-        // Remove a imagem se existir
-        $this->imageService->deleteImage($category->image_path);
+        // Sistema de upload removido - imagem não será deletada por enquanto
+        // TODO: Implementar novo sistema de upload se necessário
 
         $category->delete();
 

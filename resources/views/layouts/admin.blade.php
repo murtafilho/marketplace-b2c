@@ -126,6 +126,36 @@
                         Categorias
                     </a>
 
+                    <!-- Reports -->
+                    <div x-data="{ open: {{ request()->routeIs('admin.reports.*') ? 'true' : 'false' }} }" class="space-y-1">
+                        <button @click="open = !open"
+                               class="group flex items-center justify-between w-full px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.reports.*') ? 'bg-red-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-bar mr-3 text-sm"></i>
+                                Relatórios
+                            </div>
+                            <i class="fas fa-chevron-down text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        <div x-show="open" class="ml-6 space-y-1">
+                            <a href="{{ route('admin.reports.index') }}" 
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.index') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                                <i class="fas fa-chart-pie mr-2 text-xs"></i>Visão Geral
+                            </a>
+                            <a href="{{ route('admin.reports.financial') }}" 
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.financial') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                                <i class="fas fa-money-bill-wave mr-2 text-xs"></i>Financeiro
+                            </a>
+                            <a href="{{ route('admin.reports.sellers') }}" 
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.sellers') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                                <i class="fas fa-user-tie mr-2 text-xs"></i>Vendedores
+                            </a>
+                            <a href="{{ route('admin.reports.products') }}" 
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.products') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                                <i class="fas fa-box mr-2 text-xs"></i>Produtos
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Users -->
                     <div x-data="{ open: false }" class="space-y-1">
                         <button @click="open = !open"

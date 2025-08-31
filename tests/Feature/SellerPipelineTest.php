@@ -77,7 +77,7 @@ class SellerPipelineTest extends TestCase
         $onboardingData = [
             'company_name' => 'Loja do João Vendedor',
             'document_type' => 'cpf',
-            'document_number' => '123.456.789-01',
+            'document_number' => '111.444.777-35',
             'phone' => '(11) 99999-8888',
             'address' => 'Rua do Comércio, 123',
             'city' => 'São Paulo',

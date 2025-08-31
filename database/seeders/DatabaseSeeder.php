@@ -23,13 +23,10 @@ class DatabaseSeeder extends Seeder
         echo "🚀 INICIANDO CARGA COMPLETA DO MARKETPLACE B2C\n";
         echo str_repeat("=", 60) . "\n\n";
 
-        // SEMPRE garantir que usuários protegidos existam
-        echo "🔒 Garantindo usuários protegidos...\n";
+        // SEMPRE garantir que usuários protegidos existam - PRIORIDADE MÁXIMA
+        echo "🔒 GARANTINDO USUÁRIOS PROTEGIDOS (PRIORIDADE MÁXIMA)...\n";
         $this->call(ProtectedUsersSeeder::class);
-        
-        // SEMPRE garantir que configurações de layout existam
-        echo "🎨 Garantindo configurações de layout...\n";
-        $this->call(LayoutSeeder::class);
+        echo "✅ Usuários protegidos SEMPRE disponíveis!\n\n";
 
         // MODO CONSERVADOR: Apenas adicionar dados se necessário
         echo "🛡️  MODO CONSERVADOR: Preservando dados existentes...\n";

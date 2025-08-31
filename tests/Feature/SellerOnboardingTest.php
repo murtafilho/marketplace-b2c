@@ -63,13 +63,14 @@ class SellerOnboardingTest extends TestCase
             'commission_rate' => 10.0,
         ]);
 
+        // Criar arquivos reais para teste com SafeUploadService
         $addressProof = UploadedFile::fake()->create('address_proof.pdf', 1000, 'application/pdf');
         $identityProof = UploadedFile::fake()->create('identity_proof.pdf', 1000, 'application/pdf');
 
         $response = $this->actingAs($seller)->post('/seller/onboarding', [
             'company_name' => 'Empresa Teste',
             'document_type' => 'cpf',
-            'document_number' => '123.456.789-01',
+            'document_number' => '111.444.777-35',
             'phone' => '(11) 99999-9999',
             'address' => 'Rua Teste, 123',
             'city' => 'São Paulo',
@@ -88,11 +89,14 @@ class SellerOnboardingTest extends TestCase
         $this->assertEquals('pending_approval', $profile->status);
         $this->assertEquals('Empresa Teste', $profile->company_name);
         $this->assertEquals('cpf', $profile->document_type);
-        $this->assertEquals('123.456.789-01', $profile->document_number);
+        $this->assertEquals('111.444.777-35', $profile->document_number);
         $this->assertNotNull($profile->submitted_at);
         
-        Storage::disk('public')->assertExists($profile->address_proof_path);
-        Storage::disk('public')->assertExists($profile->identity_proof_path);
+        // Verificar se os arquivos existem fisicamente (SafeUploadService usa storage real)
+        $this->assertNotNull($profile->address_proof_path);
+        $this->assertNotNull($profile->identity_proof_path);
+        $this->assertTrue(file_exists(storage_path('app/public/' . $profile->address_proof_path)));
+        $this->assertTrue(file_exists(storage_path('app/public/' . $profile->identity_proof_path)));
     }
 
     public function test_onboarding_validates_required_fields(): void

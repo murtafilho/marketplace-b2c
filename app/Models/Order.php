@@ -15,34 +15,40 @@ class Order extends Model
         'user_id',
         'order_number',
         'status',
-        'subtotal_amount',
-        'tax_amount',
-        'shipping_amount',
-        'total_amount',
+        'subtotal',
+        'shipping_total',
+        'tax_total',
+        'discount_total',
+        'total',
+        'currency',
         'payment_status',
         'payment_method',
         'shipping_address',
         'billing_address',
-        'notes',
-        'placed_at',
+        'customer_notes',
+        'admin_notes',
+        'coupon_data',
+        'mp_payment_id',
+        'payment_preference_id',
+        'payment_data',
+        'confirmed_at',
         'shipped_at',
         'delivered_at',
-        'cancelled_at',
-        'refunded_at',
     ];
 
     protected $casts = [
-        'subtotal_amount' => 'decimal:2',
-        'tax_amount' => 'decimal:2',
-        'shipping_amount' => 'decimal:2',
-        'total_amount' => 'decimal:2',
+        'subtotal' => 'decimal:2',
+        'shipping_total' => 'decimal:2',
+        'tax_total' => 'decimal:2',
+        'discount_total' => 'decimal:2',
+        'total' => 'decimal:2',
         'shipping_address' => 'array',
         'billing_address' => 'array',
-        'placed_at' => 'datetime',
+        'coupon_data' => 'array',
+        'payment_data' => 'array',
+        'confirmed_at' => 'datetime',
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
-        'cancelled_at' => 'datetime',
-        'refunded_at' => 'datetime',
     ];
 
     public function user(): BelongsTo
@@ -109,9 +115,6 @@ class Order extends Model
         static::creating(function ($order) {
             if (!$order->order_number) {
                 $order->order_number = 'ORD-' . strtoupper(uniqid());
-            }
-            if (!$order->placed_at) {
-                $order->placed_at = now();
             }
         });
     }

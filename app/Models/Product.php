@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'seller_id',
@@ -157,5 +160,71 @@ class Product extends Model
         if (!$this->is_on_sale) return 0;
         
         return round((($this->compare_at_price - $this->price) / $this->compare_at_price) * 100);
+    }
+    
+    // Media Library Configuration
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(150)
+            ->height(150)
+            ->sharpen(10)
+            ->quality(80)
+            ->performOnCollections('gallery');
+            
+        $this->addMediaConversion('medium')
+            ->width(400)
+            ->height(400)
+            ->sharpen(10)
+            ->quality(85)
+            ->performOnCollections('gallery');
+            
+        $this->addMediaConversion('large')
+            ->width(800)
+            ->height(800)
+            ->sharpen(10)
+            ->quality(90)
+            ->performOnCollections('gallery');
+    }
+    
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('gallery')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+            ->singleFile(false);
+    }
+    
+    // Helper methods for images
+    public function getPrimaryImageAttribute()
+    {
+        $primaryImage = $this->getMedia('gallery')
+            ->filter(function ($media) {
+                return $media->getCustomProperty('is_primary', false);
+            })
+            ->first();
+            
+        return $primaryImage ?: $this->getFirstMedia('gallery');
+    }
+    
+    public function getPrimaryImageUrlAttribute()
+    {
+        $primaryImage = $this->primary_image;
+        return $primaryImage ? $primaryImage->getUrl() : null;
+    }
+    
+    public function getPrimaryImageThumbUrlAttribute()
+    {
+        $primaryImage = $this->primary_image;
+        return $primaryImage ? $primaryImage->getUrl('thumb') : null;
+    }
+    
+    public function getGalleryImagesAttribute()
+    {
+        return $this->getMedia('gallery');
+    }
+    
+    public function hasImages(): bool
+    {
+        return $this->getMedia('gallery')->count() > 0;
     }
 }

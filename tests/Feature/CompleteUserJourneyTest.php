@@ -76,7 +76,7 @@ class CompleteUserJourneyTest extends TestCase
         $onboardingData = [
             'company_name' => 'Loja do João',
             'document_type' => 'cnpj',
-            'document_number' => '12.345.678/0001-90',
+            'document_number' => '11.222.333/0001-81',
             'phone' => '(11) 98765-4321',
             'address' => 'Rua das Flores, 123',
             'city' => 'São Paulo',

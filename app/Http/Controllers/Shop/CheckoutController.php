@@ -7,11 +7,18 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\SubOrder;
+use App\Services\MercadoPagoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
+    protected $mercadoPagoService;
+
+    public function __construct(MercadoPagoService $mercadoPagoService)
+    {
+        $this->mercadoPagoService = $mercadoPagoService;
+    }
     /**
      * Show checkout page.
      */
@@ -119,20 +126,26 @@ class CheckoutController extends Controller
         $cart->items()->delete();
         $cart->update(['total_amount' => 0, 'total_items' => 0]);
 
-        // Redirect based on payment method
-        switch ($request->payment_method) {
-            case 'pix':
-                // Generate PIX payment (integrate with Mercado Pago later)
-                return $this->success($order);
-            case 'credit_card':
-                // Process credit card (integrate with Mercado Pago later)
-                return $this->success($order);
-            case 'boleto':
-                // Generate boleto (integrate with Mercado Pago later)
-                return $this->success($order);
-            default:
-                return $this->success($order);
+        // Create MercadoPago payment preference
+        $paymentResult = $this->mercadoPagoService->createPaymentPreference($order);
+        
+        if (!$paymentResult['success']) {
+            $order->update(['status' => 'failed', 'payment_status' => 'failed']);
+            return back()->with('error', 'Erro ao processar pagamento: ' . $paymentResult['error']);
         }
+
+        // Store preference data
+        $order->update([
+            'payment_preference_id' => $paymentResult['preference_id'],
+            'payment_data' => json_encode($paymentResult['data'])
+        ]);
+
+        // Redirect to MercadoPago checkout
+        $checkoutUrl = config('app.env') === 'production' 
+            ? $paymentResult['init_point']
+            : $paymentResult['sandbox_init_point'];
+            
+        return redirect($checkoutUrl);
     }
 
     /**
@@ -146,6 +159,14 @@ class CheckoutController extends Controller
         }
 
         return view('shop.checkout.success', compact('order'));
+    }
+
+    /**
+     * Checkout pending page.
+     */
+    public function pending()
+    {
+        return view('shop.checkout.pending');
     }
 
     /**
