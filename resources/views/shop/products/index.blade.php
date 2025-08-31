@@ -120,7 +120,7 @@
                                 <!-- Categoria e Vendedor -->
                                 <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
                                     <span class="bg-gray-100 px-2 py-1 rounded-full">{{ $product->category->name }}</span>
-                                    <span>por {{ $product->seller->user->name }}</span>
+                                    <span>por {{ $product->seller->name }}</span>
                                 </div>
 
                                 <!-- Preço -->

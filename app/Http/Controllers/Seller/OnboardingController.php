@@ -149,7 +149,7 @@ class OnboardingController extends Controller
             'postal_code' => $request->postal_code,
             'bank_name' => $request->bank_name,
             'bank_account' => $request->bank_account,
-            'status' => 'pending_approval',
+            'status' => 'pending',
             'submitted_at' => now(),
         ];
         

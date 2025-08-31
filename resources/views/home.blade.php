@@ -5,13 +5,24 @@
 
 @section('content')
 {{-- Hero Section - Vale do Sol --}}
-<div class="relative bg-gradient-to-br from-vale-verde via-vale-verde-light to-sol-dourado rounded-2xl text-white p-6 sm:p-8 lg:p-12 my-4 sm:my-8 overflow-hidden">
+<div class="relative bg-gradient-to-br from-vale-verde via-vale-verde-light to-sol-dourado rounded-2xl text-white p-6 sm:p-8 lg:p-12 my-4 sm:my-8 overflow-hidden bg-cover bg-center bg-no-repeat border border-white/20 shadow-2xl" 
+     style="background-image: url('/images/hero-bg.png')">
+    {{-- Background Image Overlay --}}
+    <div class="absolute inset-0 bg-black/30 rounded-2xl"></div>
+    
     {{-- Background Pattern --}}
     <div class="absolute inset-0 opacity-10">
-        <div class="absolute top-10 left-10 w-20 h-20 bg-white rounded-full"></div>
-        <div class="absolute bottom-20 right-20 w-16 h-16 bg-sol-dourado rounded-full"></div>
-        <div class="absolute top-1/2 left-1/3 w-12 h-12 bg-white/50 rounded-full"></div>
+        <div class="absolute top-5 left-5 sm:top-10 sm:left-10 w-12 h-12 sm:w-20 sm:h-20 bg-white rounded-full"></div>
+        <div class="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 w-10 h-10 sm:w-16 sm:h-16 bg-sol-dourado rounded-full"></div>
+        <div class="absolute top-1/2 left-1/4 sm:left-1/3 w-8 h-8 sm:w-12 sm:h-12 bg-white/50 rounded-full"></div>
     </div>
+    
+    {{-- Category Menu Button - Positioned at top-right --}}
+    @if($mainCategories->count() > 0)
+    <div class="absolute top-4 right-4 lg:top-8 lg:right-8 hidden lg:block z-20">
+        @include('components.category-menu', ['categories' => $mainCategories])
+    </div>
+    @endif
     
     <div class="relative max-w-4xl">
         {{-- Logo and Tagline --}}
@@ -30,27 +41,27 @@
             @endif
             
             <div>
-                <h1 class="text-2xl sm:text-4xl font-bold text-white">
+                <h1 class="text-2xl sm:text-4xl font-bold text-white drop-shadow-lg">
                     {{ $siteName }}
                 </h1>
-                <p class="text-white text-sm sm:text-base font-medium">{{ $siteDescription }}</p>
+                <p class="text-sol-dourado text-sm sm:text-base font-semibold drop-shadow-sm">{{ $siteDescription }}</p>
             </div>
         </div>
         
-        <h2 class="text-xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight text-white">
+        <h2 class="text-xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight text-white drop-shadow-lg">
             Descubra a autenticidade da <br class="hidden sm:block">
-            <span class="text-white drop-shadow-lg">comunidade local</span>
+            <span class="text-sol-dourado drop-shadow-lg">comunidade local</span>
         </h2>
         
-        <p class="text-lg sm:text-xl mb-6 sm:mb-8 text-white font-medium drop-shadow-md max-w-2xl">
-            Conecte-se com vendedores verificados, apoie o comércio local e descubra produtos únicos que refletem a diversidade e criatividade do Vale do Sol.
+        <p class="text-lg sm:text-xl mb-6 sm:mb-8 text-gray-100 font-medium drop-shadow-md max-w-2xl">
+            Conecte-se com vendedores verificados, apoie o <span class="text-sol-dourado font-semibold">comércio local</span> e descubra produtos únicos que refletem a diversidade e criatividade do <span class="text-sol-dourado font-semibold">Vale do Sol</span>.
         </p>
         
         {{-- Action Buttons --}}
         <div class="flex flex-col sm:flex-row gap-4">
             @guest
                 <a href="{{ route('products.index') }}" 
-                   class="bg-primary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-primary-900 transition-all transform hover:scale-105 text-center shadow-sm">
+                   class="bg-sol-dourado text-vale-verde px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-yellow-400 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl">
                     <span class="flex items-center justify-center space-x-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -60,13 +71,18 @@
                 </a>
                 
                 <a href="{{ route('seller.register') }}" 
-                   class="bg-secondary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-secondary-500 transition-all text-center shadow-sm">
-                    Criar Minha Loja
+                   class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl border-2 border-orange-400">
+                    <span class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span>Criar Minha Loja</span>
+                    </span>
                 </a>
             @else
                 @if(auth()->user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="bg-primary-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-primary-700 transition-all text-center shadow-sm">
+                       class="bg-vale-verde text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-vale-verde-dark transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl">
                         <span class="flex items-center justify-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -78,12 +94,17 @@
                 
                 @if(!auth()->user()->sellerProfile)
                     <a href="{{ route('seller.register') }}" 
-                       class="bg-secondary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-secondary-500 transition-all text-center shadow-sm">
-                        Criar Minha Loja
+                       class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl border-2 border-orange-400">
+                        <span class="flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span>Criar Minha Loja</span>
+                        </span>
                     </a>
                 @else
                     <a href="{{ route('seller.dashboard') }}" 
-                       class="bg-secondary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:bg-secondary-500 transition-all text-center shadow-sm">
+                       class="bg-sol-dourado text-vale-verde px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold hover:bg-yellow-400 transition-all transform hover:scale-105 text-center shadow-lg hover:shadow-xl">
                         <span class="flex items-center justify-center space-x-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h-2m13-4h2M5 17h2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H9a2 2 0 01-2-2z"/>
@@ -124,88 +145,21 @@
     </div>
 </div>
 
-{{-- Menu de Categorias --}}
-<div class="my-6 sm:my-8">
-    @include('components.category-menu', ['categories' => $mainCategories])
-</div>
 
-{{-- Estatísticas da Comunidade --}}
-<div class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl shadow-sm p-6 sm:p-8 my-8 sm:my-12">
-    <div class="text-center mb-8">
-        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Nossa Comunidade em Números</h3>
-        <p class="text-gray-600">Juntos, construímos um marketplace próspero e diverso</p>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Produtos Únicos -->
-        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-blue-100 text-sm font-medium">Produtos Únicos</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['total_products']) }}</p>
-                    <p class="text-blue-100 text-xs mt-1">{{ $stats['total_categories'] }} categorias</p>
-                </div>
-                <div class="p-3 bg-blue-400 bg-opacity-30 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Vendedores Verificados -->
-        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-green-100 text-sm font-medium">Vendedores Verificados</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['total_sellers']) }}</p>
-                    <p class="text-green-100 text-xs mt-1">100% aprovados</p>
-                </div>
-                <div class="p-3 bg-green-400 bg-opacity-30 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h-2m13-4h2M5 17h2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2H9a2 2 0 01-2-2z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Clientes Ativos -->
-        <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-purple-100 text-sm font-medium">Clientes Ativos</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['total_customers']) }}</p>
-                    <p class="text-purple-100 text-xs mt-1">+{{ rand(10, 50) }} este mês</p>
-                </div>
-                <div class="p-3 bg-purple-400 bg-opacity-30 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-{{-- Seção de Categorias Principais --}}
-@if($mainCategories->count() > 0)
-<section class="my-12 sm:my-16">
-    @include('components.category-grid', ['categories' => $mainCategories])
-</section>
-@endif
 
 @if($featuredProducts->count() > 0)
 {{-- Produtos em Destaque --}}
-<section class="my-12 sm:my-16 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl p-6 sm:p-8 shadow-sm">
+<section class="my-12 sm:my-16 bg-gradient-to-br from-black/90 via-blue-900/80 to-blue-600/70 backdrop-blur-xl border border-blue-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-8 space-y-2 sm:space-y-0">
         <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Produtos em <span class="text-secondary-700 dark:text-secondary-500">Destaque</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Produtos em <span class="text-sol-dourado">Destaque</span>
             </h2>
-            <p class="text-gray-700 dark:text-gray-300 font-medium">Selecionados especialmente para você</p>
+            <p class="text-gray-100 font-medium drop-shadow-sm">Selecionados especialmente para você</p>
         </div>
         <a href="{{ route('products.index') }}" 
-           class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center space-x-1 group">
+           class="text-sol-dourado hover:text-yellow-300 font-bold flex items-center space-x-1 group bg-gradient-to-r from-black/80 to-blue-600/70 px-4 py-2 rounded-lg hover:from-black/90 hover:to-blue-500/80 transition-all shadow-md border border-blue-500/30">
             <span>Ver todos</span>
             <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -255,13 +209,13 @@
 
     @if($popularProducts->count() > 0)
     <!-- Produtos Mais Populares -->
-    <section class="my-12 sm:my-16 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl p-6 sm:p-8 shadow-sm">
+    <section class="my-12 sm:my-16 bg-gradient-to-br from-black/90 via-blue-900/80 to-blue-600/70 backdrop-blur-xl border border-blue-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl">
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Produtos <span class="text-success-600 dark:text-success-400">Populares</span></h2>
-                <p class="text-gray-700 dark:text-gray-300 font-medium">Os mais visualizados e vendidos</p>
+                <h2 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Produtos <span class="text-sol-dourado">Populares</span></h2>
+                <p class="text-gray-100 font-medium drop-shadow-sm">Os mais visualizados e vendidos</p>
             </div>
-            <a href="{{ route('search') }}" class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center space-x-1 group">
+            <a href="{{ route('search') }}" class="text-sol-dourado hover:text-yellow-300 font-semibold flex items-center space-x-1 group bg-white/10 px-4 py-2 rounded-lg hover:bg-white/20 transition-all">
                 <span>Ver todos</span>
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -299,7 +253,7 @@
                 
                 <div class="p-3">
                     <h3 class="font-medium text-gray-800 mb-1 text-sm truncate">{{ $product->name }}</h3>
-                    <p class="text-xs text-gray-600 font-medium mb-2">{{ $product->seller->user->name ?? 'Vendedor' }}</p>
+                    <p class="text-xs text-gray-600 font-medium mb-2">{{ $product->seller->name ?? 'Vendedor' }}</p>
                     <p class="text-xs text-blue-600 mb-2">{{ $product->category->name ?? '' }}</p>
                     
                     <div class="flex items-center justify-between">

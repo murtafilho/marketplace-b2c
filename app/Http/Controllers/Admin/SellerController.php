@@ -58,7 +58,7 @@ class SellerController extends Controller
      */
     public function approve(SellerProfile $seller)
     {
-        if ($seller->status !== 'pending_approval') {
+        if ($seller->status !== 'pending') {
             return back()->with('error', 'Apenas vendedores pendentes podem ser aprovados.');
         }
 
@@ -80,7 +80,7 @@ class SellerController extends Controller
             'rejection_reason' => 'required|string|max:500'
         ]);
 
-        if ($seller->status !== 'pending_approval') {
+        if ($seller->status !== 'pending') {
             return back()->with('error', 'Apenas vendedores pendentes podem ser rejeitados.');
         }
 

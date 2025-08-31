@@ -31,7 +31,7 @@ class CheckoutController extends Controller
                 ->with('error', 'Seu carrinho está vazio.');
         }
 
-        $cartItems = $cart->items()->with(['product.seller.user', 'productVariation'])->get();
+        $cartItems = $cart->items()->with(['product.seller', 'product.sellerProfile.user', 'productVariation'])->get();
         $itemsBySeller = $cartItems->groupBy('product.seller_id');
 
         return view('shop.checkout.index', compact('cart', 'cartItems', 'itemsBySeller'));
@@ -79,11 +79,11 @@ class CheckoutController extends Controller
         ]);
 
         // Group items by seller and create sub-orders
-        $cartItems = $cart->items()->with(['product.seller'])->get();
+        $cartItems = $cart->items()->with(['product.seller', 'product.sellerProfile'])->get();
         $itemsBySeller = $cartItems->groupBy('product.seller_id');
 
         foreach ($itemsBySeller as $sellerId => $sellerItems) {
-            $seller = $sellerItems->first()->product->seller;
+            $sellerProfile = $sellerItems->first()->product->sellerProfile;
             
             // Create sub-order
             $subOrder = SubOrder::create([
@@ -93,9 +93,9 @@ class CheckoutController extends Controller
                 'status' => 'pending',
                 'subtotal' => $sellerItems->sum('total_price'),
                 'shipping_cost' => 0, // Calculate shipping later
-                'commission_rate' => $seller->commission_rate,
-                'commission_amount' => $sellerItems->sum('total_price') * ($seller->commission_rate / 100),
-                'seller_amount' => $sellerItems->sum('total_price') * (1 - $seller->commission_rate / 100)
+                'commission_rate' => $sellerProfile->commission_rate,
+                'commission_amount' => $sellerItems->sum('total_price') * ($sellerProfile->commission_rate / 100),
+                'seller_amount' => $sellerItems->sum('total_price') * (1 - $sellerProfile->commission_rate / 100)
             ]);
 
             // Create order items
@@ -112,9 +112,9 @@ class CheckoutController extends Controller
                     'total_price' => $cartItem->total_price,
                     'product_snapshot' => $cartItem->product_snapshot,
                     'variation_snapshot' => $cartItem->variation_snapshot,
-                    'commission_rate' => $seller->commission_rate,
-                    'commission_amount' => $cartItem->total_price * ($seller->commission_rate / 100),
-                    'seller_amount' => $cartItem->total_price * (1 - $seller->commission_rate / 100)
+                    'commission_rate' => $sellerProfile->commission_rate,
+                    'commission_amount' => $cartItem->total_price * ($sellerProfile->commission_rate / 100),
+                    'seller_amount' => $cartItem->total_price * (1 - $sellerProfile->commission_rate / 100)
                 ]);
 
                 // Update product stock

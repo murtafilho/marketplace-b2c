@@ -104,7 +104,7 @@ class ReportsController extends Controller
                 ->join('seller_profiles', 'users.id', '=', 'seller_profiles.user_id')
                 ->where('seller_profiles.status', 'approved')
                 ->count(),
-            'pending_approval' => DB::table('seller_profiles')
+            'pending' => DB::table('seller_profiles')
                 ->where('status', 'pending')
                 ->count(),
             'rejected_sellers' => DB::table('seller_profiles')

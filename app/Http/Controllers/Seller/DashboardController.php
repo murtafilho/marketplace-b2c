@@ -20,13 +20,12 @@ class DashboardController extends Controller
         $seller = auth()->user()->sellerProfile;
 
         if (!$seller) {
-            return redirect()->route('seller.onboarding');
+            return redirect()->route('seller.onboarding.index');
         }
 
         // Redirecionar baseado no status
         switch ($seller->status) {
             case 'pending':
-            case 'pending_approval':
                 return $this->pendingView($seller);
             
             case 'rejected':

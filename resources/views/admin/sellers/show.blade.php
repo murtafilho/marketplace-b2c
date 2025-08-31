@@ -112,13 +112,13 @@
                     <div class="flex items-center justify-center">
                         <span class="px-4 py-2 inline-flex text-sm leading-5 font-semibold rounded-full
                             @if($seller->status === 'approved') bg-green-100 text-green-800
-                            @elseif($seller->status === 'pending_approval') bg-yellow-100 text-yellow-800
+                            @elseif($seller->status === 'pending') bg-yellow-100 text-yellow-800
                             @elseif($seller->status === 'rejected') bg-red-100 text-red-800
                             @elseif($seller->status === 'suspended') bg-gray-100 text-gray-800
                             @endif
                         ">
                             @if($seller->status === 'approved') Aprovado
-                            @elseif($seller->status === 'pending_approval') Aguardando Aprovação
+                            @elseif($seller->status === 'pending') Aguardando Aprovação
                             @elseif($seller->status === 'rejected') Rejeitado
                             @elseif($seller->status === 'suspended') Suspenso
                             @endif
@@ -148,7 +148,7 @@
                     <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Ações</h3>
                     
                     <div class="space-y-3">
-                        @if($seller->status === 'pending_approval')
+                        @if($seller->status === 'pending')
                             <!-- Approve Button -->
                             <form method="POST" action="{{ route('admin.sellers.approve', $seller) }}">
                                 @csrf

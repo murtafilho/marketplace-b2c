@@ -23,7 +23,6 @@ use App\Http\Controllers\Auth\QuickLoginController;
 use App\Http\Controllers\Auth\SellerRegistrationController;
 use App\Http\Controllers\Webhooks\MercadoPagoWebhookController;
 use App\Http\Controllers\TestUploadController;
-use App\Http\Controllers\TestImageUploadController;
 use Illuminate\Support\Facades\Route;
 
 // Página inicial do marketplace
@@ -154,11 +153,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 });
 
 
-// Rotas de teste para upload de imagens (apenas em desenvolvimento)
+// Rotas de teste (apenas em desenvolvimento)
 if (config('app.env') !== 'production') {
     Route::prefix('test')->name('test.')->group(function () {
-        Route::get('/image-upload', [TestImageUploadController::class, 'index'])->name('image-upload');
-        Route::get('/api/products/{product}', [TestImageUploadController::class, 'getProduct'])->name('api.product');
         Route::get('/create-products', function() {
             require_once base_path('create_test_products.php');
         });

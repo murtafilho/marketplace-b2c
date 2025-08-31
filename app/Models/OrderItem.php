@@ -31,7 +31,11 @@ class OrderItem extends Model
         'quantity' => 'integer',
         'unit_price' => 'decimal:2',
         'total_price' => 'decimal:2',
+        'commission_rate' => 'decimal:2',
+        'commission_amount' => 'decimal:2',
+        'seller_amount' => 'decimal:2',
         'product_snapshot' => 'array',
+        'variation_snapshot' => 'array',
     ];
 
     public function subOrder(): BelongsTo
@@ -90,11 +94,9 @@ class OrderItem extends Model
             $subOrder = $orderItem->subOrder;
             if ($subOrder) {
                 $subtotalAmount = $subOrder->items->sum('total_price');
-                $totalAmount = $subtotalAmount + $subOrder->shipping_amount + $subOrder->tax_amount;
                 
                 $subOrder->update([
-                    'subtotal_amount' => $subtotalAmount,
-                    'total_amount' => $totalAmount,
+                    'subtotal' => $subtotalAmount,
                 ]);
             }
         });

@@ -16,32 +16,27 @@ class SubOrder extends Model
         'sub_order_number',
         'order_id',
         'seller_id',
-        'subtotal_amount',
-        'subtotal',
-        'shipping_amount',
-        'shipping_cost',
-        'tax_amount',
-        'total_amount',
         'status',
-        'commission_rate',
-        'commission_amount',
+        'subtotal',
+        'shipping_cost',
         'seller_amount',
+        'commission_amount',
+        'commission_rate',
+        'shipping_method',
+        'tracking_info',
+        'seller_notes',
         'shipped_at',
         'delivered_at',
-        'tracking_code',
-        'notes',
     ];
 
     protected $casts = [
-        'subtotal_amount' => 'decimal:2',
         'subtotal' => 'decimal:2',
-        'shipping_amount' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
-        'tax_amount' => 'decimal:2',
-        'total_amount' => 'decimal:2',
         'commission_rate' => 'decimal:2',
         'commission_amount' => 'decimal:2',
         'seller_amount' => 'decimal:2',
+        'shipping_method' => 'array',
+        'tracking_info' => 'array',
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
     ];
@@ -53,7 +48,12 @@ class SubOrder extends Model
 
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(SellerProfile::class, 'seller_id');
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function sellerProfile(): BelongsTo
+    {
+        return $this->belongsTo(SellerProfile::class, 'seller_id', 'user_id');
     }
 
     public function items(): HasMany
@@ -91,12 +91,12 @@ class SubOrder extends Model
         return $this->status === 'cancelled';
     }
 
-    public function markAsShipped(string $trackingCode = null): void
+    public function markAsShipped(array $trackingInfo = null): void
     {
         $this->update([
             'status' => 'shipped',
             'shipped_at' => now(),
-            'tracking_code' => $trackingCode,
+            'tracking_info' => $trackingInfo,
         ]);
     }
 
@@ -112,7 +112,7 @@ class SubOrder extends Model
     {
         $this->update([
             'status' => 'cancelled',
-            'notes' => $reason,
+            'seller_notes' => $reason,
         ]);
     }
 }

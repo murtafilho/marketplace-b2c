@@ -172,7 +172,7 @@ class="space-y-4">
                     <div class="flex flex-col sm:flex-row sm:justify-between h-full">
                         <div class="flex-1">
                             <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">{{ $product->name }}</h3>
-                            <p class="text-sm text-gray-600 mb-2">{{ $product->seller->business_name ?? $product->seller->name }}</p>
+                            <p class="text-sm text-gray-600 mb-2">{{ $product->seller->name ?? 'Vendedor' }}</p>
                             <p class="text-sm text-gray-500 line-clamp-2 mb-2">{{ $product->description }}</p>
                         </div>
                         

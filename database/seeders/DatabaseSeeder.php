@@ -28,6 +28,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProtectedUsersSeeder::class);
         echo "✅ Usuários protegidos SEMPRE disponíveis!\n\n";
 
+        // USUÁRIOS DE TESTE - SEMPRE executar para facilitar desenvolvimento
+        echo "👨‍💻 CRIANDO USUÁRIOS DE TESTE (DESENVOLVIMENTO)...\n";
+        $this->call(TestUsersSeeder::class);
+        echo "\n";
+
         // MODO CONSERVADOR: Apenas adicionar dados se necessário
         echo "🛡️  MODO CONSERVADOR: Preservando dados existentes...\n";
         

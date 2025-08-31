@@ -27,7 +27,7 @@ class SellerManagementController extends Controller
         
         $stats = [
             'total' => SellerProfile::count(),
-            'pending' => SellerProfile::where('status', 'pending_approval')->count(),
+            'pending' => SellerProfile::where('status', 'pending')->count(),
             'approved' => SellerProfile::where('status', 'approved')->count(),
             'rejected' => SellerProfile::where('status', 'rejected')->count(),
             'suspended' => SellerProfile::where('status', 'suspended')->count(),
@@ -44,7 +44,7 @@ class SellerManagementController extends Controller
 
     public function approve(SellerProfile $seller)
     {
-        if (!in_array($seller->status, ['pending', 'pending_approval'])) {
+        if (!in_array($seller->status, ['pending', 'pending'])) {
             return redirect()->back()->with('error', 'Vendedor não está pendente de aprovação.');
         }
 
@@ -63,7 +63,7 @@ class SellerManagementController extends Controller
             'rejection_reason' => 'required|string|max:255'
         ]);
 
-        if (!in_array($seller->status, ['pending', 'pending_approval'])) {
+        if (!in_array($seller->status, ['pending', 'pending'])) {
             return redirect()->back()->with('error', 'Vendedor não está pendente de aprovação.');
         }
 

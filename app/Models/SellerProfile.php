@@ -63,17 +63,17 @@ class SellerProfile extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'seller_id');
+        return $this->hasMany(Product::class, 'seller_id', 'user_id');
     }
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'seller_id');
+        return $this->hasMany(Transaction::class, 'seller_id', 'user_id');
     }
 
     public function subOrders()
     {
-        return $this->hasMany(SubOrder::class, 'seller_id');
+        return $this->hasMany(SubOrder::class, 'seller_id', 'user_id');
     }
 
     public function approvedBy()

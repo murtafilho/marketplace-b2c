@@ -1,29 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)",
-      "Bash(php artisan:*)",
-      "Bash(cat:*)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" -v)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/ExampleTest.php)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/CompleteUserJourneyTest.php tests/Feature/SellerOnboardingTest.php)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:test Feature/PaymentTest)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:mail OrderConfirmationMail --markdown=emails.order-confirmation)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:factory OrderItemFactory)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/BuyerJourneyTest.php --filter=\"test_buyer_can_view_product_details\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/AdminJourneyTest.php --filter=\"test_admin_can_access_dashboard\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:factory SubOrderFactory)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SimpleAdminTest.php)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SellerStoreManagementTest.php --filter=\"test_seller_can_access_dashboard\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SellerStoreManagementTest.php --filter=\"test_seller_can_view_products_list\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SellerStoreManagementTest.php --filter=\"test_seller_can_create_new_product\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:factory ProductImageFactory)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SellerStoreManagementTest.php)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan make:migration add_thumbnail_path_to_product_images_table)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan test tests/Feature/SellerStoreManagementTest.php --filter=\"test_seller_can_upload_product_images\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan vendor:publish --provider=\"Intervention\\Image\\ImageServiceProvider\")",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan app:check-consistency --check=critical)",
-      "Bash(\"C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe\" artisan tinker --execute=\"echo ''Usuários: '' . App\\Models\\User::count(); echo ''\\nVendedores: '' . App\\Models\\SellerProfile::count();\")"
+      "Bash(C:/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=Auth)"
     ],
     "deny": [],
     "ask": []

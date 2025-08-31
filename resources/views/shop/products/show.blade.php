@@ -54,7 +54,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <p class="text-gray-600">Vendido por: 
-                            <span class="font-semibold">{{ $product->seller->company_name ?? $product->seller->user->name }}</span>
+                            <span class="font-semibold">{{ $product->sellerProfile->company_name ?? $product->seller->name }}</span>
                         </p>
                     </div>
                     @if($product->rating_average > 0)

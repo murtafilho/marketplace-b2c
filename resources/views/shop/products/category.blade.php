@@ -47,7 +47,7 @@
                         
                         <!-- Vendedor -->
                         <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
-                            <span>por {{ $product->seller->user->name }}</span>
+                            <span>por {{ $product->seller->name }}</span>
                             @if($product->rating_average > 0)
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">

@@ -36,7 +36,7 @@ class SearchController extends Controller
                     'name' => $product->name,
                     'price' => $product->price,
                     'formatted_price' => 'R$ ' . number_format($product->price, 2, ',', '.'),
-                    'seller' => $product->seller->business_name ?? $product->seller->name,
+                    'seller' => $product->seller->name ?? 'Vendedor',
                     'category' => $product->category->name,
                     'image' => $product->images->first()?->image_path ?? null,
                     'url' => route('products.show', $product->id)

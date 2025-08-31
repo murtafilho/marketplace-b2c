@@ -112,7 +112,7 @@
                 <div class="mt-4 sm:mt-0">
                     <select name="status" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md">
                         <option value="">Todos os status</option>
-                        <option value="pending_approval" {{ request('status') === 'pending_approval' ? 'selected' : '' }}>Pendente Aprovação</option>
+                        <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pendente Aprovação</option>
                         <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Aprovado</option>
                         <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejeitado</option>
                         <option value="suspended" {{ request('status') === 'suspended' ? 'selected' : '' }}>Suspenso</option>
@@ -168,13 +168,13 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                     @if($seller->status === 'approved') bg-green-100 text-green-800
-                                    @elseif($seller->status === 'pending_approval') bg-yellow-100 text-yellow-800
+                                    @elseif($seller->status === 'pending') bg-yellow-100 text-yellow-800
                                     @elseif($seller->status === 'rejected') bg-red-100 text-red-800
                                     @elseif($seller->status === 'suspended') bg-gray-100 text-gray-800
                                     @endif
                                 ">
                                     @if($seller->status === 'approved') Aprovado
-                                    @elseif($seller->status === 'pending_approval') Pendente Aprovação
+                                    @elseif($seller->status === 'pending') Pendente Aprovação
                                     @elseif($seller->status === 'rejected') Rejeitado
                                     @elseif($seller->status === 'suspended') Suspenso
                                     @endif
@@ -190,7 +190,7 @@
                                 <a href="{{ route('admin.sellers.show', $seller) }}" 
                                    class="text-blue-600 hover:text-blue-900 mr-3">Ver</a>
                                 
-                                @if($seller->status === 'pending_approval')
+                                @if($seller->status === 'pending')
                                     <form method="POST" action="{{ route('admin.sellers.approve', $seller) }}" class="inline">
                                         @csrf
                                         <button type="submit" 

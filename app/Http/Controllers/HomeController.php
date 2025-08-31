@@ -22,7 +22,7 @@ class HomeController extends Controller
         // Buscar produtos em destaque (produtos marcados como featured)
         $featuredProducts = Product::where('status', 'active')
             ->where('featured', true)
-            ->with(['seller.user', 'category'])
+            ->with(['seller', 'category'])
             ->orderBy('created_at', 'desc')
             ->limit(8)
             ->get();
@@ -30,7 +30,7 @@ class HomeController extends Controller
         // Se não houver produtos em destaque, pegar os mais recentes
         if ($featuredProducts->isEmpty()) {
             $featuredProducts = Product::where('status', 'active')
-                ->with(['seller.user', 'category'])
+                ->with(['seller', 'category'])
                 ->orderBy('created_at', 'desc')
                 ->limit(8)
                 ->get();
@@ -54,7 +54,7 @@ class HomeController extends Controller
 
         // Buscar produtos mais vendidos/populares (ordenados por views_count)
         $popularProducts = Product::where('status', 'active')
-            ->with(['seller.user', 'category'])
+            ->with(['seller', 'category'])
             ->orderBy('views_count', 'desc')
             ->orderBy('sales_count', 'desc')
             ->limit(12)
@@ -85,7 +85,7 @@ class HomeController extends Controller
         $categorySlug = $request->get('categoria');
         
         $products = Product::where('status', 'active')
-            ->with(['seller.user', 'category', 'images']);
+            ->with(['seller', 'category', 'images']);
 
         // Filtrar por busca textual
         if (!empty($query)) {
@@ -126,7 +126,7 @@ class HomeController extends Controller
 
         $products = Product::where('status', 'active')
             ->where('category_id', $category->id)
-            ->with(['seller.user', 'category', 'images'])
+            ->with(['seller', 'category', 'images'])
             ->orderBy('created_at', 'desc')
             ->paginate(12);
 
@@ -139,7 +139,7 @@ class HomeController extends Controller
     public function product($id)
     {
         $product = Product::where('status', 'active')
-            ->with(['seller.user', 'category', 'images'])
+            ->with(['seller', 'category', 'images'])
             ->findOrFail($id);
 
         // Incrementar visualizações
@@ -149,7 +149,7 @@ class HomeController extends Controller
         $relatedProducts = Product::where('status', 'active')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->with(['seller.user', 'images'])
+            ->with(['seller', 'images'])
             ->limit(4)
             ->get();
 

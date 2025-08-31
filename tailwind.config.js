@@ -24,8 +24,8 @@ export default {
                 },
                 secondary: {
                     100: '#fff5f0',    // Laranja Claro - Backgrounds vendedor
-                    500: '#ff8c42',    // Laranja Médio - Badges/Alerts
-                    700: '#ff6b35',    // Laranja Vibrante - CTAs vendedor
+                    500: '#ff7a00',    // Laranja Vivo - Badges/Alerts
+                    700: '#ff5500',    // Laranja Intenso - CTAs vendedor
                 },
                 
                 // Estados e Feedback com Contraste WCAG AA
@@ -61,9 +61,9 @@ export default {
                     dark: '#1e3a5f',       // Mapear para primary-900
                 },
                 'sol-dourado': {
-                    DEFAULT: '#ff8c42',    // Mapear para secondary-500
-                    light: '#ff6b35',      // Mapear para secondary-700
-                    dark: '#ff6b35',       // Mapear para secondary-700
+                    DEFAULT: '#ff7a00',    // Laranja vivo
+                    light: '#ffa500',      // Laranja mais claro
+                    dark: '#ff5500',       // Laranja intenso
                 },
             },
             fontFamily: {

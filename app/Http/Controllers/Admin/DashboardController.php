@@ -26,7 +26,7 @@ class DashboardController extends Controller
         // Estatísticas básicas
         $usersTotal = User::count();
         $sellersApproved = SellerProfile::where('status', 'approved')->count();
-        $sellersPending = SellerProfile::whereIn('status', ['pending', 'pending_approval'])->count();
+        $sellersPending = SellerProfile::whereIn('status', ['pending', 'pending'])->count();
         $productsActive = Product::where('status', 'active')->count();
         
         // Calcular taxas
@@ -59,7 +59,7 @@ class DashboardController extends Controller
 
         // Vendedores pendentes
         $recent_sellers = SellerProfile::with('user')
-            ->whereIn('status', ['pending', 'pending_approval'])
+            ->whereIn('status', ['pending', 'pending'])
             ->latest('submitted_at')
             ->limit(8)
             ->get();

@@ -15,17 +15,18 @@ class Cart extends Model
         'user_id',
         'session_id',
         'total_amount',
-        'tax_amount',
-        'shipping_amount',
-        'discount_amount',
+        'total_items',
+        'shipping_data',
+        'coupon_data',
+        'last_activity',
         'expires_at',
     ];
 
     protected $casts = [
         'total_amount' => 'decimal:2',
-        'tax_amount' => 'decimal:2',
-        'shipping_amount' => 'decimal:2',
-        'discount_amount' => 'decimal:2',
+        'shipping_data' => 'array',
+        'coupon_data' => 'array',
+        'last_activity' => 'datetime',
         'expires_at' => 'datetime',
     ];
 
@@ -44,11 +45,6 @@ class Cart extends Model
         return $this->items->sum('quantity');
     }
 
-    public function getFinalAmountAttribute(): float
-    {
-        return $this->total_amount + $this->tax_amount + $this->shipping_amount - $this->discount_amount;
-    }
-
     public function isEmpty(): bool
     {
         return $this->items->isEmpty();
@@ -59,9 +55,9 @@ class Cart extends Model
         $this->items()->delete();
         $this->update([
             'total_amount' => 0,
-            'tax_amount' => 0,
-            'shipping_amount' => 0,
-            'discount_amount' => 0,
+            'total_items' => 0,
+            'shipping_data' => null,
+            'coupon_data' => null,
         ]);
     }
 }

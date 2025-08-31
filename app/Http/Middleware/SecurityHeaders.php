@@ -26,13 +26,13 @@ class SecurityHeaders
         // Prevent clickjacking
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
 
-        // CSP for enhanced security
+        // CSP for enhanced security with Vite dev server support
         $csp = "default-src 'self'; " .
-               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://sdk.mercadopago.com https://cdn.tailwindcss.com https://unpkg.com; " .
-               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; " .
+               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://sdk.mercadopago.com https://cdn.tailwindcss.com https://unpkg.com https://*.test:*; " .
+               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com https://*.test:*; " .
                "font-src 'self' https://fonts.gstatic.com; " .
                "img-src 'self' data: https: blob:; " .
-               "connect-src 'self' https://api.mercadopago.com; " .
+               "connect-src 'self' https://api.mercadopago.com https://*.test:* ws://*.test:* wss://*.test:*; " .
                "frame-src https://www.mercadopago.com https://js.stripe.com;";
 
         $response->headers->set('Content-Security-Policy', $csp);

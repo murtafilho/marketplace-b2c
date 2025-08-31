@@ -44,6 +44,8 @@ class Order extends Model
         'total' => 'decimal:2',
         'shipping_address' => 'array',
         'billing_address' => 'array',
+        'customer_notes' => 'array',
+        'admin_notes' => 'array',
         'coupon_data' => 'array',
         'payment_data' => 'array',
         'confirmed_at' => 'datetime',

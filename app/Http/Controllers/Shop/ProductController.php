@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::where('status', 'active')
-            ->with(['seller.user', 'category', 'images']);
+            ->with(['seller', 'category', 'images']);
 
         // Search filter
         if ($request->filled('search')) {
@@ -80,13 +80,13 @@ class ProductController extends Controller
         $product->increment('views_count');
 
         // Load relationships
-        $product->load(['seller.user', 'category', 'images', 'variations']);
+        $product->load(['seller', 'category', 'images', 'variations']);
 
         // Related products (same category)
         $relatedProducts = Product::where('status', 'active')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->with(['seller.user', 'images'])
+            ->with(['seller', 'images'])
             ->limit(4)
             ->get();
 
@@ -105,7 +105,7 @@ class ProductController extends Controller
 
         $products = Product::where('status', 'active')
             ->where('category_id', $category->id)
-            ->with(['seller.user', 'category', 'images'])
+            ->with(['seller', 'category', 'images'])
             ->orderByDesc('created_at')
             ->paginate(12);
 
