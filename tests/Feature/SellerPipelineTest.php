@@ -25,13 +25,13 @@ class SellerPipelineTest extends TestCase
         echo "\n🧪 TESTANDO PIPELINE COMPLETO DO VENDEDOR\n";
         echo str_repeat("=", 60) . "\n";
 
-        // 1. PÁGINA INICIAL - Verificar se link "Vender no Marketplace" funciona
+        // 1. PÁGINA INICIAL - Verificar se link "Vender no valedosol.org" funciona
         echo "\n1. 📱 Testando página inicial...\n";
         $homeResponse = $this->get('/');
         $homeResponse->assertStatus(200);
-        $homeResponse->assertSee('Vender no Marketplace');
+        $homeResponse->assertSee('Vender no valedosol.org');
         echo "   ✅ Página inicial carregada\n";
-        echo "   ✅ Link 'Vender no Marketplace' presente\n";
+        echo "   ✅ Link 'Vender no valedosol.org' presente\n";
 
         // 2. REGISTRO DE VENDEDOR - Criar conta
         echo "\n2. 👤 Testando registro de vendedor...\n";

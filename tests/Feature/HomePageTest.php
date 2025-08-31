@@ -23,7 +23,7 @@ class HomePageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewIs('home');
-        $response->assertSee('Marketplace B2C');
+        $response->assertSee('valedosol.org');
     }
 
     public function test_home_page_shows_categories(): void

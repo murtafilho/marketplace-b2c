@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
+    private bool $skipMassData = false;
+    
     /**
-     * Seed the application's database with MASSIVE data.
+     * Seed the application's database with CONSERVATIVE data.
      */
     public function run(): void
     {
@@ -24,61 +26,58 @@ class DatabaseSeeder extends Seeder
         // SEMPRE garantir que usuários protegidos existam
         echo "🔒 Garantindo usuários protegidos...\n";
         $this->call(ProtectedUsersSeeder::class);
+        
+        // SEMPRE garantir que configurações de layout existam
+        echo "🎨 Garantindo configurações de layout...\n";
+        $this->call(LayoutSeeder::class);
 
-        // Limpar dados existentes (cuidado em produção!)
-        if (app()->environment('local')) {
-            echo "🧹 Limpando dados existentes...\n";
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            
-            // Preservar usuários essenciais
-            $essentialUsers = \App\Models\User::whereIn('email', [
-                'admin@marketplace.com',
-                'tech@marketplace.com', 
-                'cliente@marketplace.com'
-            ])->get();
-            
-            $essentialProfiles = \App\Models\SellerProfile::whereIn('user_id', 
-                $essentialUsers->pluck('id')
-            )->get();
-            
-            $tables = ['products', 'seller_profiles', 'categories', 'users'];
-            foreach ($tables as $table) {
-                if ($table === 'users') {
-                    DB::table($table)->whereNotIn('email', [
-                        'admin@marketplace.com',
-                        'tech@marketplace.com',
-                        'cliente@marketplace.com'
-                    ])->delete();
-                } elseif ($table === 'seller_profiles') {
-                    DB::table($table)->whereNotIn('user_id', 
-                        $essentialUsers->pluck('id')
-                    )->delete();
-                } else {
-                    DB::table($table)->truncate();
-                }
-                echo "  ✅ Tabela {$table} limpa (preservando essenciais)\n";
-            }
-            
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            echo "\n";
+        // MODO CONSERVADOR: Apenas adicionar dados se necessário
+        echo "🛡️  MODO CONSERVADOR: Preservando dados existentes...\n";
+        
+        // Verificar se já existem dados
+        $existingUsers = \App\Models\User::count();
+        $existingCategories = \App\Models\Category::count();
+        $existingProducts = \App\Models\Product::count();
+        
+        echo "📊 Dados existentes: {$existingUsers} users, {$existingCategories} categorias, {$existingProducts} produtos\n";
+        
+        if ($existingUsers > 3 && $existingCategories > 5 && $existingProducts > 0) {
+            echo "✅ Sistema já possui dados suficientes. Pulando criação em massa.\n";
+            echo "💡 Use 'php artisan migrate:fresh --seed' apenas se quiser resetar completamente.\n\n";
+            $this->skipMassData = true;
+        } else {
+            echo "🔧 Dados insuficientes. Criando apenas o essencial...\n\n";
+            $this->skipMassData = false;
         }
 
         $startTime = microtime(true);
 
-        // 1. CATEGORIAS (8 principais + 64 subcategorias = 72 total)
-        echo "📂 FASE 1: Criando categorias...\n";
-        $this->call(CategorySeeder::class);
-        echo "\n";
+        // 1. CATEGORIAS (apenas se necessário)
+        if (\App\Models\Category::count() < 5) {
+            echo "📂 FASE 1: Criando categorias essenciais...\n";
+            $this->call(CategorySeeder::class);
+            echo "\n";
+        } else {
+            echo "📂 FASE 1: Categorias já existem - pulando\n\n";
+        }
 
-        // 2. USUÁRIOS (1 admin + 10 sellers + 20 customers = 31 total)
-        echo "👥 FASE 2: Criando usuários e sellers...\n";
-        $this->call(UserSeeder::class);
-        echo "\n";
+        // 2. USUÁRIOS (apenas se necessário)  
+        if (\App\Models\User::count() < 3) {
+            echo "👥 FASE 2: Criando usuários essenciais...\n";
+            $this->call(UserSeeder::class);
+            echo "\n";
+        } else {
+            echo "👥 FASE 2: Usuários já existem - pulando\n\n";
+        }
 
-        // 3. DADOS EM MASSA (50+ vendedores, 500+ produtos, 1000+ clientes)
-        echo "📦 FASE 3: Criando dados em massa...\n";
-        $this->call(MassDataSeeder::class);
-        echo "\n";
+        // 3. DADOS EM MASSA (apenas se solicitado e necessário)
+        if (!$this->skipMassData) {
+            echo "📦 FASE 3: Criando dados mínimos...\n";
+            $this->call(MassDataSeeder::class);
+            echo "\n";
+        } else {
+            echo "📦 FASE 3: Dados em massa pulados - sistema já populado\n\n";
+        }
 
         $endTime = microtime(true);
         $executionTime = round($endTime - $startTime, 2);

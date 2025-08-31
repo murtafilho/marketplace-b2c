@@ -24,7 +24,7 @@ class CheckoutController extends Controller
                 ->with('error', 'Seu carrinho está vazio.');
         }
 
-        $cartItems = $cart->items()->with(['product.seller.user', 'variation'])->get();
+        $cartItems = $cart->items()->with(['product.seller.user', 'productVariation'])->get();
         $itemsBySeller = $cartItems->groupBy('product.seller_id');
 
         return view('shop.checkout.index', compact('cart', 'cartItems', 'itemsBySeller'));

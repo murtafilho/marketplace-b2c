@@ -44,7 +44,7 @@ class SellerManagementController extends Controller
 
     public function approve(SellerProfile $seller)
     {
-        if ($seller->status !== 'pending_approval') {
+        if (!in_array($seller->status, ['pending', 'pending_approval'])) {
             return redirect()->back()->with('error', 'Vendedor não está pendente de aprovação.');
         }
 
@@ -63,7 +63,7 @@ class SellerManagementController extends Controller
             'rejection_reason' => 'required|string|max:255'
         ]);
 
-        if ($seller->status !== 'pending_approval') {
+        if (!in_array($seller->status, ['pending', 'pending_approval'])) {
             return redirect()->back()->with('error', 'Vendedor não está pendente de aprovação.');
         }
 

@@ -68,6 +68,59 @@
         </div>
     </div>
 
+    <!-- Admin's Shop Card -->
+    @if(auth()->user()->sellerProfile)
+        <div class="mb-8">
+            <div class="bg-gradient-to-r from-vale-verde to-vale-verde-dark rounded-xl shadow-lg p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="p-3 bg-white bg-opacity-20 rounded-full">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm3 7a1 1 0 100-2 1 1 0 000 2zm6-1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold">{{ auth()->user()->sellerProfile->company_name }}</h3>
+                                <p class="text-white text-opacity-80 text-sm">Sua loja no marketplace</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-white text-opacity-80 text-xs">Status</p>
+                                <p class="font-semibold capitalize">
+                                    @if(auth()->user()->sellerProfile->status === 'approved')
+                                        ✅ Aprovada
+                                    @elseif(auth()->user()->sellerProfile->status === 'pending')
+                                        ⏳ Pendente
+                                    @else
+                                        ❌ {{ auth()->user()->sellerProfile->status }}
+                                    @endif
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-white text-opacity-80 text-xs">Produtos</p>
+                                <p class="font-semibold">{{ auth()->user()->sellerProfile->products()->count() ?? 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col space-y-2">
+                        <a href="{{ route('seller.dashboard') }}" 
+                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-4 py-2 rounded-lg text-center text-sm font-medium">
+                            Ver Dashboard
+                        </a>
+                        <a href="{{ route('seller.products.index') }}" 
+                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-4 py-2 rounded-lg text-center text-sm font-medium">
+                            Gerenciar Produtos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Additional Stats Row -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Revenue -->
@@ -217,38 +270,52 @@
                         <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600"></i>
                     </a>
 
-                    <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200">
+                    <a href="{{ route('admin.categories.index') }}" 
+                       class="flex items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors group">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200">
+                            <i class="fas fa-tags text-purple-600"></i>
+                        </div>
+                        <div class="ml-3 flex-1">
+                            <p class="text-sm font-medium text-gray-900">Gerenciar Categorias</p>
+                            <p class="text-xs text-gray-500">Criar, editar e organizar categorias</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600"></i>
+                    </a>
+
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                             <i class="fas fa-box text-gray-600"></i>
                         </div>
                         <div class="ml-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">Moderar Produtos</p>
-                            <p class="text-xs text-gray-500">Aprovar novos produtos</p>
+                            <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Em breve</span>
-                    </a>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                    </div>
 
-                    <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                             <i class="fas fa-chart-bar text-gray-600"></i>
                         </div>
                         <div class="ml-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">Relatórios</p>
-                            <p class="text-xs text-gray-500">Análises e métricas</p>
+                            <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Em breve</span>
-                    </a>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                    </div>
 
-                    <a href="#" class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200">
+
+
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                             <i class="fas fa-cog text-gray-600"></i>
                         </div>
                         <div class="ml-3 flex-1">
                             <p class="text-sm font-medium text-gray-900">Configurações</p>
-                            <p class="text-xs text-gray-500">Sistema e marketplace</p>
+                            <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Em breve</span>
-                    </a>
+                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                    </div>
                 </div>
             </div>
 

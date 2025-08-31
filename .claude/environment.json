@@ -1,0 +1,32 @@
+{
+  "environment": {
+    "os": "windows",
+    "server": "laragon",
+    "php_path": "C:\\laragon\\bin\\php\\php-8.3.18-nts-Win32-vs16-x64\\php.exe",
+    "shell": "git bash",
+    "project_root": "c:\\laragon\\www\\marketplace-b2c",
+    "web_url": "http://marketplace-b2c.test",
+    "database": {
+      "host": "localhost",
+      "port": "3306",
+      "username": "root",
+      "password": ""
+    },
+    "laragon_paths": {
+      "mysql": "C:\\laragon\\bin\\mysql\\mysql-8.0.30-winx64\\bin\\mysql.exe",
+      "nginx": "C:\\laragon\\bin\\nginx\\nginx-1.20.2",
+      "apache": "C:\\laragon\\bin\\apache\\httpd-2.4.54-win64-VS16"
+    },
+    "commands": {
+      "php": "/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe",
+      "composer": "composer",
+      "artisan": "/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan"
+    },
+    "notes": [
+      "Use Git Bash for terminal commands",
+      "PHP path updated to 8.3.18",
+      "Laragon handles virtual hosts automatically",
+      "Database accessible via phpMyAdmin at localhost/phpmyadmin"
+    ]
+  }
+}

@@ -68,7 +68,12 @@ class HomeController extends Controller
             'total_customers' => \App\Models\User::where('role', 'customer')->count(),
         ];
 
-        return view('home', compact('featuredProducts', 'mainCategories', 'popularProducts', 'stats'));
+        return view('home', compact(
+            'featuredProducts', 
+            'mainCategories', 
+            'popularProducts', 
+            'stats'
+        ));
     }
 
     /**

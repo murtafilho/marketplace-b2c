@@ -13,6 +13,7 @@ use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Admin\SellerManagementController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\ProductController;
@@ -66,7 +67,7 @@ Route::post('/criar-loja', [SellerRegistrationController::class, 'store'])->name
 
 // Dashboard com redirecionamento baseado no role
 Route::get('/dashboard', function () {
-    $user = auth()->user();
+    $user = request()->user();
     
     if ($user->role === 'admin') {
         return redirect()->route('admin.dashboard');
@@ -114,6 +115,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/sellers/{seller}/reject', [SellerManagementController::class, 'reject'])->name('sellers.reject');
     Route::post('/sellers/{seller}/suspend', [SellerManagementController::class, 'suspend'])->name('sellers.suspend');
     Route::post('/sellers/{seller}/commission', [SellerManagementController::class, 'updateCommission'])->name('sellers.commission');
+    
+    // Rotas para categorias
+    Route::resource('categories', CategoryController::class);
+    Route::patch('/categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
+    
+    // Rotas de gestão de layout e mídia removidas
 });
 
 require __DIR__.'/auth.php';

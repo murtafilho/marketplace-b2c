@@ -1,33 +1,30 @@
 {
   "permissions": {
     "allow": [
-      "Bash(composer create-project:*)",
-      "Read(C:\\laragon\\www/**)",
-      "Read(C:\\laragon\\www/**)",
-      "Bash(composer:*)",
-      "mcp__filesystem__read_text_file",
-      "mcp__filesystem__edit_file",
-      "Bash(mv:*)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=AdminSellerManagementTest::test_admin_can_view_sellers_list)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test)",
-      "mcp__filesystem__read_multiple_files",
-      "mcp__filesystem__create_directory",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan marketplace:ensure-protected-users)",
-      "mcp__filesystem__write_file",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=AdminSellerManagementTest)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan make:migration add_rejection_fields_to_seller_profiles_table)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan migrate)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=Admin)",
-      "Bash(curl:*)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe check-db-models.php)",
-      "mcp__filesystem__directory_tree",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=SellerOnboardingTest)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan tinker --execute=\"try { $category = App\\Models\\Category::factory()->create(); echo ''Category created: '' . $category->name . '' with icon: '' . $category->icon . PHP_EOL; } catch(Exception $e) { echo ''Error: '' . $e->getMessage() . PHP_EOL; }\")",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan tinker --execute=\"echo ''Testing factory...''; $category = App\\Models\\Category::factory()->make(); echo ''Category: '' . $category->name;\")",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=UnifiedSellerRegistrationTest)",
-      "Bash(/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan test --filter=\"CompleteUserJourneyTest|CreateStoreButtonTest|UnifiedSellerRegistrationTest\")"
+      "Bash(find:*)",
+      "Bash(php artisan:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "customInstructions": "Você está trabalhando em um projeto Laravel 12 de marketplace B2C. O projeto está localizado em c:\\laragon\\www\\marketplace-b2c e usa Tailwind CSS, Alpine.js, e Spatie Media Library. Sempre siga as convenções do Laravel e use os padrões estabelecidos no projeto. Quando criar componentes ou views, siga o padrão mobile-first estabelecido.",
+  "environment": {
+    "os": "Windows",
+    "server": "Laragon",
+    "shell": "Git Bash",
+    "php_path": "C:\\laragon\\bin\\php\\php-8.3.18-nts-Win32-vs16-x64\\php.exe",
+    "project_url": "http://marketplace-b2c.test",
+    "commands": {
+      "php": "/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe",
+      "artisan": "/c/laragon/bin/php/php-8.3.18-nts-Win32-vs16-x64/php.exe artisan",
+      "composer": "composer"
+    },
+    "notes": [
+      "Sempre usar Git Bash para comandos de terminal",
+      "Caminho completo do PHP já configurado",
+      "Laragon gerencia hosts virtuais automaticamente",
+      "Banco de dados acessível via phpMyAdmin"
+    ]
   }
 }

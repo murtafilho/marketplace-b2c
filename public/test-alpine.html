@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="test-token">
+    <title>Teste Alpine.js - Vale do Sol</title>
+    <link rel="stylesheet" href="./build/assets/app-Bo494VyC.css">
+    <script type="module" src="./build/assets/app-C1xSm9Tb.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; }
+        .test-item { margin: 1rem 0; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 0.5rem 1rem; margin: 0.25rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Teste Alpine.js - Vale do Sol Marketplace</h1>
+    
+    <div class="test-item" x-data="{ message: 'Alpine.js está funcionando!' }">
+        <h3>Teste Básico do Alpine.js:</h3>
+        <p x-text="message"></p>
+        <button @click="message = 'Clique funcionou!'">Testar Clique</button>
+    </div>
+    
+    <div class="test-item" x-data="{ 
+        cartCount: $store.cart ? $store.cart.count : 0,
+        uiReady: $store.ui ? 'Pronto' : 'Não disponível'
+    }">
+        <h3>Teste dos Stores:</h3>
+        <p>Cart Count: <span x-text="cartCount"></span></p>
+        <p>UI Store: <span x-text="uiReady"></span></p>
+        <button @click="$store.cart && $store.cart.addItem({id: 1, name: 'Teste', price: 10})">
+            Adicionar Item Teste
+        </button>
+        <button @click="cartCount = $store.cart ? $store.cart.count : 0">
+            Atualizar Count
+        </button>
+    </div>
+    
+    <div class="test-item">
+        <h3>Console Logs:</h3>
+        <p>Abra o console do navegador (F12) para ver os logs de inicialização.</p>
+        <button onclick="console.log('Alpine:', window.Alpine); console.log('Stores:', {cart: window.Alpine.store('cart'), ui: window.Alpine.store('ui'), notifications: window.Alpine.store('notifications')})">
+            Log Stores
+        </button>
+    </div>
+    
+    <script>
+        // Aguardar Alpine estar pronto
+        document.addEventListener('alpine:init', () => {
+            console.log('✅ Alpine inicializado no teste');
+        });
+        
+        // Verificar se tudo carregou
+        setTimeout(() => {
+            if (window.Alpine) {
+                console.log('✅ Alpine disponível globalmente');
+                console.log('📦 Stores:', {
+                    cart: Alpine.store('cart'),
+                    ui: Alpine.store('ui'), 
+                    notifications: Alpine.store('notifications')
+                });
+            } else {
+                console.error('❌ Alpine não está disponível');
+            }
+        }, 500);
+    </script>
+</body>
+</html>

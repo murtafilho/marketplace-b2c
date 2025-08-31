@@ -15,7 +15,9 @@ class SellerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isSeller()) {
+        $user = auth()->user();
+        
+        if (!auth()->check() || (!$user->isSeller() && !$user->isAdmin())) {
             return redirect('/')->with('error', 'Acesso negado. Apenas vendedores.');
         }
 

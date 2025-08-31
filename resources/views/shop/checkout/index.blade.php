@@ -4,8 +4,11 @@ Descrição: Página de checkout/finalização da compra
 Laravel Version: 12.x
 Criado em: 29/08/2025
 --}}
-<x-layouts.marketplace>
-    <x-slot name="title">Finalizar Compra</x-slot>
+@extends('layouts.marketplace-simple')
+
+@section('title', 'Finalizar Compra')
+
+@section('content')
 
     <div class="container mx-auto px-4 py-8">
         <div class="max-w-6xl mx-auto">
@@ -322,4 +325,4 @@ Criado em: 29/08/2025
         });
     });
     </script>
-</x-layouts.marketplace>
+@endsection

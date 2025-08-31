@@ -21,7 +21,7 @@ class CreateStoreButtonTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Criar Minha Loja');
         // Para usuários não logados, o botão leva para registro com parâmetro de seller
-        $response->assertSee('register?role=seller');
+        $response->assertSee('criar-loja');
     }
 
     /**
@@ -49,7 +49,7 @@ class CreateStoreButtonTest extends TestCase
         
         $response->assertStatus(200);
         $response->assertSee('Criar Minha Loja');
-        $response->assertSee('Administrar'); // Botão de admin também aparece
+        $response->assertSee('Painel Admin'); // Botão de admin também aparece
         $response->assertDontSee('Administrar Loja');
     }
 

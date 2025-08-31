@@ -162,20 +162,27 @@ class CategorySeeder extends Seeder
             $subcategories = $categoryData['subcategories'];
             unset($categoryData['subcategories']);
             
-            // Criar categoria principal
+            // Criar categoria principal (usando firstOrCreate para evitar duplicatas)
             $categoryData['is_active'] = true;
-            $category = Category::create($categoryData);
+            $category = Category::firstOrCreate(
+                ['slug' => $categoryData['slug']], // buscar por slug
+                $categoryData // dados para criar se não existir
+            );
             
-            // Criar subcategorias
+            // Criar subcategorias (usando firstOrCreate)
             foreach ($subcategories as $index => $subName) {
-                Category::create([
-                    'name' => $subName,
-                    'slug' => Str::slug($subName),
-                    'description' => "Subcategoria de {$category->name}",
-                    'parent_id' => $category->id,
-                    'is_active' => true,
-                    'sort_order' => $index + 1
-                ]);
+                $subSlug = Str::slug($subName);
+                Category::firstOrCreate(
+                    ['slug' => $subSlug], // buscar por slug
+                    [
+                        'name' => $subName,
+                        'slug' => $subSlug,
+                        'description' => "Subcategoria de {$category->name}",
+                        'parent_id' => $category->id,
+                        'is_active' => true,
+                        'sort_order' => $index + 1
+                    ]
+                );
             }
         }
 

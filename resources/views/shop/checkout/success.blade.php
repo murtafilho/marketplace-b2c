@@ -4,8 +4,11 @@ Descrição: Página de sucesso após finalização da compra
 Laravel Version: 12.x
 Criado em: 29/08/2025
 --}}
-<x-layouts.marketplace>
-    <x-slot name="title">Pedido Realizado com Sucesso</x-slot>
+@extends('layouts.marketplace-simple')
+
+@section('title', 'Pedido Realizado com Sucesso')
+
+@section('content')
 
     <div class="container mx-auto px-4 py-16">
         <div class="max-w-2xl mx-auto text-center">
@@ -131,4 +134,4 @@ Criado em: 29/08/2025
             </div>
         </div>
     </div>
-</x-layouts.marketplace>
+@endsection

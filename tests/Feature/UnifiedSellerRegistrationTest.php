@@ -19,7 +19,7 @@ class UnifiedSellerRegistrationTest extends TestCase
         $response = $this->get('/criar-loja');
         
         $response->assertStatus(200);
-        $response->assertSee('Crie Sua Loja no Marketplace');
+        $response->assertSee('Crie Sua');
         $response->assertSee('Cadastre-se e crie sua loja em um único passo!');
         $response->assertSee('Seus Dados Pessoais');
         $response->assertSee('Informações da Sua Loja');

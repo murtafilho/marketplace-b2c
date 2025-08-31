@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->getCart();
-        $cartItems = $cart ? $cart->items()->with(['product.images', 'variation'])->get() : collect();
+        $cartItems = $cart ? $cart->items()->with(['product.images', 'productVariation'])->get() : collect();
         
         return view('shop.cart.index', compact('cart', 'cartItems'));
     }

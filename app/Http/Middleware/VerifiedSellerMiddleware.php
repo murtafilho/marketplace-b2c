@@ -15,11 +15,18 @@ class VerifiedSellerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isSeller()) {
+        $user = auth()->user();
+        
+        if (!auth()->check() || (!$user->isSeller() && !$user->isAdmin())) {
             return redirect('/')->with('error', 'Acesso negado. Apenas vendedores.');
         }
 
-        $seller = auth()->user()->sellerProfile;
+        // Admins podem acessar sem restrições
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+
+        $seller = $user->sellerProfile;
         if (!$seller || !$seller->canSellProducts()) {
             return redirect('/seller/pending')->with('error', 'Vendedor precisa ser aprovado e conectar Mercado Pago.');
         }

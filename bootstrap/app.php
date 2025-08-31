@@ -18,11 +18,16 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified.seller' => \App\Http\Middleware\VerifiedSellerMiddleware::class,
             'security.headers' => \App\Http\Middleware\SecurityHeadersMiddleware::class,
             'rate.limit' => \App\Http\Middleware\RateLimitMiddleware::class,
-            'validate.upload' => \App\Http\Middleware\ValidateFileUploadMiddleware::class,
+            'inject.layout' => \App\Http\Middleware\InjectLayoutData::class,
+
         ]);
 
         // Aplicar middleware de segurança globalmente
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
+        
+        // Middleware de layout data removido - usando ViewServiceProvider
+        
+
         
         // CSRF protection habilitado por padrão no Laravel 12
         // XSS prevention via escape automático do Blade

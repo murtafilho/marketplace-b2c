@@ -29,28 +29,190 @@ class MassDataSeeder extends Seeder
     }
 
     /**
-     * Run the database seeds.
+     * Run the database seeds - VERSÃO REDUZIDA.
      */
     public function run(): void
     {
-        echo "\n🚀 INICIANDO SEEDER DE DADOS EM MASSA...\n";
+        echo "\n🚀 INICIANDO SEEDER REDUZIDO (DADOS MÍNIMOS)...\n";
         echo str_repeat("=", 60) . "\n";
         
-        // 1. Criar Categorias
-        $this->createCategories();
+        // Verificar se já há dados suficientes
+        if (Product::count() > 5) {
+            echo "✅ Já existem produtos suficientes. Pulando criação em massa.\n";
+            return;
+        }
         
-        // 2. Criar Vendedores
-        $this->createSellers();
+        // 1. Criar apenas algumas categorias se necessário
+        if (Category::count() < 10) {
+            $this->createMinimalCategories();
+        }
         
-        // 3. Criar Produtos
-        $this->createProducts();
+        // 2. Criar poucos vendedores (2-3)
+        $this->createMinimalSellers();
         
-        // 4. Criar Clientes
-        $this->createCustomers();
+        // 3. Criar poucos produtos (5-10)
+        $this->createMinimalProducts();
         
-        echo "\n✅ SEEDER CONCLUÍDO COM SUCESSO!\n";
+        // 4. Criar poucos clientes (3-5)
+        $this->createMinimalCustomers();
+        
+        echo "\n✅ SEEDER REDUZIDO CONCLUÍDO!\n";
         echo str_repeat("=", 60) . "\n";
-        $this->showStats();
+        $this->showMinimalStats();
+    }
+
+    private function createMinimalCategories(): void
+    {
+        echo "📂 Criando categorias mínimas...\n";
+        
+        $categories = [
+            'Eletrônicos' => ['smartphones', 'computadores', 'acessorios'],
+            'Moda' => ['roupas', 'calcados', 'bolsas'],
+            'Casa' => ['moveis', 'decoracao', 'cozinha']
+        ];
+        
+        foreach ($categories as $mainName => $subs) {
+            $main = Category::firstOrCreate([
+                'slug' => Str::slug($mainName)
+            ], [
+                'name' => $mainName,
+                'is_active' => true,
+                'parent_id' => null,
+                'sort_order' => 0
+            ]);
+            
+            foreach ($subs as $subName) {
+                Category::firstOrCreate([
+                    'slug' => Str::slug($subName)
+                ], [
+                    'name' => ucfirst($subName),
+                    'is_active' => true,
+                    'parent_id' => $main->id,
+                    'sort_order' => 0
+                ]);
+            }
+        }
+        
+        echo "  ✅ " . Category::count() . " categorias\n";
+    }
+
+    private function createMinimalSellers(): void
+    {
+        echo "🏪 Criando sellers mínimos...\n";
+        
+        $sellers = [
+            ['name' => 'TechStore', 'email' => 'techstore@test.com'],
+            ['name' => 'ModaVip', 'email' => 'modavip@test.com'],
+        ];
+        
+        foreach ($sellers as $sellerData) {
+            $user = User::firstOrCreate([
+                'email' => $sellerData['email']
+            ], [
+                'name' => $sellerData['name'],
+                'password' => Hash::make('123456'),
+                'role' => 'seller',
+                'email_verified_at' => now()
+            ]);
+
+            SellerProfile::firstOrCreate([
+                'user_id' => $user->id
+            ], [
+                'company_name' => $sellerData['name'],      // ✅ Campo correto
+                'document_type' => 'cnpj',
+                'document_number' => $this->faker->cnpj(false),
+                'phone' => $this->faker->cellphoneNumber,
+                'status' => 'approved',
+                'commission_rate' => 5.0                   // ✅ Campo correto
+            ]);
+        }
+        
+        echo "  ✅ " . SellerProfile::count() . " sellers\n";
+    }
+
+    private function createMinimalProducts(): void
+    {
+        echo "📦 Criando produtos mínimos...\n";
+        
+        $categories = Category::whereNotNull('parent_id')->get();
+        $sellers = SellerProfile::where('status', 'approved')->get();
+        
+        if ($sellers->isEmpty()) {
+            echo "  ⚠️ Nenhum seller aprovado encontrado\n";
+            return;
+        }
+        
+        $products = [
+            'Smartphone Premium' => 899.99,
+            'Notebook Gamer' => 2499.99,
+            'Camiseta Casual' => 49.99,
+            'Tênis Esportivo' => 159.99,
+            'Mesa de Jantar' => 699.99,
+        ];
+        
+        foreach ($products as $name => $price) {
+            Product::firstOrCreate([
+                'name' => $name
+            ], [
+                'seller_id' => $sellers->random()->id,
+                'category_id' => $categories->random()->id,
+                'slug' => Str::slug($name),
+                'short_description' => "Produto {$name} de qualidade premium",
+                'description' => "Descrição completa do produto {$name}",
+                'price' => $price,
+                'stock_quantity' => rand(5, 50),
+                'stock_status' => 'in_stock',
+                'status' => 'active',
+                'featured' => rand(0, 1) === 1,
+                'weight' => rand(100, 5000),
+                'brand' => 'Marca Premium',
+                'model' => 'Model-' . rand(1000, 9999)
+                // 'condition' removido - campo não existe
+            ]);
+        }
+        
+        echo "  ✅ " . Product::count() . " produtos\n";
+    }
+
+    private function createMinimalCustomers(): void
+    {
+        echo "👥 Criando clientes mínimos...\n";
+        
+        $customers = [
+            'João Silva' => 'joao@test.com',
+            'Maria Santos' => 'maria@test.com',
+            'Pedro Costa' => 'pedro@test.com',
+        ];
+        
+        foreach ($customers as $name => $email) {
+            User::firstOrCreate([
+                'email' => $email
+            ], [
+                'name' => $name,
+                'password' => Hash::make('123456'),
+                'role' => 'customer',
+                'email_verified_at' => now()
+            ]);
+        }
+        
+        $customers = User::where('role', 'customer')->count();
+        echo "  ✅ {$customers} customers\n";
+    }
+
+    private function showMinimalStats(): void
+    {
+        $stats = [
+            'Usuários' => User::count(),
+            'Sellers' => SellerProfile::count(),
+            'Categorias' => Category::count(),
+            'Produtos' => Product::count(),
+        ];
+        
+        echo "\n📊 ESTATÍSTICAS FINAIS:\n";
+        foreach ($stats as $label => $count) {
+            echo "├── {$label}: {$count}\n";
+        }
+        echo "└── Total de registros: " . array_sum($stats) . "\n";
     }
 
     /**

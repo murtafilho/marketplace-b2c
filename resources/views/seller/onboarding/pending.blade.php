@@ -1,4 +1,6 @@
-<x-layouts.marketplace>
+@extends('layouts.marketplace-simple')
+
+@section('content')
     <div class="max-w-4xl mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="text-center py-12">
@@ -30,4 +32,4 @@
             </div>
         </div>
     </div>
-</x-layouts.marketplace>
+@endsection
