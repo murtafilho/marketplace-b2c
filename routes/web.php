@@ -68,6 +68,16 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/category/{category}', [ProductController::class, 'category'])->name('category');
 });
 
+// Rota para listagem de categorias
+Route::get('/categorias', function () {
+    return view('categories.index');
+})->name('categories.index');
+
+// Rota de teste mobile-first (development)
+Route::get('/test-mobile', function () {
+    return view('test-mobile');
+})->name('test.mobile');
+
 // Rotas de login rápido para desenvolvimento/teste
 Route::get('/quick-login', [QuickLoginController::class, 'quickLogin'])->name('quick.login');
 Route::post('/force-logout', [QuickLoginController::class, 'forceLogout'])->name('force.logout');

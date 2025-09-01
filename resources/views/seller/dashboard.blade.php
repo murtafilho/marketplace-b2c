@@ -3,91 +3,127 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <!-- Mobile Header with Welcome -->
+    <div class="mb-6 lg:hidden">
+        <h1 class="text-xl font-bold text-gray-900">Olá, {{ auth()->user()->name }}! 👋</h1>
+        <p class="text-gray-600 text-sm mt-1">Resumo do seu desempenho</p>
+    </div>
+
+    <!-- Desktop Header with Welcome -->
+    <div class="hidden lg:block mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Olá, {{ auth()->user()->name }}! 👋</h1>
+        <p class="text-gray-600 mt-2">Aqui está um resumo do seu desempenho hoje</p>
+    </div>
+
     <!-- Alertas e Notificações -->
     @if(count($alerts) > 0)
-        <div class="mb-6 space-y-3">
+        <div class="mb-4 lg:mb-6 space-y-3">
             @foreach($alerts as $alert)
-                <div class="bg-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'blue') }}-50 border border-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'blue') }}-200 text-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'blue') }}-800 px-4 py-3 rounded-lg flex items-center justify-between">
-                    <div class="flex items-center">
-                        <i class="fas fa-{{ $alert['type'] === 'danger' ? 'exclamation-circle' : ($alert['type'] === 'warning' ? 'exclamation-triangle' : 'info-circle') }} mr-3"></i>
-                        <span>{{ $alert['message'] }}</span>
+                <div class="bg-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'emerald') }}-50 border border-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'emerald') }}-200 text-{{ $alert['type'] === 'danger' ? 'red' : ($alert['type'] === 'warning' ? 'yellow' : 'emerald') }}-800 px-4 py-3 rounded-lg">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-start">
+                            <i class="fas fa-{{ $alert['type'] === 'danger' ? 'exclamation-circle' : ($alert['type'] === 'warning' ? 'exclamation-triangle' : 'info-circle') }} mr-3 mt-0.5 flex-shrink-0"></i>
+                            <span class="text-sm">{{ $alert['message'] }}</span>
+                        </div>
+                        @if($alert['action'] !== '#')
+                            <a href="{{ $alert['action'] }}" class="text-xs sm:text-sm underline hover:no-underline mt-2 sm:mt-0 sm:ml-4 self-start">Ver detalhes →</a>
+                        @endif
                     </div>
-                    @if($alert['action'] !== '#')
-                        <a href="{{ $alert['action'] }}" class="text-sm underline hover:no-underline">Ver detalhes →</a>
-                    @endif
                 </div>
             @endforeach
         </div>
     @endif
 
-    <!-- Header com Boas-vindas -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Olá, {{ auth()->user()->name }}! 👋</h1>
-        <p class="text-gray-600 mt-2">Aqui está um resumo do seu desempenho hoje</p>
-    </div>
-
     <!-- Cards de Estatísticas Principais -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
         <!-- Total de Produtos -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total de Produtos</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($stats['products_total']) }}</p>
-                    <p class="text-xs text-gray-500 mt-2">
-                        <span class="text-green-600">{{ $stats['products_active'] }} ativos</span> • 
-                        <span class="text-yellow-600">{{ $stats['products_draft'] }} rascunhos</span>
-                    </p>
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm p-4 lg:p-6 border border-gray-100">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between lg:block">
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 line-clamp-1">Total de Produtos</p>
+                            <p class="text-lg sm:text-2xl lg:text-3xl font-bold text-gray-900 mt-1 lg:mt-2">{{ number_format($stats['products_total']) }}</p>
+                        </div>
+                        <div class="bg-emerald-100 rounded-full p-2 lg:hidden">
+                            <i class="fas fa-box text-emerald-600 text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2 space-y-1 lg:space-y-0">
+                        <div><span class="text-green-600">{{ $stats['products_active'] }} ativos</span></div>
+                        <div><span class="text-yellow-600">{{ $stats['products_draft'] }} rascunhos</span></div>
+                    </div>
                 </div>
-                <div class="bg-blue-100 rounded-full p-3">
-                    <i class="fas fa-box text-blue-600 text-xl"></i>
+                <div class="hidden lg:block bg-emerald-100 rounded-full p-3">
+                    <i class="fas fa-box text-emerald-600 text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- Vendas do Mês -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Vendas do Mês</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($stats['orders_total']) }}</p>
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm p-4 lg:p-6 border border-gray-100">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between lg:block">
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 line-clamp-1">Vendas do Mês</p>
+                            <p class="text-lg sm:text-2xl lg:text-3xl font-bold text-gray-900 mt-1 lg:mt-2">{{ number_format($stats['orders_total']) }}</p>
+                        </div>
+                        <div class="bg-blue-100 rounded-full p-2 lg:hidden">
+                            <i class="fas fa-shopping-cart text-blue-600 text-sm"></i>
+                        </div>
+                    </div>
                     <p class="text-xs text-gray-500 mt-2">
                         <span class="text-orange-600">{{ $stats['orders_pending'] }} pendentes</span>
                     </p>
                 </div>
-                <div class="bg-green-100 rounded-full p-3">
-                    <i class="fas fa-shopping-cart text-green-600 text-xl"></i>
+                <div class="hidden lg:block bg-blue-100 rounded-full p-3">
+                    <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- Receita do Mês -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Receita do Mês</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">R$ {{ number_format($stats['revenue_month'], 2, ',', '.') }}</p>
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm p-4 lg:p-6 border border-gray-100">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between lg:block">
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 line-clamp-1">Receita do Mês</p>
+                            <p class="text-base sm:text-xl lg:text-3xl font-bold text-gray-900 mt-1 lg:mt-2">R$ {{ number_format($stats['revenue_month'], 2, ',', '.') }}</p>
+                        </div>
+                        <div class="bg-purple-100 rounded-full p-2 lg:hidden">
+                            <i class="fas fa-dollar-sign text-purple-600 text-sm"></i>
+                        </div>
+                    </div>
                     <p class="text-xs text-gray-500 mt-2">
                         Comissão: {{ $stats['commission_rate'] }}%
                     </p>
                 </div>
-                <div class="bg-purple-100 rounded-full p-3">
+                <div class="hidden lg:block bg-purple-100 rounded-full p-3">
                     <i class="fas fa-dollar-sign text-purple-600 text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- Visualizações -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Visualizações</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($stats['views_total']) }}</p>
+        <div class="bg-white rounded-lg lg:rounded-xl shadow-sm p-4 lg:p-6 border border-gray-100">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between lg:block">
+                        <div>
+                            <p class="text-xs lg:text-sm font-medium text-gray-600 line-clamp-1">Visualizações</p>
+                            <p class="text-lg sm:text-2xl lg:text-3xl font-bold text-gray-900 mt-1 lg:mt-2">{{ number_format($stats['views_total']) }}</p>
+                        </div>
+                        <div class="bg-pink-100 rounded-full p-2 lg:hidden">
+                            <i class="fas fa-eye text-pink-600 text-sm"></i>
+                        </div>
+                    </div>
                     <p class="text-xs text-gray-500 mt-2">
                         Total acumulado
                     </p>
                 </div>
-                <div class="bg-pink-100 rounded-full p-3">
+                <div class="hidden lg:block bg-pink-100 rounded-full p-3">
                     <i class="fas fa-eye text-pink-600 text-xl"></i>
                 </div>
             </div>
