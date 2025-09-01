@@ -26,7 +26,9 @@
             <div class="flex-shrink-0 bg-white shadow-sm border-b sm:hidden">
                 <div class="px-4 py-3 flex items-center justify-between">
                     <a href="/" class="flex items-center">
-                        <x-application-logo class="w-8 h-8 fill-current text-emerald-600" />
+                        <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                             alt="Vale do Sol Logo" 
+                             class="w-8 h-8">
                         <span class="ml-2 text-lg font-semibold text-gray-900">
                             {{ config('app.name', 'Laravel') }}
                         </span>
@@ -39,7 +41,9 @@
                 <!-- Desktop Logo -->
                 <div class="hidden sm:flex justify-center mb-6">
                     <a href="/" class="flex flex-col items-center">
-                        <x-application-logo class="w-16 h-16 fill-current text-emerald-600" />
+                        <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                             alt="Vale do Sol Logo" 
+                             class="w-16 h-16">
                         <span class="mt-2 text-xl font-semibold text-gray-900">
                             {{ config('app.name', 'Laravel') }}
                         </span>

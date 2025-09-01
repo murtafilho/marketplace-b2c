@@ -19,23 +19,27 @@
 </head>
 <body class="h-full bg-gray-50">
     <!-- Mobile-First Layout Structure -->
-    <div class="min-h-full">
+    <div class="min-h-full" x-data="{ mobileMenuOpen: false }">
         <!-- Fixed Mobile Navigation Bar -->
         <nav class="bg-white shadow-sm lg:hidden fixed top-0 left-0 right-0 z-50">
             <div class="px-4 sm:px-6">
                 <div class="flex h-16 items-center justify-between">
                     <!-- Logo -->
                     <div class="flex items-center">
-                        <a href="/" class="text-xl font-bold text-gray-900">
-                            {{ config('app.name') }}
+                        <a href="/" class="flex items-center space-x-2">
+                            <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                                 alt="Vale do Sol Logo" 
+                                 class="w-8 h-8 sm:w-10 sm:h-10">
+                            <span class="text-lg sm:text-xl font-bold text-gray-900">
+                                valedosol.org
+                            </span>
                         </a>
                     </div>
                     
                     <!-- Mobile menu button -->
                     <button type="button" 
                             @click="mobileMenuOpen = !mobileMenuOpen"
-                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500"
-                            x-data="{ mobileMenuOpen: false }">
+                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                         <span class="sr-only">Abrir menu</span>
                         <!-- Icon when menu is closed -->
                         <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -127,8 +131,13 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="flex flex-shrink-0 items-center">
-                            <a href="/" class="text-xl font-bold text-gray-900">
-                                {{ config('app.name') }}
+                            <a href="/" class="flex items-center space-x-3">
+                                <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                                     alt="Vale do Sol Logo" 
+                                     class="w-10 h-10">
+                                <span class="text-xl font-bold text-gray-900">
+                                    valedosol.org
+                                </span>
                             </a>
                         </div>
                         

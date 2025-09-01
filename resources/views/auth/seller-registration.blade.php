@@ -1,4 +1,4 @@
-@extends('layouts.marketplace')
+@extends('layouts.base')
 
 @section('title', 'Criar Minha Loja - ' . config('app.name') . ' Marketplace')
 @section('description', 'Crie sua loja no ' . config('app.name') . ' e comece a vender para a comunidade local. Processo simples e rápido.')
@@ -9,7 +9,7 @@
         <!-- Header -->
         <div class="text-center mb-6 sm:mb-8">
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-                Crie Sua <span class="text-vale-verde">Loja</span> no <span class="text-sol-dourado">{{ config('app.name') }}</span>
+                Crie Sua <span class="text-emerald-600">Loja</span> no <span class="text-emerald-800">{{ config('app.name') }}</span>
             </h1>
             @if($userLoggedIn)
                 <p class="text-base sm:text-lg text-gray-600 px-4 sm:px-0">
@@ -27,8 +27,8 @@
             <h3 class="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-gray-900">Por que vender conosco?</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-vale-verde/10 rounded-full flex items-center justify-center">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-vale-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-emerald-600/10 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-comercio-azul/10 rounded-full flex items-center justify-center">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-comercio-azul" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
@@ -49,8 +49,8 @@
                     </div>
                 </div>
                 <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-sol-dourado/10 rounded-full flex items-center justify-center">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-sol-dourado" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                     </div>
@@ -71,7 +71,7 @@
                 <!-- Seção 1: Dados Pessoais (só para não logados) -->
                 <div class="mb-6 sm:mb-8">
                     <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 flex items-center">
-                        <span class="bg-vale-verde text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center mr-2 sm:mr-3 text-xs sm:text-sm font-bold">1</span>
+                        <span class="bg-emerald-600 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center mr-2 sm:mr-3 text-xs sm:text-sm font-bold">1</span>
                         <span class="text-base sm:text-xl">Seus Dados Pessoais</span>
                     </h2>
                     
@@ -86,7 +86,7 @@
                                    id="name" 
                                    value="{{ old('name') }}"
                                    required
-                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('name') border-red-500 @enderror"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('name') border-red-500 @enderror"
                                    placeholder="João Silva">
                             @error('name')
                                 <p class="mt-1 text-xs sm:text-sm text-red-600">{{ $message }}</p>
@@ -103,7 +103,7 @@
                                    id="email" 
                                    value="{{ old('email') }}"
                                    required
-                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('email') border-red-500 @enderror"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('email') border-red-500 @enderror"
                                    placeholder="joao@exemplo.com">
                             @error('email')
                                 <p class="mt-1 text-xs sm:text-sm text-red-600">{{ $message }}</p>
@@ -120,7 +120,7 @@
                                    id="phone" 
                                    value="{{ old('phone') }}"
                                    required
-                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('phone') border-red-500 @enderror"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('phone') border-red-500 @enderror"
                                    placeholder="(11) 98765-4321">
                             @error('phone')
                                 <p class="mt-1 text-xs sm:text-sm text-red-600">{{ $message }}</p>
@@ -136,7 +136,7 @@
                                    name="password" 
                                    id="password" 
                                    required
-                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('password') border-red-500 @enderror"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('password') border-red-500 @enderror"
                                    placeholder="Mínimo 8 caracteres">
                             @error('password')
                                 <p class="mt-1 text-xs sm:text-sm text-red-600">{{ $message }}</p>
@@ -152,7 +152,7 @@
                                    name="password_confirmation" 
                                    id="password_confirmation" 
                                    required
-                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors"
                                    placeholder="Digite a senha novamente">
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                 <!-- Seção 2: Dados da Loja -->
                 <div>
                     <h2 class="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 flex items-center">
-                        <span class="bg-vale-verde text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center mr-2 sm:mr-3 text-xs sm:text-sm font-bold">
+                        <span class="bg-emerald-600 text-white rounded-full w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center mr-2 sm:mr-3 text-xs sm:text-sm font-bold">
                             {{ $userLoggedIn ? '1' : '2' }}
                         </span>
                         <span class="text-base sm:text-xl">Informações da Sua Loja</span>
@@ -180,7 +180,7 @@
                                id="company_name" 
                                value="{{ old('company_name') }}"
                                required
-                               class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('company_name') border-red-500 @enderror"
+                               class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('company_name') border-red-500 @enderror"
                                placeholder="Ex: Loja do João">
                         <p class="mt-1 text-xs sm:text-sm text-gray-500">Este nome aparecerá para os clientes</p>
                         @error('company_name')
@@ -196,7 +196,7 @@
                         <textarea name="company_description" 
                                   id="company_description" 
                                   rows="3"
-                                  class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-vale-verde focus:border-vale-verde transition-colors @error('company_description') border-red-500 @enderror"
+                                  class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-colors @error('company_description') border-red-500 @enderror"
                                   placeholder="Conte um pouco sobre sua loja e os produtos que você vende...">{{ old('company_description') }}</textarea>
                         <p class="mt-1 text-xs sm:text-sm text-gray-500">Máximo 500 caracteres</p>
                         @error('company_description')
@@ -213,10 +213,10 @@
                                id="accept_terms" 
                                value="1"
                                required
-                               class="mt-0.5 sm:mt-1 mr-2 sm:mr-3 h-4 w-4 text-vale-verde focus:ring-vale-verde border-gray-300 rounded @error('accept_terms') border-red-500 @enderror">
+                               class="mt-0.5 sm:mt-1 mr-2 sm:mr-3 h-4 w-4 text-emerald-600 focus:ring-emerald-600 border-gray-300 rounded @error('accept_terms') border-red-500 @enderror">
                         <label for="accept_terms" class="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                            Li e aceito os <a href="#" class="text-vale-verde hover:text-vale-verde-dark font-medium">Termos de Uso</a> e a 
-                            <a href="#" class="text-vale-verde hover:text-vale-verde-dark font-medium">Política de Privacidade</a> do Marketplace.
+                            Li e aceito os <a href="#" class="text-emerald-600 hover:text-emerald-600-dark font-medium">Termos de Uso</a> e a 
+                            <a href="#" class="text-emerald-600 hover:text-emerald-600-dark font-medium">Política de Privacidade</a> do Marketplace.
                             Concordo com a comissão de 10% sobre minhas vendas.
                         </label>
                     </div>
@@ -237,12 +237,12 @@
                     @else
                         <p class="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
                             Já tem uma conta? 
-                            <a href="{{ route('login') }}" class="text-vale-verde hover:text-vale-verde-dark font-medium">Faça login</a>
+                            <a href="{{ route('login') }}" class="text-emerald-600 hover:text-emerald-600-dark font-medium">Faça login</a>
                         </p>
                     @endif
 
                     <button type="submit" 
-                            class="w-full sm:w-auto bg-gradient-to-r from-vale-verde to-vale-verde-dark text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold sm:font-bold hover:shadow-lg transform hover:scale-105 transition-all flex items-center justify-center space-x-2">
+                            class="w-full sm:w-auto bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold sm:font-bold hover:shadow-lg transform hover:scale-105 transition-all flex items-center justify-center space-x-2">
                         <span class="text-sm sm:text-base">{{ $userLoggedIn ? 'Criar Minha Loja' : 'Criar Conta e Loja' }}</span>
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -263,17 +263,17 @@
             <h3 class="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-900">Perguntas Frequentes</h3>
             
             <div class="space-y-4 sm:space-y-6">
-                <div class="border-l-4 border-vale-verde pl-3 sm:pl-4">
+                <div class="border-l-4 border-emerald-600 pl-3 sm:pl-4">
                     <p class="text-sm sm:text-base font-semibold text-gray-900">Quanto tempo leva para aprovar minha loja?</p>
                     <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Normalmente em até 24 horas úteis após completar o cadastro.</p>
                 </div>
                 
-                <div class="border-l-4 border-comercio-azul pl-3 sm:pl-4">
+                <div class="border-l-4 border-blue-600 pl-3 sm:pl-4">
                     <p class="text-sm sm:text-base font-semibold text-gray-900">Posso vender qualquer tipo de produto?</p>
                     <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Sim, desde que sejam produtos legais e estejam de acordo com nossos termos.</p>
                 </div>
                 
-                <div class="border-l-4 border-sol-dourado pl-3 sm:pl-4">
+                <div class="border-l-4 border-yellow-600 pl-3 sm:pl-4">
                     <p class="text-sm sm:text-base font-semibold text-gray-900">Como recebo o pagamento das vendas?</p>
                     <p class="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">Os pagamentos são processados via Mercado Pago e transferidos para sua conta bancária.</p>
                 </div>

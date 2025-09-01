@@ -26,7 +26,12 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
-                <h1 class="text-lg font-semibold text-emerald-600">Seller Dashboard</h1>
+                <div class="flex items-center space-x-2">
+                    <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                         alt="Vale do Sol Logo" 
+                         class="w-6 h-6">
+                    <h1 class="text-lg font-semibold text-emerald-600">Seller Dashboard</h1>
+                </div>
                 <div class="w-8"></div> <!-- Spacer -->
             </div>
         </header>
@@ -47,7 +52,12 @@
                  :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
                 <!-- Logo -->
                 <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 lg:justify-center lg:px-0">
-                    <h1 class="text-xl font-bold text-emerald-600">Seller Dashboard</h1>
+                    <div class="flex items-center space-x-2">
+                        <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                             alt="Vale do Sol Logo" 
+                             class="w-8 h-8">
+                        <h1 class="text-lg lg:text-xl font-bold text-emerald-600">Seller</h1>
+                    </div>
                     <button @click="sidebarOpen = false" class="p-2 text-gray-400 hover:text-gray-600 lg:hidden">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

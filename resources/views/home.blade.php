@@ -3,64 +3,169 @@
 @section('title', 'Marketplace - Início')
 
 @section('content')
-<!-- Hero Section - Mobile First -->
-<section class="relative overflow-hidden bg-white">
-    <div class="mx-auto max-w-7xl">
-        <div class="relative z-10 bg-white pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-32">
-            <!-- Diagonal decoration for larger screens -->
-            <svg class="absolute inset-y-0 right-0 hidden h-full w-48 translate-x-1/2 transform text-white lg:block" 
-                 fill="currentColor" 
-                 viewBox="0 0 100 100" 
-                 preserveAspectRatio="none">
-                <polygon points="50,0 100,0 50,100 0,100" />
-            </svg>
-
-            <div class="relative px-4 pt-6 sm:px-6 lg:px-8">
-                <!-- Hero content -->
-                <div class="mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-                    <div class="sm:text-center lg:text-left">
-                        <!-- Mobile-first heading -->
-                        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                            <span class="block">Marketplace</span>
-                            <span class="block text-emerald-600">Comunitário</span>
-                        </h1>
-                        
-                        <!-- Mobile-optimized description -->
-                        <p class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:mx-0">
-                            Conecte-se com vendedores locais e descubra produtos únicos da sua região.
-                        </p>
-                        
-                        <!-- CTA Buttons - Stack on mobile, inline on larger screens -->
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                            <div class="rounded-md shadow">
-                                <a href="{{ route('products.index') }}" 
-                                   class="flex w-full items-center justify-center rounded-md bg-emerald-600 px-8 py-3 text-base font-medium text-white hover:bg-emerald-700 md:px-10 md:py-4 md:text-lg">
-                                    Explorar Produtos
-                                </a>
-                            </div>
-                            <div class="mt-3 sm:ml-3 sm:mt-0">
-                                <a href="{{ route('seller.register') }}" 
-                                   class="flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-100 px-8 py-3 text-base font-medium text-emerald-700 hover:bg-emerald-200 md:px-10 md:py-4 md:text-lg">
-                                    Vender no Marketplace
-                                </a>
+<!-- Hero Section with Smooth Sliding Carousel -->
+<section class="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-white" 
+         x-data="{ 
+             currentSlide: 0,
+             slides: [
+                 {
+                     title: 'Marketplace',
+                     subtitle: 'Comunitário',
+                     description: 'Conecte-se com vendedores locais e descubra produtos únicos da sua região.',
+                     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80',
+                     primaryCta: 'Explorar Produtos',
+                     primaryLink: '{{ route("products.index") }}',
+                     secondaryCta: 'Vender no Marketplace',
+                     secondaryLink: '{{ route("seller.register") }}'
+                 },
+                 {
+                     title: 'Ofertas',
+                     subtitle: 'Especiais',
+                     description: 'Aproveite descontos exclusivos e promoções imperdíveis todos os dias.',
+                     image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80',
+                     primaryCta: 'Ver Ofertas',
+                     primaryLink: '{{ route("products.index") }}?sort=price_low',
+                     secondaryCta: 'Criar Conta',
+                     secondaryLink: '{{ route("register") }}'
+                 },
+                 {
+                     title: 'Produtos',
+                     subtitle: 'Locais',
+                     description: 'Apoie negócios da sua comunidade e fortaleça a economia local.',
+                     image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80',
+                     primaryCta: 'Começar Agora',
+                     primaryLink: '{{ route("products.index") }}',
+                     secondaryCta: 'Saiba Mais',
+                     secondaryLink: '#features'
+                 }
+             ],
+             autoplay: null,
+             isTransitioning: false,
+             startAutoplay() {
+                 this.autoplay = setInterval(() => {
+                     if (!this.isTransitioning) {
+                         this.nextSlide();
+                     }
+                 }, 5000);
+             },
+             stopAutoplay() {
+                 if (this.autoplay) {
+                     clearInterval(this.autoplay);
+                 }
+             },
+             nextSlide() {
+                 if (this.isTransitioning) return;
+                 this.isTransitioning = true;
+                 this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+                 setTimeout(() => { this.isTransitioning = false; }, 700);
+             },
+             prevSlide() {
+                 if (this.isTransitioning) return;
+                 this.isTransitioning = true;
+                 this.currentSlide = this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+                 setTimeout(() => { this.isTransitioning = false; }, 700);
+             },
+             goToSlide(index) {
+                 if (this.isTransitioning || index === this.currentSlide) return;
+                 this.isTransitioning = true;
+                 this.currentSlide = index;
+                 this.stopAutoplay();
+                 this.startAutoplay();
+                 setTimeout(() => { this.isTransitioning = false; }, 700);
+             }
+         }"
+         x-init="startAutoplay()"
+         @mouseenter="stopAutoplay()"
+         @mouseleave="startAutoplay()">
+    
+    <!-- Carousel Container -->
+    <div class="relative h-[400px] sm:h-[500px] md:h-[600px] lg:h-[720px] overflow-hidden">
+        <!-- Slides Container with Transform -->
+        <div class="flex h-full transition-transform duration-700 ease-in-out"
+             :style="`transform: translateX(-${currentSlide * 100}%)`">
+            
+            <template x-for="(slide, index) in slides" :key="index">
+                <div class="w-full h-full flex-shrink-0 relative">
+                    
+                    <!-- Background Image -->
+                    <img :src="slide.image" 
+                         :alt="slide.title"
+                         class="absolute inset-0 w-full h-full object-cover">
+                    
+                    <!-- Gradient Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+                    
+                    <!-- Content Container -->
+                    <div class="relative mx-auto max-w-7xl h-full flex items-center">
+                        <div class="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                            <div class="max-w-2xl lg:ml-16">
+                                <!-- Heading -->
+                                <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+                                    <span class="block" x-text="slide.title"></span>
+                                    <span class="block text-emerald-400" x-text="slide.subtitle"></span>
+                                </h1>
+                                
+                                <!-- Description -->
+                                <p class="mt-3 text-base text-gray-100 sm:mt-5 sm:text-lg md:mt-5 md:text-xl"
+                                   x-text="slide.description">
+                                </p>
+                                
+                                <!-- CTA Buttons -->
+                                <div class="mt-5 sm:mt-8 sm:flex sm:justify-start">
+                                    <div class="rounded-md shadow-lg">
+                                        <a :href="slide.primaryLink" 
+                                           class="flex w-full items-center justify-center rounded-md bg-emerald-600 px-8 py-3 text-base font-medium text-white hover:bg-emerald-700 transition-colors md:px-10 md:py-4 md:text-lg"
+                                           x-text="slide.primaryCta">
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 sm:ml-3 sm:mt-0">
+                                        <a :href="slide.secondaryLink" 
+                                           class="flex w-full items-center justify-center rounded-md border-2 border-white bg-white/10 backdrop-blur-sm px-8 py-3 text-base font-medium text-white hover:bg-white/20 transition-colors md:px-10 md:py-4 md:text-lg"
+                                           x-text="slide.secondaryCta">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </template>
         </div>
-    </div>
-    
-    <!-- Hero Image - Hidden on mobile, shown on lg -->
-    <div class="hidden lg:absolute lg:inset-y-0 lg:right-0 lg:block lg:w-1/2">
-        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full lg:w-full" 
-             src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" 
-             alt="Marketplace">
+
+        
+        <!-- Carousel Controls -->
+        <!-- Mobile Dots -->
+        <div class="absolute inset-x-0 bottom-4 flex justify-center space-x-2 z-20">
+            <template x-for="(slide, index) in slides" :key="index">
+                <button @click="goToSlide(index)"
+                        :class="currentSlide === index ? 'bg-white w-8' : 'bg-white/50 w-2'"
+                        class="h-2 rounded-full transition-all duration-300"
+                        :aria-label="'Go to slide ' + (index + 1)">
+                </button>
+            </template>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <!-- Previous Button -->
+        <button @click="prevSlide()"
+                class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white/30 transition-colors group">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
+        <!-- Next Button -->
+        <button @click="nextSlide()"
+                class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white/30 transition-colors group">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
     </div>
 </section>
 
 <!-- Features Section - Mobile First Grid -->
-<section class="py-12 bg-gray-50">
+<section id="features" class="py-12 bg-gray-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center">
             <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Por que escolher nosso marketplace?</h2>
