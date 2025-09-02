@@ -3,43 +3,43 @@
 @section('title', 'Dashboard Administrativo')
 
 @section('content')
-    <!-- Quick Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Total Users -->
-        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+    <!-- Quick Stats - Mobile-first responsive -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <!-- Total Users - Azul (Primário) -->
+        <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-blue-100 text-sm font-medium">Total de Usuários</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['users_total']) }}</p>
-                    <p class="text-blue-100 text-xs mt-1">+{{ $stats['users_new_this_month'] ?? 0 }} este mês</p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-emerald-100 text-xs sm:text-sm font-medium truncate">Total de Usuários</p>
+                    <p class="text-2xl sm:text-3xl font-bold">{{ number_format($stats['users_total']) }}</p>
+                    <p class="text-emerald-100 text-xs mt-1">+{{ $stats['users_new_this_month'] ?? 0 }} este mês</p>
                 </div>
-                <div class="p-3 bg-blue-400 bg-opacity-30 rounded-full">
-                    <i class="fas fa-users text-2xl"></i>
+                <div class="p-2 sm:p-3 bg-emerald-400 bg-opacity-30 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-users text-lg sm:text-2xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Approved Sellers -->
-        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+        <!-- Approved Sellers - Sucesso -->
+        <div class="bg-gradient-to-r from-success-600 to-green-600 rounded-xl shadow-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-green-100 text-sm font-medium">Sellers Aprovados</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['sellers_approved']) }}</p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-green-100 text-xs sm:text-sm font-medium truncate">Sellers Aprovados</p>
+                    <p class="text-2xl sm:text-3xl font-bold">{{ number_format($stats['sellers_approved']) }}</p>
                     <p class="text-green-100 text-xs mt-1">{{ $stats['sellers_approved_rate'] ?? '0' }}% taxa aprovação</p>
                 </div>
-                <div class="p-3 bg-green-400 bg-opacity-30 rounded-full">
-                    <i class="fas fa-store text-2xl"></i>
+                <div class="p-2 sm:p-3 bg-green-400 bg-opacity-30 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-store text-lg sm:text-2xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Pending Sellers -->
-        <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl shadow-lg p-6 text-white">
+        <!-- Pending Sellers - Laranja (Informativo) -->
+        <div class="bg-gradient-to-r from-info-500 to-info-600 rounded-xl shadow-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-yellow-100 text-sm font-medium">Aguardando Aprovação</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['sellers_pending']) }}</p>
-                    <p class="text-yellow-100 text-xs mt-1">
+                <div class="min-w-0 flex-1">
+                    <p class="text-info-100 text-xs sm:text-sm font-medium truncate">Aguardando Aprovação</p>
+                    <p class="text-2xl sm:text-3xl font-bold">{{ number_format($stats['sellers_pending']) }}</p>
+                    <p class="text-info-100 text-xs mt-1">
                         @if($stats['sellers_pending'] > 0)
                             <i class="fas fa-exclamation-triangle mr-1"></i>Requer atenção
                         @else
@@ -47,22 +47,22 @@
                         @endif
                     </p>
                 </div>
-                <div class="p-3 bg-yellow-400 bg-opacity-30 rounded-full">
-                    <i class="fas fa-clock text-2xl"></i>
+                <div class="p-2 sm:p-3 bg-info-400 bg-opacity-30 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-clock text-lg sm:text-2xl"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Active Products -->
-        <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+        <!-- Active Products - Warning -->
+        <div class="bg-gradient-to-r from-warning-600 to-yellow-600 rounded-xl shadow-lg p-4 sm:p-6 text-white">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-purple-100 text-sm font-medium">Produtos Ativos</p>
-                    <p class="text-3xl font-bold">{{ number_format($stats['products_active']) }}</p>
-                    <p class="text-purple-100 text-xs mt-1">{{ $stats['categories_count'] ?? 0 }} categorias</p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-yellow-100 text-xs sm:text-sm font-medium truncate">Produtos Ativos</p>
+                    <p class="text-2xl sm:text-3xl font-bold">{{ number_format($stats['products_active']) }}</p>
+                    <p class="text-yellow-100 text-xs mt-1">{{ $stats['categories_count'] ?? 0 }} categorias</p>
                 </div>
-                <div class="p-3 bg-purple-400 bg-opacity-30 rounded-full">
-                    <i class="fas fa-box text-2xl"></i>
+                <div class="p-2 sm:p-3 bg-yellow-400 bg-opacity-30 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-box text-lg sm:text-2xl"></i>
                 </div>
             </div>
         </div>
@@ -70,26 +70,26 @@
 
     <!-- Admin's Shop Card -->
     @if(auth()->user()->sellerProfile)
-        <div class="mb-8">
-            <div class="bg-gradient-to-r from-vale-verde to-vale-verde-dark rounded-xl shadow-lg p-6 text-white">
-                <div class="flex items-center justify-between">
+        <div class="mb-6 sm:mb-8">
+            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-xl shadow-lg p-4 sm:p-6 text-white">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                     <div class="flex-1">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="p-3 bg-white bg-opacity-20 rounded-full">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start sm:items-center space-x-3 mb-4">
+                            <div class="p-2 sm:p-3 bg-white bg-opacity-20 rounded-full flex-shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm3 7a1 1 0 100-2 1 1 0 000 2zm6-1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-bold">{{ auth()->user()->sellerProfile->company_name }}</h3>
-                                <p class="text-white text-opacity-80 text-sm">Sua loja no marketplace</p>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-lg sm:text-xl font-bold truncate">{{ auth()->user()->sellerProfile->company_name }}</h3>
+                                <p class="text-emerald-100 text-xs sm:text-sm">Sua loja no marketplace</p>
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <p class="text-white text-opacity-80 text-xs">Status</p>
-                                <p class="font-semibold capitalize">
+                                <p class="text-emerald-200 text-xs">Status</p>
+                                <p class="font-semibold capitalize text-sm">
                                     @if(auth()->user()->sellerProfile->status === 'approved')
                                         ✅ Aprovada
                                     @elseif(auth()->user()->sellerProfile->status === 'pending')
@@ -100,19 +100,19 @@
                                 </p>
                             </div>
                             <div>
-                                <p class="text-white text-opacity-80 text-xs">Produtos</p>
-                                <p class="font-semibold">{{ auth()->user()->sellerProfile->products()->count() ?? 0 }}</p>
+                                <p class="text-emerald-200 text-xs">Produtos</p>
+                                <p class="font-semibold text-sm">{{ auth()->user()->sellerProfile->products()->count() ?? 0 }}</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="flex flex-col space-y-2">
+                    <div class="flex flex-col sm:flex-row lg:flex-col space-y-2 sm:space-y-0 sm:space-x-2 lg:space-x-0 lg:space-y-2">
                         <a href="{{ route('seller.dashboard') }}" 
-                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-4 py-2 rounded-lg text-center text-sm font-medium">
+                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-3 sm:px-4 py-2 rounded-lg text-center text-xs sm:text-sm font-medium min-h-[44px] flex items-center justify-center">
                             Ver Dashboard
                         </a>
                         <a href="{{ route('seller.products.index') }}" 
-                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-4 py-2 rounded-lg text-center text-sm font-medium">
+                           class="bg-white bg-opacity-20 hover:bg-opacity-30 transition-colors px-3 sm:px-4 py-2 rounded-lg text-center text-xs sm:text-sm font-medium min-h-[44px] flex items-center justify-center">
                             Gerenciar Produtos
                         </a>
                     </div>
@@ -121,71 +121,71 @@
         </div>
     @endif
 
-    <!-- Additional Stats Row -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Additional Stats Row - Mobile-first -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <!-- Revenue -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm font-medium">Receita Total</p>
-                    <p class="text-2xl font-bold text-gray-900">R$ {{ number_format($stats['revenue_total'] ?? 0, 2, ',', '.') }}</p>
-                    <p class="text-green-600 text-xs mt-1">
+                <div class="min-w-0 flex-1">
+                    <p class="text-gray-500 text-xs sm:text-sm font-medium truncate">Receita Total</p>
+                    <p class="text-xl sm:text-2xl font-bold text-gray-900">R$ {{ number_format($stats['revenue_total'] ?? 0, 2, ',', '.') }}</p>
+                    <p class="text-success-600 text-xs mt-1">
                         <i class="fas fa-arrow-up mr-1"></i>+{{ $stats['revenue_growth'] ?? '0' }}% vs mês anterior
                     </p>
                 </div>
-                <div class="p-3 bg-green-100 rounded-full">
-                    <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                <div class="p-2 sm:p-3 bg-success-100 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-dollar-sign text-success-600 text-lg sm:text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- Orders -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm font-medium">Pedidos Totais</p>
-                    <p class="text-2xl font-bold text-gray-900">{{ number_format($stats['orders_total'] ?? 0) }}</p>
-                    <p class="text-blue-600 text-xs mt-1">{{ $stats['orders_today'] ?? 0 }} hoje</p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-gray-500 text-xs sm:text-sm font-medium truncate">Pedidos Totais</p>
+                    <p class="text-xl sm:text-2xl font-bold text-gray-900">{{ number_format($stats['orders_total'] ?? 0) }}</p>
+                    <p class="text-emerald-600 text-xs mt-1">{{ $stats['orders_today'] ?? 0 }} hoje</p>
                 </div>
-                <div class="p-3 bg-blue-100 rounded-full">
-                    <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+                <div class="p-2 sm:p-3 bg-emerald-100 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-shopping-cart text-emerald-600 text-lg sm:text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- Commissions -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm font-medium">Comissões Geradas</p>
-                    <p class="text-2xl font-bold text-gray-900">R$ {{ number_format($stats['commissions_total'] ?? 0, 2, ',', '.') }}</p>
-                    <p class="text-purple-600 text-xs mt-1">{{ number_format($stats['commission_rate'] ?? 10, 1) }}% média</p>
+                <div class="min-w-0 flex-1">
+                    <p class="text-gray-500 text-xs sm:text-sm font-medium truncate">Comissões Geradas</p>
+                    <p class="text-xl sm:text-2xl font-bold text-gray-900">R$ {{ number_format($stats['commissions_total'] ?? 0, 2, ',', '.') }}</p>
+                    <p class="text-info-600 text-xs mt-1">{{ number_format($stats['commission_rate'] ?? 10, 1) }}% média</p>
                 </div>
-                <div class="p-3 bg-purple-100 rounded-full">
-                    <i class="fas fa-percentage text-purple-600 text-xl"></i>
+                <div class="p-2 sm:p-3 bg-info-100 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-percentage text-info-600 text-lg sm:text-xl"></i>
                 </div>
             </div>
         </div>
 
         <!-- System Health -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
             <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-gray-500 text-sm font-medium">Status do Sistema</p>
-                    <p class="text-2xl font-bold text-green-600">
+                <div class="min-w-0 flex-1">
+                    <p class="text-gray-500 text-xs sm:text-sm font-medium truncate">Status do Sistema</p>
+                    <p class="text-xl sm:text-2xl font-bold text-success-600">
                         <i class="fas fa-check-circle mr-2"></i>Online
                     </p>
                     <p class="text-gray-600 text-xs mt-1">99.9% uptime</p>
                 </div>
-                <div class="p-3 bg-green-100 rounded-full">
-                    <i class="fas fa-server text-green-600 text-xl"></i>
+                <div class="p-2 sm:p-3 bg-success-100 rounded-full flex-shrink-0 ml-3">
+                    <i class="fas fa-server text-success-600 text-lg sm:text-xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+    <!-- Main Content Grid - Mobile-first -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-6 sm:mb-8">
         <!-- Pending Sellers (Priority) -->
         <div class="lg:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-gray-200">
@@ -195,14 +195,14 @@
                             <i class="fas fa-user-clock mr-2 text-yellow-500"></i>
                             Vendedores Aguardando Aprovação
                         </h3>
-                        <div class="flex space-x-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                             @if($stats['sellers_pending'] > 0)
-                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                <span class="bg-danger-100 text-danger-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {{ $stats['sellers_pending'] }} pendente(s)
                                 </span>
                             @endif
                             <a href="{{ route('admin.sellers.index') }}" 
-                               class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                               class="text-sm text-emerald-600 hover:text-emerald-800 font-medium">
                                 Ver todos
                             </a>
                         </div>
@@ -212,23 +212,23 @@
                     @if($recent_sellers->count() > 0)
                         <div class="space-y-4">
                             @foreach($recent_sellers->take(5) as $seller)
-                                <div class="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                                            <i class="fas fa-store text-yellow-600 text-lg"></i>
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-info-50 rounded-lg border border-info-200 space-y-3 sm:space-y-0">
+                                    <div class="flex items-start sm:items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-info-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-store text-info-600 text-sm sm:text-lg"></i>
                                         </div>
-                                        <div>
-                                            <p class="text-sm font-medium text-gray-900">{{ $seller->user->name }}</p>
-                                            <p class="text-sm text-gray-600">{{ $seller->company_name ?? 'Nome da empresa não fornecido' }}</p>
-                                            <p class="text-xs text-gray-500">
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-sm font-medium text-gray-900 truncate">{{ $seller->user->name }}</p>
+                                            <p class="text-xs sm:text-sm text-gray-600 truncate">{{ $seller->company_name ?? 'Nome da empresa não fornecido' }}</p>
+                                            <p class="text-xs text-gray-500 mt-1">
                                                 <i class="fas fa-calendar mr-1"></i>
                                                 Enviado {{ $seller->submitted_at ? $seller->submitted_at->diffForHumans() : 'recentemente' }}
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="flex space-x-2">
+                                    <div class="flex justify-end sm:justify-start">
                                         <a href="{{ route('admin.sellers.show', $seller) }}" 
-                                           class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-700 transition-colors">
+                                           class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs hover:bg-emerald-700 transition-colors min-h-[44px] flex items-center justify-center">
                                             <i class="fas fa-eye mr-1"></i>Avaliar
                                         </a>
                                     </div>
@@ -259,62 +259,62 @@
                 </div>
                 <div class="p-6 space-y-3">
                     <a href="{{ route('admin.sellers.index') }}" 
-                       class="flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200">
-                            <i class="fas fa-store text-blue-600"></i>
+                       class="flex items-center p-3 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors group min-h-[56px]">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center group-hover:bg-emerald-200 flex-shrink-0">
+                            <i class="fas fa-store text-emerald-600"></i>
                         </div>
-                        <div class="ml-3 flex-1">
+                        <div class="ml-3 flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">Gerenciar Vendedores</p>
                             <p class="text-xs text-gray-500">Aprovar, rejeitar e configurar</p>
                         </div>
-                        <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600"></i>
+                        <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600 flex-shrink-0"></i>
                     </a>
 
                     <a href="{{ route('admin.categories.index') }}" 
-                       class="flex items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors group">
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200">
-                            <i class="fas fa-tags text-purple-600"></i>
+                       class="flex items-center p-3 bg-info-50 rounded-lg hover:bg-info-100 transition-colors group min-h-[56px]">
+                        <div class="w-10 h-10 bg-info-100 rounded-lg flex items-center justify-center group-hover:bg-info-200 flex-shrink-0">
+                            <i class="fas fa-tags text-info-600"></i>
                         </div>
-                        <div class="ml-3 flex-1">
+                        <div class="ml-3 flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">Gerenciar Categorias</p>
                             <p class="text-xs text-gray-500">Criar, editar e organizar categorias</p>
                         </div>
-                        <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600"></i>
+                        <i class="fas fa-chevron-right text-gray-400 group-hover:text-gray-600 flex-shrink-0"></i>
                     </a>
 
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed min-h-[56px]">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-box text-gray-600"></i>
                         </div>
-                        <div class="ml-3 flex-1">
+                        <div class="ml-3 flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">Moderar Produtos</p>
                             <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                        <span class="bg-danger-100 text-danger-800 text-xs px-2 py-1 rounded-full flex-shrink-0">Indisponível</span>
                     </div>
 
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed min-h-[56px]">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-chart-bar text-gray-600"></i>
                         </div>
-                        <div class="ml-3 flex-1">
+                        <div class="ml-3 flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">Relatórios</p>
                             <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                        <span class="bg-danger-100 text-danger-800 text-xs px-2 py-1 rounded-full flex-shrink-0">Indisponível</span>
                     </div>
 
 
 
-                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg opacity-60 cursor-not-allowed min-h-[56px]">
+                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-cog text-gray-600"></i>
                         </div>
-                        <div class="ml-3 flex-1">
+                        <div class="ml-3 flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-900">Configurações</p>
                             <p class="text-xs text-gray-500">Funcionalidade em desenvolvimento</p>
                         </div>
-                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Indisponível</span>
+                        <span class="bg-danger-100 text-danger-800 text-xs px-2 py-1 rounded-full flex-shrink-0">Indisponível</span>
                     </div>
                 </div>
             </div>

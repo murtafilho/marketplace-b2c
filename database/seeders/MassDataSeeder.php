@@ -442,7 +442,7 @@ class MassDataSeeder extends Seeder
                     'bank_name' => $this->faker->randomElement(['Banco do Brasil', 'Itaú', 'Bradesco', 'Santander', 'Caixa']),
                     'bank_agency' => $this->faker->numerify('####'),
                     'bank_account' => $this->faker->numerify('#####-#'),
-                    'status' => $this->faker->randomElement(['approved', 'approved', 'approved', 'pending_approval', 'rejected']),
+                    'status' => $this->faker->randomElement(['approved', 'approved', 'approved', 'pending', 'rejected']),
                     'commission_rate' => $this->faker->randomFloat(2, 5, 15),
                     'product_limit' => $this->faker->randomElement([100, 200, 500, 1000]),
                     'approved_at' => $this->faker->optional(0.8)->dateTimeBetween('-6 months', 'now'),

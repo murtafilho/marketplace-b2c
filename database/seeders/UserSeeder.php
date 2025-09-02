@@ -132,7 +132,7 @@ class UserSeeder extends Seeder
                 'phone' => '(48) 99999-9009',
                 'city' => 'Florianópolis',
                 'state' => 'SC',
-                'status' => 'pending_approval'
+                'status' => 'pending'
             ],
             [
                 'name' => 'Vendedor Rejeitado',

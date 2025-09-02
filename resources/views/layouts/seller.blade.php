@@ -20,7 +20,7 @@
     <div class="min-h-screen">
         <!-- Fixed Mobile Header -->
         <header class="bg-white shadow-sm border-b border-gray-200 lg:hidden fixed top-0 left-0 right-0 z-50">
-            <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center justify-between px-4 py-4">
                 <button @click="sidebarOpen = !sidebarOpen" class="p-2 text-gray-600 hover:text-gray-900">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -30,7 +30,7 @@
                     <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
                          alt="Vale do Sol Logo" 
                          class="w-6 h-6">
-                    <h1 class="text-lg font-semibold text-emerald-600">Seller Dashboard</h1>
+                    <h1 class="text-xl font-semibold text-emerald-600">Seller Dashboard</h1>
                 </div>
                 <div class="w-8"></div> <!-- Spacer -->
             </div>
@@ -51,12 +51,12 @@
             <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:z-auto"
                  :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
                 <!-- Logo -->
-                <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 lg:justify-center lg:px-0">
-                    <div class="flex items-center space-x-2">
+                <div class="flex items-center justify-between h-20 px-4 border-b border-gray-200 lg:justify-center lg:px-0">
+                    <div class="flex items-center space-x-3">
                         <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
                              alt="Vale do Sol Logo" 
-                             class="w-8 h-8">
-                        <h1 class="text-lg lg:text-xl font-bold text-emerald-600">Seller</h1>
+                             class="w-10 h-10">
+                        <h1 class="text-xl lg:text-2xl font-bold text-emerald-600">Seller</h1>
                     </div>
                     <button @click="sidebarOpen = false" class="p-2 text-gray-400 hover:text-gray-600 lg:hidden">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -154,9 +154,9 @@
             <div class="flex-1 flex flex-col overflow-hidden lg:ml-0">
                 <!-- Fixed Desktop Header -->
                 <header class="hidden lg:block bg-white shadow-sm border-b border-gray-200 fixed top-0 left-64 right-0 z-50">
-                    <div class="flex justify-between items-center px-6 py-4">
+                    <div class="flex justify-between items-center px-6 py-5">
                         <div class="min-w-0 flex-1">
-                            <h1 class="text-2xl font-semibold text-gray-900 truncate">@yield('title', 'Dashboard')</h1>
+                            <h1 class="text-2xl lg:text-3xl font-semibold text-gray-900 truncate">@yield('title', 'Dashboard')</h1>
                             @if(isset($breadcrumbs))
                                 <nav class="text-sm text-gray-500 mt-1 flex items-center space-x-1 overflow-x-auto">
                                     @foreach($breadcrumbs as $breadcrumb)
@@ -216,7 +216,7 @@
                 </header>
 
                 <!-- Content with Fixed Header Offset -->
-                <main class="flex-1 overflow-auto pt-16 lg:pt-16">
+                <main class="flex-1 overflow-auto pt-20 lg:pt-20">
                     <!-- Flash Messages -->
                     @if(session('success'))
                         <div class="m-3 lg:m-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-start" role="alert">

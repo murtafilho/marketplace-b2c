@@ -39,14 +39,19 @@
         <!-- Sidebar -->
         <div class="w-64 bg-gray-900 text-white">
             <!-- Logo -->
-            <div class="flex items-center justify-center h-16 border-b border-gray-800">
-                <h1 class="text-xl font-bold text-red-400">Admin Panel</h1>
+            <div class="flex items-center justify-center h-20 border-b border-gray-800">
+                <div class="flex items-center space-x-3">
+                    <img src="{{ asset('storage/assets/logo_coruja.svg') }}" 
+                         alt="Vale do Sol Logo" 
+                         class="w-10 h-10 filter brightness-0 invert">
+                    <h1 class="text-2xl font-bold text-emerald-400">Admin Panel</h1>
+                </div>
             </div>
 
             <!-- User Info -->
             <div class="p-4 border-b border-gray-800">
                 <div class="flex items-center">
-                    <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                    <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
                         <i class="fas fa-user-shield text-white"></i>
                     </div>
                     <div class="ml-3">
@@ -61,14 +66,14 @@
                 <div class="px-4 space-y-1">
                     <!-- Dashboard -->
                     <a href="{{ route('admin.dashboard') }}" 
-                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.dashboard') ? 'bg-red-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.dashboard') ? 'bg-emerald-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                         <i class="fas fa-chart-pie mr-3 text-sm"></i>
                         Dashboard
                     </a>
 
                     <!-- Sellers -->
                     <a href="{{ route('admin.sellers.index') }}" 
-                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.sellers.*') ? 'bg-red-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.sellers.*') ? 'bg-emerald-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                         <i class="fas fa-user-tie mr-3 text-sm"></i>
                         Vendedores
                     </a>
@@ -121,7 +126,7 @@
 
                     <!-- Categories -->
                     <a href="{{ route('admin.categories.index') }}" 
-                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.categories.*') ? 'bg-red-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                       class="group flex items-center px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.categories.*') ? 'bg-emerald-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                         <i class="fas fa-sitemap mr-3 text-sm"></i>
                         Categorias
                     </a>
@@ -129,7 +134,7 @@
                     <!-- Reports -->
                     <div x-data="{ open: {{ request()->routeIs('admin.reports.*') ? 'true' : 'false' }} }" class="space-y-1">
                         <button @click="open = !open"
-                               class="group flex items-center justify-between w-full px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.reports.*') ? 'bg-red-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
+                               class="group flex items-center justify-between w-full px-2 py-2 text-sm font-medium rounded-md {{ request()->routeIs('admin.reports.*') ? 'bg-emerald-800 text-white' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                             <div class="flex items-center">
                                 <i class="fas fa-chart-bar mr-3 text-sm"></i>
                                 Relatórios
@@ -138,19 +143,19 @@
                         </button>
                         <div x-show="open" class="ml-6 space-y-1">
                             <a href="{{ route('admin.reports.index') }}" 
-                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.index') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.index') ? 'text-emerald-300' : 'text-gray-400 hover:text-gray-300' }}">
                                 <i class="fas fa-chart-pie mr-2 text-xs"></i>Visão Geral
                             </a>
                             <a href="{{ route('admin.reports.financial') }}" 
-                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.financial') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.financial') ? 'text-emerald-300' : 'text-gray-400 hover:text-gray-300' }}">
                                 <i class="fas fa-money-bill-wave mr-2 text-xs"></i>Financeiro
                             </a>
                             <a href="{{ route('admin.reports.sellers') }}" 
-                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.sellers') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.sellers') ? 'text-emerald-300' : 'text-gray-400 hover:text-gray-300' }}">
                                 <i class="fas fa-user-tie mr-2 text-xs"></i>Vendedores
                             </a>
                             <a href="{{ route('admin.reports.products') }}" 
-                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.products') ? 'text-red-300' : 'text-gray-400 hover:text-gray-300' }}">
+                               class="group flex items-center px-2 py-1 text-sm {{ request()->routeIs('admin.reports.products') ? 'text-emerald-300' : 'text-gray-400 hover:text-gray-300' }}">
                                 <i class="fas fa-box mr-2 text-xs"></i>Produtos
                             </a>
                         </div>
@@ -214,7 +219,7 @@
                         <a href="#" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-gray-800 hover:text-white">
                             <i class="fas fa-flag mr-3 text-sm"></i>
                             Reportes
-                            <span class="ml-auto bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
+                            <span class="ml-auto bg-danger-600 text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
                         </a>
                         <a href="#" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-gray-300 hover:bg-gray-800 hover:text-white">
                             <i class="fas fa-history mr-3 text-sm"></i>
@@ -322,7 +327,7 @@
                     <div class="flex items-center space-x-4">
                         <!-- Quick Actions -->
                         <div class="flex space-x-2">
-                            <a href="{{ route('admin.sellers.index') }}" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-blue-700">
+                            <a href="{{ route('admin.sellers.index') }}" class="bg-emerald-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-emerald-700">
                                 <i class="fas fa-user-check mr-1"></i>Aprovar Sellers
                             </a>
                         </div>
@@ -330,7 +335,7 @@
                         <!-- Notifications -->
                         <button class="p-2 text-gray-400 hover:text-gray-600 relative">
                             <i class="fas fa-bell text-lg"></i>
-                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                            <span class="absolute -top-1 -right-1 bg-danger-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
                         </button>
                         
                         <!-- User Menu -->

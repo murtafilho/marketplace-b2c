@@ -36,7 +36,7 @@ class SellerProfileFactory extends Factory
             'bank_name' => $this->faker->company() . ' Bank',
             'bank_agency' => $this->faker->numerify('####'),
             'bank_account' => $this->faker->numerify('####-######-#'),
-            'status' => $this->faker->randomElement(['pending', 'pending_approval', 'approved', 'rejected', 'suspended']),
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'suspended']),
             'rejection_reason' => null,
             'commission_rate' => $this->faker->randomFloat(2, 5, 20),
             'product_limit' => $this->faker->numberBetween(50, 500),
@@ -65,7 +65,7 @@ class SellerProfileFactory extends Factory
     public function pending(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => 'pending_approval',
+            'status' => 'pending',
         ]);
     }
 
