@@ -15,18 +15,13 @@ export default {
     theme: {
         extend: {
             colors: {
-                // Nova Paleta WCAG AA - Marketplace B2C
-                primary: {
-                    100: '#e6f2ff',    // Azul Muito Claro - Backgrounds
-                    500: '#4a90e2',    // Azul Claro - Links/Hovers
-                    700: '#2c5282',    // Azul Médio - Botões primários
-                    900: '#1e3a5f',    // Azul Profundo - Headers/CTAs principais
-                },
-                secondary: {
-                    100: '#fff5f0',    // Laranja Claro - Backgrounds vendedor
-                    500: '#ff7a00',    // Laranja Vivo - Badges/Alerts
-                    700: '#ff5500',    // Laranja Intenso - CTAs vendedor
-                },
+                // Paleta de Cores do Novo Layout - Tons mais vivos
+                'verde-suave': '#4ADE80',
+                'verde-mata': '#166534',
+                'terracota': '#C17B5A',
+                'dourado': '#D4A574',
+                'branco-fresco': '#FDFDF8',
+                'cinza-pedra': '#8B8680',
                 
                 // Estados e Feedback com Contraste WCAG AA
                 success: {
@@ -67,7 +62,9 @@ export default {
                 },
             },
             fontFamily: {
-                sans: ['Inter var', 'Inter', 'system-ui', ...defaultTheme.fontFamily.sans],
+                'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+                'display': ['Poppins', ...defaultTheme.fontFamily.sans],
+                'roboto': ['Roboto', ...defaultTheme.fontFamily.sans]
             },
             animation: {
                 'slide-up': 'slideUp 0.3s ease-out',

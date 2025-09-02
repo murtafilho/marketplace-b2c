@@ -38,7 +38,7 @@
                     <form action="{{ route('search') }}" method="GET" class="flex">
                         <div class="flex-1 relative">
                             <input type="text" 
-                                   name="query" 
+                                   name="q" 
                                    value="{{ $query }}"
                                    placeholder="Buscar produtos..." 
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">

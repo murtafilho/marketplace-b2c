@@ -60,6 +60,19 @@ class HomeController extends Controller
             ->limit(12)
             ->get();
 
+        // Buscar vendedores em destaque (com mais produtos ou vendas)
+        $featuredSellers = \App\Models\SellerProfile::where('status', 'approved')
+            ->with(['user', 'products' => function($query) {
+                $query->where('status', 'active');
+            }])
+            ->withCount(['products as active_products_count' => function($query) {
+                $query->where('status', 'active');
+            }])
+            ->having('active_products_count', '>', 0)
+            ->orderBy('active_products_count', 'desc')
+            ->limit(6)
+            ->get();
+
         // Estatísticas do sistema
         $stats = [
             'total_products' => Product::where('status', 'active')->count(),
@@ -72,6 +85,7 @@ class HomeController extends Controller
             'featuredProducts', 
             'mainCategories', 
             'popularProducts', 
+            'featuredSellers',
             'stats'
         ));
     }
@@ -100,7 +114,15 @@ class HomeController extends Controller
         if (!empty($categorySlug)) {
             $category = Category::where('slug', $categorySlug)->first();
             if ($category) {
-                $products->where('category_id', $category->id);
+                // Se é categoria principal (parent_id = null), buscar produtos das subcategorias
+                if (is_null($category->parent_id)) {
+                    $subcategoryIds = Category::where('parent_id', $category->id)->pluck('id')->toArray();
+                    $subcategoryIds[] = $category->id; // Incluir a categoria principal também
+                    $products->whereIn('category_id', $subcategoryIds);
+                } else {
+                    // Se é subcategoria, buscar apenas dela
+                    $products->where('category_id', $category->id);
+                }
             }
         }
 
@@ -124,10 +146,19 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        $products = Product::where('status', 'active')
-            ->where('category_id', $category->id)
-            ->with(['seller', 'category', 'images'])
-            ->orderBy('created_at', 'desc')
+        // Se é categoria principal, buscar produtos das subcategorias também
+        $productsQuery = Product::where('status', 'active')
+            ->with(['seller', 'category', 'images']);
+            
+        if (is_null($category->parent_id)) {
+            $subcategoryIds = Category::where('parent_id', $category->id)->pluck('id')->toArray();
+            $subcategoryIds[] = $category->id;
+            $productsQuery->whereIn('category_id', $subcategoryIds);
+        } else {
+            $productsQuery->where('category_id', $category->id);
+        }
+        
+        $products = $productsQuery->orderBy('created_at', 'desc')
             ->paginate(12);
 
         return view('category', compact('category', 'products'));
@@ -139,7 +170,7 @@ class HomeController extends Controller
     public function product($id)
     {
         $product = Product::where('status', 'active')
-            ->with(['seller', 'category', 'images'])
+            ->with(['seller.user', 'sellerUser', 'category', 'images'])
             ->findOrFail($id);
 
         // Incrementar visualizações
@@ -149,7 +180,7 @@ class HomeController extends Controller
         $relatedProducts = Product::where('status', 'active')
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->with(['seller', 'images'])
+            ->with(['seller.user', 'images'])
             ->limit(4)
             ->get();
 

@@ -1,3 +1,19 @@
+/* Importar Fontes Fontsource */
+@import '@fontsource/inter/400.css';  /* Regular */
+@import '@fontsource/inter/500.css';  /* Medium */
+@import '@fontsource/inter/600.css';  /* Semibold */
+@import '@fontsource/inter/700.css';  /* Bold */
+
+@import '@fontsource/roboto/300.css'; /* Light */
+@import '@fontsource/roboto/400.css'; /* Regular */
+@import '@fontsource/roboto/500.css'; /* Medium */
+@import '@fontsource/roboto/700.css'; /* Bold */
+
+@import '@fontsource/poppins/400.css'; /* Regular */
+@import '@fontsource/poppins/500.css'; /* Medium */
+@import '@fontsource/poppins/600.css'; /* Semibold */
+@import '@fontsource/poppins/700.css'; /* Bold */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -89,12 +89,12 @@ class Product extends Model implements HasMedia
     // Relationships
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(SellerProfile::class, 'seller_id', 'user_id');
     }
 
-    public function sellerProfile(): BelongsTo
+    public function sellerUser(): BelongsTo
     {
-        return $this->belongsTo(SellerProfile::class, 'seller_id', 'user_id');
+        return $this->belongsTo(User::class, 'seller_id');
     }
 
     public function category(): BelongsTo

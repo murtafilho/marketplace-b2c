@@ -18,9 +18,13 @@
     },
     "dependencies": {
         "@alpinejs/persist": "^3.14.9",
+        "@fontsource/inter": "^5.2.6",
+        "@fontsource/poppins": "^5.2.6",
+        "@fontsource/roboto": "^5.2.6",
         "@fortawesome/fontawesome-free": "^7.0.0",
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/container-queries": "^0.1.1",
-        "colorjs.io": "^0.5.2"
+        "colorjs.io": "^0.5.2",
+        "heroicons": "^2.2.0"
     }
 }
