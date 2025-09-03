@@ -53,6 +53,71 @@
                 <!-- User Actions -->
                 <div class="flex items-center space-x-6">
                     @auth
+                        @php
+                            $sellerProfile = auth()->user()->sellerProfile;
+                            $isAdmin = auth()->user()->role === 'admin';
+                            $isSeller = auth()->user()->role === 'seller';
+                        @endphp
+
+                        <!-- Admin Button -->
+                        @if($isAdmin)
+                            <a href="{{ route('admin.dashboard') }}" 
+                               class="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                <span>👑</span>
+                                <span class="hidden lg:inline">Administrar Site</span>
+                            </a>
+                        @endif
+                        
+                        <!-- Seller Store Management -->
+                        @if($sellerProfile)
+                            @if($sellerProfile->status === 'approved')
+                                {{-- Approved Store: Administrar Loja --}}
+                                <a href="{{ route('seller.dashboard') }}" 
+                                   class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                    <span>🏪</span>
+                                    <span class="hidden lg:inline">Administrar Loja</span>
+                                </a>
+                            @elseif($sellerProfile->status === 'pending')
+                                {{-- Pending Store: Show Status --}}
+                                <a href="{{ route('seller.onboarding.index') }}" 
+                                   class="flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                    <span>⏰</span>
+                                    <span class="hidden lg:inline">Pendente</span>
+                                </a>
+                            @else
+                                {{-- Rejected/Other: Complete Setup --}}
+                                <a href="{{ route('seller.onboarding.index') }}" 
+                                   class="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                    <span>⚠️</span>
+                                    <span class="hidden lg:inline">Configurar Loja</span>
+                                </a>
+                            @endif
+                        @elseif(!$isSeller)
+                            {{-- Non-sellers: Create Store Button --}}
+                            <form method="POST" action="{{ route('become-seller') }}">
+                                @csrf
+                                <button type="submit" 
+                                        class="bg-verde-suave hover:bg-verde-mata text-white px-6 py-2 rounded-full font-medium transition duration-300 flex items-center space-x-2">
+                                    <span>🏪</span>
+                                    <span>Criar Minha Loja</span>
+                                </button>
+                            </form>
+                        @elseif($isSeller && !$sellerProfile)
+                            {{-- Seller role but no profile yet --}}
+                            <a href="{{ route('seller.onboarding.index') }}" 
+                               class="flex items-center space-x-2 bg-verde-suave hover:bg-verde-mata text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                <span>⚙️</span>
+                                <span class="hidden lg:inline">Configurar Loja</span>
+                            </a>
+                        @endif
+                        
+                        <!-- Show Store Name if approved seller -->
+                        @if($sellerProfile && $sellerProfile->status === 'approved')
+                            <span class="text-sm text-gray-600 hidden xl:inline">
+                                ({{ $sellerProfile->company_name }})
+                            </span>
+                        @endif
+
                         <!-- Authenticated User -->
                         <div class="relative" x-data="{ open: false }">
                             <button @click="open = !open" class="flex flex-col items-center text-verde-mata hover:text-verde-suave transition duration-300">
@@ -81,6 +146,15 @@
                                     <a href="{{ route('seller.dashboard') }}" class="block px-4 py-2 text-sm text-verde-mata hover:bg-verde-suave/10">
                                         <span class="mr-2">🏪</span>Minha Loja
                                     </a>
+                                @else
+                                    @if(!auth()->user()->sellerProfile)
+                                        <form method="POST" action="{{ route('become-seller') }}">
+                                            @csrf
+                                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-verde-mata hover:bg-verde-suave/10 font-medium">
+                                                <span class="mr-2">🏪</span>Criar Minha Loja
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endif
                                 
                                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-verde-mata hover:bg-verde-suave/10">
@@ -98,13 +172,23 @@
                             </div>
                         </div>
                     @else
-                        <!-- Guest User -->
-                        <a href="{{ route('login') }}" class="flex flex-col items-center text-verde-mata hover:text-verde-suave transition duration-300">
-                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                            </svg>
-                            <span class="text-sm mt-1 hidden md:block font-medium">Entrar</span>
+                        <!-- Guest User Actions -->
+                        <a href="{{ route('login') }}" class="text-gray-700 hover:text-verde-suave px-4 py-2 font-medium transition-colors">
+                            Entrar
                         </a>
+                        <a href="{{ route('register') }}" class="bg-verde-suave hover:bg-verde-mata text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                            Cadastrar
+                        </a>
+                        
+                        <!-- Create Store Button for guests -->
+                        <form method="POST" action="{{ route('become-seller') }}">
+                            @csrf
+                            <button type="submit" 
+                                    class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                <span>🏪</span>
+                                <span class="hidden lg:inline">Criar Minha Loja</span>
+                            </button>
+                        </form>
                     @endauth
                     
                     <a href="#" class="flex flex-col items-center text-verde-mata hover:text-orange-400 transition duration-300">
